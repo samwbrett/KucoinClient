@@ -1,6 +1,9 @@
 package params;
 
-import coins.CoinCurrency;
+import enums.CoinCurrency;
+import enums.Side;
+import enums.TimeInForce;
+import enums.Type;
 import exceptions.ParameterException;
 
 import java.text.NumberFormat;
@@ -10,28 +13,12 @@ import java.util.UUID;
 
 public class TradeParameters implements Parameters {
 
-    public enum Side {
-        buy,
-        sell
-    }
-
-    public enum Type {
-        limit,
-        market
-    }
-
-    public enum TimeInForce {
-        GTC,
-        GTT,
-        IOC,
-        FOK
-    }
-
     // General parameters
     private final String clientOid;
     private final Side side;
     private final CoinCurrency counterCoin;
     private final CoinCurrency baseCoin;
+    private Double maxPrice;
     private Type type;
     private String remark;
 
@@ -53,10 +40,27 @@ public class TradeParameters implements Parameters {
         this.counterCoin = counterCoin;
     }
 
+    private TradeParameters(TradeParameters params) {
+        this.clientOid = params.clientOid;
+        this.side = params.side;
+        this.counterCoin = params.counterCoin;
+        this.baseCoin = params.baseCoin;
+        this.maxPrice = params.maxPrice;
+        this.type = params.type;
+        this.remark = params.remark;
+
+        this.price = params.price;
+        this.size = params.size;
+        this.timeInForce = params.timeInForce;
+        this.cancelAfterSeconds = params.cancelAfterSeconds;
+        this.postOnly = params.postOnly;
+        this.funds = params.funds;
+    }
+
     public Map<String, Object> asMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("clientOid", getClientOid());
-        map.put("side", getSide());
+        map.put("side", getSideString());
         map.put("symbol", getSymbol());
         map.put("type", getType());
         if (remark != null) {
@@ -79,7 +83,7 @@ public class TradeParameters implements Parameters {
             map.put("size", getSize());
         }
         if (funds != null) {
-            map.put("funds", getFunds());
+            map.put("funds", getFundsString());
         }
 
         return map;
@@ -89,20 +93,40 @@ public class TradeParameters implements Parameters {
         return asMap().toString();
     }
 
-    private String getClientOid() {
+    public CoinCurrency getBaseCoin() {
+        return baseCoin;
+    }
+
+    public CoinCurrency getCounterCoin() {
+        return counterCoin;
+    }
+
+    public Side getSide() {
+        return side;
+    }
+
+    public Double getFunds() {
+        return funds;
+    }
+
+    public Double getMaxPrice() {
+        return maxPrice;
+    }
+
+    public String getClientOid() {
         return clientOid;
     }
 
-    private String getSide() {
+    private String getSideString() {
         return side.name();
     }
 
     private String getSymbol() {
-        return baseCoin.name() + "-" + counterCoin.name();
+        return CoinCurrency.getSymbol(baseCoin, counterCoin);
     }
 
     private String getType() {
-        return type.name();
+        return type == null ? null : type.name();
     }
 
     private String getRemark() {
@@ -121,7 +145,7 @@ public class TradeParameters implements Parameters {
         return NUMBER_FORMATTER.format(size);
     }
 
-    private String getFunds() {
+    private String getFundsString() {
         return NUMBER_FORMATTER.format(funds);
     }
 
@@ -141,12 +165,20 @@ public class TradeParameters implements Parameters {
         return new TradeParamsBuilder(side, baseCoin, counterCoin);
     }
 
+    public static TradeParamsBuilder newBuilder(TradeParameters startFrom) {
+        return new TradeParamsBuilder(startFrom);
+    }
+
     public static class TradeParamsBuilder {
 
         private final TradeParameters tradeParameters;
 
         private TradeParamsBuilder(Side side, CoinCurrency baseCoin, CoinCurrency counterCoin) {
             this.tradeParameters = new TradeParameters(side, baseCoin, counterCoin);
+        }
+
+        private TradeParamsBuilder(TradeParameters params) {
+            this.tradeParameters = new TradeParameters(params);
         }
 
         public TradeParameters build() throws ParameterException {
@@ -186,6 +218,11 @@ public class TradeParameters implements Parameters {
             Not required for market orders.
              */
             tradeParameters.price = price;
+            return this;
+        }
+
+        public TradeParamsBuilder withMaxPrice(double maxPrice) {
+            tradeParameters.maxPrice = maxPrice;
             return this;
         }
 

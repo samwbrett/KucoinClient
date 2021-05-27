@@ -1,7 +1,10 @@
-*.class
-*.bin
-*.lock
+**/*.class
+**/*.bin
+**/*.lock
+**/*.properties
 .idea/**
 build/**
 gradle/**
 .gradle/**
+**/*.xml
+**/*.xml.lck

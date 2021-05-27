@@ -1,10 +1,13 @@
 package client;
 
 import com.google.gson.Gson;
+import enums.CoinCurrency;
+import exceptions.ConfigurationException;
 import exceptions.EncryptionException;
 import exceptions.RequestException;
+import logging.Logging;
 import params.TradeParameters;
-import responses.KucoinResponse;
+import responses.*;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -16,12 +19,10 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 public class KucoinClientV2 {
@@ -30,6 +31,8 @@ public class KucoinClientV2 {
         POST,
         GET
     }
+
+    private static final Logger LOGGER = Logging.handledLogger(Logger.getLogger(KucoinClientV2.class.getName()));
 
     private static final String CONFIG_LOCATION = "config.properties";
 
@@ -43,44 +46,41 @@ public class KucoinClientV2 {
     private static final String BASE_URL = "https://api.kucoin.com";
 
     private final Properties properties;
+    private final HttpClient client;
 
-    public KucoinClientV2() {
+    public KucoinClientV2() throws ConfigurationException {
         this.properties = new Properties();
+        this.client = HttpClient.newHttpClient();
         try {
             this.properties.load(getClass().getClassLoader().getResourceAsStream(CONFIG_LOCATION));
         } catch (IOException e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Could not read config file:" + e.getMessage());
-            System.exit(1);
+            LOGGER.severe("Could not read config file: " + e.getMessage());
+            throw new ConfigurationException(e);
         }
     }
 
-    public Future<KucoinResponse> placeOrderUntilExists(int timeout, TradeParameters tradeParameters) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<KucoinResponse> future = executorService.submit(() -> {
-            long startTime = System.currentTimeMillis();
-            KucoinResponse response = null;
-            while (System.currentTimeMillis() < startTime + timeout * 1000L) {
-                response = placeOrder(tradeParameters);
-                if (response.isSuccess()) {
-                    return response;
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
-            }
-            String timeoutMessage = "Unable to place order " + tradeParameters + " in " + timeout + " seconds: " + response;
-            Logger.getLogger(getClass().getName()).log(Level.WARNING, timeoutMessage);
-            throw new TimeoutException(timeoutMessage);
-        });
-        executorService.shutdown();
-        return future;
+    public PlaceOrderResponse placeOrder(TradeParameters tradeParameters) throws RequestException {
+        return new PlaceOrderResponse(POST("/api/v1/orders", tradeParameters.asMap()));
     }
 
-    public KucoinResponse placeOrder(TradeParameters tradeParameters) throws RequestException {
-        return POST("/api/v1/orders", tradeParameters.asMap());
+    public OrderResponse getOrder(String orderId) throws RequestException {
+        return new OrderResponse(GET("/api/v1/orders/" + orderId));
+    }
+
+    public SymbolListResponse getSymbolListResponse() throws RequestException {
+        return new SymbolListResponse(GET("/api/v1/symbols"));
+    }
+
+    public HistoryResponse getHistoryResponse(CoinCurrency baseCoin, CoinCurrency counterCoin) throws RequestException {
+        return new HistoryResponse(GET("/api/v1/market/histories?symbol=" + CoinCurrency.getSymbol(baseCoin, counterCoin)));
+    }
+
+    public TickerResponse getTicker(CoinCurrency baseCoin, CoinCurrency counterCoin) throws RequestException {
+        return new TickerResponse(GET("/api/v1/market/orderbook/level1?symbol=" + CoinCurrency.getSymbol(baseCoin, counterCoin)));
+    }
+
+    public OrderBookResponse getOrderBook(CoinCurrency baseCoin, CoinCurrency counterCoin) throws RequestException {
+        return new OrderBookResponse(GET("/api/v1/market/orderbook/level2_100?symbol=" + CoinCurrency.getSymbol(baseCoin, counterCoin)));
     }
 
     public KucoinResponse getAccounts() throws RequestException {
@@ -102,7 +102,6 @@ public class KucoinClientV2 {
     private KucoinResponse makeRequest(String url, RequestType requestType, Map<String, Object> data) throws RequestException {
 
         try {
-            HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest.Builder builder =
                     HttpRequest

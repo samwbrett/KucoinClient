@@ -1,24 +1,36 @@
 package responses;
 
 import com.google.gson.Gson;
-import exceptions.RequestException;
 
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 public class KucoinResponse {
 
-    private final Map<String, String> responseMap;
-    private final int statusCode;
-    private final int code;
+    protected final Map<String, Object> responseMap;
+    protected final int statusCode;
+    protected final int code;
 
     public KucoinResponse(HttpResponse<String> response) {
-        this.responseMap = new Gson().fromJson(response.body(), Map.class);
         this.statusCode = response.statusCode();
-        this.code = Integer.parseInt(this.responseMap.get("code"));
+        if (statusCode / 100 == 2) {
+            this.responseMap = new Gson().fromJson(response.body(), Map.class);
+            this.code = Integer.parseInt((String)this.responseMap.get("code"));
+        } else {
+            this.responseMap = new HashMap<>();
+            this.code = 0;
+        }
+        this.responseMap.put("body", response.body());
     }
 
-    public Map<String, String> getResponseMap() {
+    protected KucoinResponse(KucoinResponse response) {
+        this.statusCode = response.statusCode;
+        this.responseMap = response.responseMap;
+        this.code = response.code;
+    }
+
+    public Map<String, Object> getResponseMap() {
         return responseMap;
     }
 
@@ -28,6 +40,10 @@ public class KucoinResponse {
 
     public int getCode() {
         return code;
+    }
+
+    public String getBody() {
+        return (String) responseMap.get("body");
     }
 
     public boolean isSuccess() {
