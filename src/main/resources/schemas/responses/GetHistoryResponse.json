@@ -1,0 +1,15 @@
+{
+  "$id": "GetHistoryResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/History.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$id": "WebsocketMessage",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["message", "ack", "welcome"]
+    }
+  }
+}

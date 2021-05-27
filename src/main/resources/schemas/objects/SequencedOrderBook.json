@@ -1,0 +1,25 @@
+{
+  "$id": "SequencedOrderBook",
+  "type": "object",
+  "properties": {
+    "time": {
+      "type": "integer",
+      "format": "date-time"
+    },
+    "sequence": {
+      "type": "integer"
+    },
+    "bids": {
+      "type": "array",
+      "items": {
+        "$ref": "./PriceSize.json"
+      }
+    },
+    "asks": {
+      "type": "array",
+      "items": {
+        "$ref": "./PriceSize.json"
+      }
+    }
+  }
+}

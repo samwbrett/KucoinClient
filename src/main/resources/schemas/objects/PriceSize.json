@@ -1,0 +1,12 @@
+{
+  "$id": "PriceSize",
+  "type": "object",
+  "properties": {
+    "price": {
+      "type": "number"
+    },
+    "size": {
+      "type":"number"
+    }
+  }
+}

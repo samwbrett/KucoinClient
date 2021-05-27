@@ -1,0 +1,59 @@
+{
+  "$id": "PlaceOrderRequest",
+  "type": "object",
+  "properties": {
+    "clientOid": {
+      "type": "string"
+    },
+    "side": {
+      "type": "side",
+      "enum": ["buy", "sell"]
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["market", "limit"]
+    },
+    "remark": {
+      "type": "string"
+    },
+    "stp": {
+      "type": "string",
+      "enum": ["CN", "CO", "CB", "DC"]
+    },
+    "tradeType": {
+      "type": "string",
+      "enum": ["TRADE", "MARGIN_TRADE"]
+    },
+    "price": {
+      "type": "number"
+    },
+    "size": {
+      "type": "number"
+    },
+    "timeInForce": {
+      "type": "string",
+      "enum": ["GTC", "GTT", "IOC", "FOK"]
+    },
+    "cancelAfter": {
+      "type": "integer"
+    },
+    "postOnly": {
+      "type": "boolean"
+    },
+    "hidden": {
+      "type": "boolean"
+    },
+    "iceberg": {
+      "type": "boolean"
+    },
+    "visibleSize": {
+      "type": "number"
+    },
+    "funds": {
+      "type": "number"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$id": "ListOrdersParameters",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["active", "done"]
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "side": {
+      "type": "string",
+      "enum": ["buy", "sell"]
+    },
+    "type": {
+      "type": "string",
+      "enum": ["limit", "market", "limit_stop", "market_stop"]
+    },
+    "tradeType": {
+      "type": "string",
+      "enum": ["TRADE", "MARGIN_TRADE"]
+    },
+    "startAt": {
+      "type": "integer",
+      "format": "date-time"
+    },
+    "endAt": {
+      "type": "integer",
+      "format": "date-time"
+    }
+  }
+}

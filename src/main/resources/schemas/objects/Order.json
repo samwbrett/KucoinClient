@@ -1,0 +1,97 @@
+{
+  "$id": "Order",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "opType": {
+      "type": "string",
+      "enum": ["DEAL"]
+    },
+    "type": {
+      "type": "string",
+      "enum": ["limit", "market", "limit_stop", "market_stop"]
+    },
+    "side": {
+      "type": "string",
+      "enum": ["buy", "sell"]
+    },
+    "price": {
+      "type": "number"
+    },
+    "size": {
+      "type": "number"
+    },
+    "funds": {
+      "type": "number"
+    },
+    "dealFunds": {
+      "type": "number"
+    },
+    "dealSize": {
+      "type": "number"
+    },
+    "fee": {
+      "type": "number"
+    },
+    "feeCurrency": {
+      "type": "string"
+    },
+    "stp": {
+      "type": "string",
+      "enum": ["CN", "CO", "CB", "DC"]
+    },
+    "stop": {
+      "type": "string"
+    },
+    "stopTriggered": {
+      "type": "boolean"
+    },
+    "stopPrice": {
+      "type": "string"
+    },
+    "timeInForce": {
+      "type": "string",
+      "enum": ["GTC", "GTT", "IOC", "FOK"]
+    },
+    "postOnly": {
+      "type": "boolean"
+    },
+    "hidden": {
+      "type": "boolean"
+    },
+    "iceberg": {
+      "type": "boolean"
+    },
+    "visibleSize": {
+      "type": "number"
+    },
+    "cancelAfter": {
+      "type": "integer"
+    },
+    "channel": {
+      "type": "string"
+    },
+    "clientOid": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "boolean"
+    },
+    "cancelExist": {
+      "type": "boolean"
+    },
+    "createdAt": {
+      "type": "integer",
+      "format": "date-time"
+    },
+    "tradeType": {
+      "type": "string",
+      "enum": ["TRADE", "MARGIN_TRADE"]
+    }
+  }
+}

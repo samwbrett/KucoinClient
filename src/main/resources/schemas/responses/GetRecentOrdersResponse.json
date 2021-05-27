@@ -1,0 +1,15 @@
+{
+  "$id": "GetRecentOrderResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/Order.json"
+      }
+    }
+  }
+}

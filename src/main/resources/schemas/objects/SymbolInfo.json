@@ -1,0 +1,51 @@
+{
+  "$id": "SymbolInfo",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "baseCurrency": {
+      "type": "string"
+    },
+    "quoteCurrency": {
+      "type": "string"
+    },
+    "baseMinSize": {
+      "type": "number"
+    },
+    "quoteMinSize": {
+      "type": "number"
+    },
+    "baseMaxSize": {
+      "type": "number"
+    },
+    "quoteMaxSize": {
+      "type": "number"
+    },
+    "baseIncrement": {
+      "type": "number"
+    },
+    "quoteIncrement": {
+      "type": "number"
+    },
+    "priceIncrement": {
+      "type": "number"
+    },
+    "feeCurrency": {
+      "type": "string"
+    },
+    "enableTrading": {
+      "type": "boolean"
+    },
+    "isMarginEnabled": {
+      "type": "boolean"
+    },
+    "priceLimitRate": {
+      "type": "string"
+    }
+  }
+}

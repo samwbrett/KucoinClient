@@ -1,20 +1,208 @@
-plugins {
-    id 'java'
-}
+apply plugin: 'java'
+apply plugin: 'jsonschema2pojo'
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.jsonschema2pojo:jsonschema2pojo-gradle-plugin:1.1.1'
+    }
+}
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
 }
 
 dependencies {
+    //compile 'com.gruelbox:kucoin-java-sdk:2.0.0'
+    //compile 'com.jsoniter:jsoniter:0.9.19'
     compile 'com.google.code.gson:gson:2.8.6'
+    compile 'org.apache.commons:commons-math3:3.6.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'com.github.everit-org.json-schema:org.everit.json.schema:1.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 test {
     useJUnitPlatform()
+}
+
+// Each configuration is set to the default value
+jsonSchema2Pojo  {
+
+    // Location of the JSON Schema file(s). This may refer to a single file or a directory of files.
+    source = files("src/main/resources/schemas")
+
+    // Target directory for generated Java source files. The plugin will add this directory to the
+    // java source set so the compiler will find and compile the newly generated source files.
+    targetDirectory = file("src/main/java")
+
+    // Package name used for generated Java classes (for types where a fully qualified name has not
+    // been supplied in the schema using the 'javaType' property).
+    targetPackage = 'schemas'
+
+    // Whether to allow 'additional' properties to be supported in classes by adding a map to
+    // hold these. This is true by default, meaning that the schema rule 'additionalProperties'
+    // controls whether the map is added. Set this to false to globally disable additional properties.
+    includeAdditionalProperties = false
+
+    // Whether to include a javax.annotation.Generated (Java 8 and lower) or
+    // javax.annotation.processing.Generated (Java 9+) in on generated types (default true).
+    includeGeneratedAnnotation = true
+
+    // Whether to generate builder-style methods of the form withXxx(value) (that return this),
+    // alongside the standard, void-return setters.
+    generateBuilders = true
+
+    // If set to true, then the gang of four builder pattern will be used to generate builders on
+    // generated classes. Note: This property works in collaboration with generateBuilders.
+    // If generateBuilders is false then this property will not do anything.
+    useInnerClassBuilders = false
+
+    // Whether to use primitives (long, double, boolean) instead of wrapper types where possible
+    // when generating bean properties (has the side-effect of making those properties non-null).
+    usePrimitives = false
+
+    // The characters that should be considered as word delimiters when creating Java Bean property
+    // names from JSON property names. If blank or not set, JSON properties will be considered to
+    // contain a single word when creating Java Bean property names.
+    propertyWordDelimiters = [] as char[]
+
+    // Whether to use the java type long (or Long) instead of int (or Integer) when representing the
+    // JSON Schema type 'integer'.
+    useLongIntegers = true
+
+    // Whether to use the java type BigInteger when representing the JSON Schema type 'integer'. Note
+    // that this configuration overrides useLongIntegers
+    useBigIntegers = false
+
+    // Whether to use the java type double (or Double) instead of float (or Float) when representing
+    // the JSON Schema type 'number'.
+    useDoubleNumbers = true
+
+    // Whether to use the java type BigDecimal when representing the JSON Schema type 'number'. Note
+    // that this configuration overrides useDoubleNumbers
+    useBigDecimals = false
+
+    // Whether to include hashCode and equals methods in generated Java types.
+    includeHashcodeAndEquals = true
+
+    // Whether to include a toString method in generated Java types.
+    includeToString = true
+
+    // The style of annotations to use in the generated Java types. Supported values:
+    //  - jackson (alias of jackson2)
+    //  - jackson2 (apply annotations from the Jackson 2.x library)
+    //  - gson (apply annotations from the Gson library)
+    //  - moshi1 (apply annotations from the Moshi 1.x library)
+    //  - none (apply no annotations at all)
+    annotationStyle = 'gson'
+
+    // A fully qualified class name, referring to a custom annotator class that implements
+    // org.jsonschema2pojo.Annotator and will be used in addition to the one chosen
+    // by annotationStyle. If you want to use the custom annotator alone, set annotationStyle to none.
+    customAnnotator = 'org.jsonschema2pojo.NoopAnnotator'
+
+    // Whether to include JSR-303/349 annotations (for schema rules like minimum, maximum, etc) in
+    // generated Java types. Schema rules and the annotation they produce:
+    //  - maximum = @DecimalMax
+    //  - minimum = @DecimalMin
+    //  - minItems,maxItems = @Size
+    //  - minLength,maxLength = @Size
+    //  - pattern = @Pattern
+    //  - required = @NotNull
+    // Any Java fields which are an object or array of objects will be annotated with @Valid to
+    // support validation of an entire document tree.
+    includeJsr303Annotations = false
+
+    // The type of input documents that will be read. Supported values:
+    //  - jsonschema (schema documents, containing formal rules that describe the structure of JSON data)
+    //  - json (documents that represent an example of the kind of JSON data that the generated Java types
+    //          will be mapped to)
+    //  - yamlschema (JSON schema documents, represented as YAML)
+    //  - yaml (documents that represent an example of the kind of YAML (or JSON) data that the generated Java types
+    //          will be mapped to)
+    sourceType = 'jsonschema'
+
+    // Whether to empty the target directory before generation occurs, to clear out all source files
+    // that have been generated previously. <strong>Be warned</strong>, when activated this option
+    // will cause jsonschema2pojo to <strong>indiscriminately delete the entire contents of the target
+    // directory (all files and folders)</strong> before it begins generating sources.
+    removeOldOutput = false
+
+    // The character encoding that should be used when writing the generated Java source files
+    outputEncoding = 'UTF-8'
+
+    // Whether to initialize Set and List fields as empty collections, or leave them as null.
+    initializeCollections = true
+
+    // Whether to add a prefix to generated classes.
+    classNamePrefix = ""
+
+    // Whether to add a suffix to generated classes.
+    classNameSuffix = ""
+
+    // An array of strings that should be considered as file extensions and therefore not included in class names.
+    fileExtensions = [] as String[]
+
+    // Whether to generate constructors or not.
+    includeConstructors = true
+
+    // Whether to include java.beans.ConstructorProperties on generated constructors
+    includeConstructorPropertiesAnnotation = false
+
+    // Whether to include only 'required' fields in generated constructors
+    constructorsRequiredPropertiesOnly = true
+
+    // Whether to *add* a constructor that includes only 'required' fields, alongside other constructors.
+    // This property is irrelevant if constructorsRequiredPropertiesOnly = true
+    includeRequiredPropertiesConstructor = false
+
+    // Whether to *add* a constructor that includes all fields, alongside other constructors.
+    // This property is irrelevant if constructorsRequiredPropertiesOnly = true
+    includeAllPropertiesConstructor = false
+
+    // Include a constructor with the class itself as a parameter, with the expectation that all properties
+    // from the originating class will assigned to the new class.
+    // This property is irrelevant if constructorsRequiredPropertiesOnly = true
+    includeCopyConstructor = true
+
+    // Whether to make the generated types Parcelable for Android
+    parcelable = false
+
+    // Whether to make the generated types Serializable
+    serializable = true
+
+    // Whether to include getters or to omit these accessor methods and create public fields instead.
+    includeGetters = true
+
+    // Whether to include setters or to omit these accessor methods and create public fields instead.
+    includeSetters = false
+
+    // Whether to include dynamic getters, setters, and builders or to omit these methods.
+    includeDynamicAccessors = false
+
+    // Whether to include dynamic getters or to omit these methods.
+    includeDynamicGetters = false
+
+    // Whether to include dynamic setters or to omit these methods.
+    includeDynamicSetters = false
+
+    // Whether to include dynamic builders or to omit these methods.
+    includeDynamicBuilders = false
+
+    // What type to use instead of string when adding string properties of format "date" to Java types
+    dateType = "java.time.LocalDate"
+
+    // What type to use instead of string when adding string properties of format "date-time" to Java types
+    dateTimeType = "java.time.LocalDateTime"
+
+    // What type to use instead of string when adding string properties of format "time" to Java types
+    timeType = "java.time.LocalDate"
+
 }

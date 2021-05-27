@@ -1,0 +1,57 @@
+{
+  "$id": "OrderChange",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string"
+    },
+    "orderType": {
+      "type": "string",
+      "enum": ["limit", "market", "limit_stop", "market_stop"]
+    },
+    "side": {
+      "type": "string",
+      "enum": ["buy", "sell"]
+    },
+    "orderId": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["open", "match", "filled", "canceled", "update"]
+    },
+    "orderTime": {
+      "type": "integer",
+      "format": "date-time"
+    },
+    "size": {
+      "type": "number"
+    },
+    "filledSize": {
+      "type": "number"
+    },
+    "price": {
+      "type": "number"
+    },
+    "matchSize": {
+      "type": "number"
+    },
+    "matchPrice": {
+      "type": "number"
+    },
+    "clientOid": {
+      "type": "string"
+    },
+    "remainSize": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "match", "done"]
+    },
+    "ts": {
+      "type": "integer",
+      "format": "date-time"
+    }
+  }
+}

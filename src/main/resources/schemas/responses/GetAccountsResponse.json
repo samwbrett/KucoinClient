@@ -1,0 +1,15 @@
+{
+  "$id": "GetAccountsResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/Account.json"
+      }
+    }
+  }
+}

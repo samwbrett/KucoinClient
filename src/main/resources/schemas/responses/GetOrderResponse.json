@@ -1,0 +1,12 @@
+{
+  "$id": "GetOrderResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "$ref": "../objects/Order.json"
+    }
+  }
+}

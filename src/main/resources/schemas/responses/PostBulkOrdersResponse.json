@@ -1,0 +1,12 @@
+{
+  "$id": "PostBulkOrdersResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "$ref": "../objects/BulkOrderList.json"
+    }
+  }
+}

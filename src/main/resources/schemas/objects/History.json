@@ -1,0 +1,23 @@
+{
+  "$id": "History",
+  "type": "object",
+  "properties": {
+    "sequence": {
+      "type": "integer"
+    },
+    "price": {
+      "type": "number"
+    },
+    "size": {
+      "type": "number"
+    },
+    "side": {
+      "type": "string",
+      "enum": ["buy", "sell"]
+    },
+    "time": {
+      "type": "integer",
+      "format": "date-time"
+    }
+  }
+}

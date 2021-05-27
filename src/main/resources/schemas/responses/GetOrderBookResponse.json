@@ -1,0 +1,12 @@
+{
+  "$id": "GetOrderBookResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "$ref": "../objects/SequencedOrderBook.json"
+    }
+  }
+}

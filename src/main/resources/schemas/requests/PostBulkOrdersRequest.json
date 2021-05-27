@@ -1,0 +1,16 @@
+{
+  "$id": "PlaceBulkOrdersRequest",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string"
+    },
+    "orderList": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/BulkOrder.json",
+        "maxItems": 5
+      }
+    }
+  }
+}

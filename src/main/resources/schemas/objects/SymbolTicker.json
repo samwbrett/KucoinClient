@@ -1,0 +1,27 @@
+{
+  "$id": "SymbolTicker",
+  "type": "object",
+  "properties": {
+    "sequence": {
+      "type": "integer"
+    },
+    "price": {
+      "type": "number"
+    },
+    "size": {
+      "type": "number"
+    },
+    "bestAsk": {
+      "type": "number"
+    },
+    "bestAskSize": {
+      "type": "number"
+    },
+    "bestBid": {
+      "type": "number"
+    },
+    "bestBidSize": {
+      "type": "number"
+    }
+  }
+}

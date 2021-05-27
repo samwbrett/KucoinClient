@@ -1,0 +1,12 @@
+{
+  "$id": "GetTickerResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "$ref": "../objects/SequencedSymbolTicker.json"
+    }
+  }
+}

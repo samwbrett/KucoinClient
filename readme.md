@@ -1,1 +1,1 @@
-Simple Kucoin Client
+Simple lightweight Kucoin Client

@@ -1,0 +1,75 @@
+{
+  "$id": "BulkOrder",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["limit", "market"]
+    },
+    "side": {
+      "type": "string",
+      "enum": ["buy", "sell"]
+    },
+    "price": {
+      "type": "number"
+    },
+    "size": {
+      "type": "number"
+    },
+    "funds": {
+      "type": "number"
+    },
+    "stp": {
+      "type": "string",
+      "enum": ["CN", "CO", "CB", "DC"]
+    },
+    "tradeType": {
+      "type": "string",
+      "enum": ["TRADE", "MARGIN_TRADE"]
+    },
+    "stop": {
+      "type": "string",
+      "enum": ["loss", "entry"]
+    },
+    "stopPrice": {
+      "type": "number"
+    },
+    "timeInForce": {
+      "type": "string",
+      "enum": ["GTC", "GTT", "IOC", "FOK"]
+    },
+    "cancelAfter": {
+      "type": "integer"
+    },
+    "postOnly": {
+      "type": "boolean"
+    },
+    "hidden": {
+      "type": "boolean"
+    },
+    "iceberg": {
+      "type": "boolean"
+    },
+    "visibleSize": {
+      "type": "number"
+    },
+    "channel": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "failMsg": {
+      "type": "string"
+    },
+    "clientOid": {
+      "type": "string"
+    }
+  }
+}

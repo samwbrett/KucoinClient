@@ -1,0 +1,12 @@
+{
+  "$id": "WebsocketConnectResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "$ref": "../objects/WebsocketConnection.json"
+    }
+  }
+}
