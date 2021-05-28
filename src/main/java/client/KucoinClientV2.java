@@ -96,7 +96,7 @@ public class KucoinClientV2 {
     }
 
     public KucoinResponse GET(String url, int pageNumber, int pageSize) throws RequestException {
-        return makeRequest(url, RequestType.GET, Map.of("currentPage", pageNumber, "pageSize", pageSize));
+        return makeRequest(url + "?pageNumber=" + pageNumber + "&pageSize=" + pageSize, RequestType.GET, null);
     }
 
     private KucoinResponse makeRequest(String url, RequestType requestType, Map<String, Object> data) throws RequestException {
@@ -111,7 +111,7 @@ public class KucoinClientV2 {
             for (Map.Entry<String, String> header : getHeaders(url, requestType, data).entrySet()) {
                 builder = builder.header(header.getKey(), header.getValue());
             }
-            if (data != null) {
+            if (requestType == RequestType.POST && data != null) {
                 builder = builder.POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(data)));
             }
             HttpRequest request = builder.build();
