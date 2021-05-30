@@ -1,0 +1,13 @@
+{
+  "$id": "GetHistoryResponse",
+  "allOf": [{ "$ref": "../responses/KucoinResponse.json" }],
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/History.json"
+      }
+    }
+  }
+}

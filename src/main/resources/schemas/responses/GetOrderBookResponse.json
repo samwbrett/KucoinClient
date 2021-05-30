@@ -1,0 +1,46 @@
+{
+  "$id": "GetOrderBookResponse",
+  "allOf": [{ "$ref": "../responses/KucoinResponse.json" }],
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer"
+        },
+        "sequence": {
+          "type": "string"
+        },
+        "bids": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        },
+        "asks": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

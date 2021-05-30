@@ -1,0 +1,87 @@
+{
+  "$id": "RecentOrderOrder",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "opType": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "side": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "size": {
+      "type": "number"
+    },
+    "funds": {
+      "type": "number"
+    },
+    "dealFunds": {
+      "type": "number"
+    },
+    "dealSize": {
+      "type": "number"
+    },
+    "fee": {
+      "type": "string"
+    },
+    "feeCurrency": {
+      "type": "string"
+    },
+    "stp": {
+      "type": "string"
+    },
+    "stop": {
+      "type": "string"
+    },
+    "stopTriggered": {
+      "type": "boolean"
+    },
+    "stopPrice": {
+      "type": "string"
+    },
+    "timeInForce": {
+      "type": "string"
+    },
+    "postOnly": {
+      "type": "boolean"
+    },
+    "hidden": {
+      "type": "boolean"
+    },
+    "iceberg": {
+      "type": "boolean"
+    },
+    "visibleSize": {
+      "type": "string"
+    },
+    "cancelAfter": {
+      "type": "integer"
+    },
+    "channel": {
+      "type": "string"
+    },
+    "clientOid": {
+      "type": "string"
+    },
+    "cancelExist": {
+      "type": "boolean"
+    },
+    "createdAt": {
+      "type": "date"
+    },
+    "tradeType": {
+      "type": "string"
+    }
+  }
+}

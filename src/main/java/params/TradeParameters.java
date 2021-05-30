@@ -4,7 +4,6 @@ import enums.CoinCurrency;
 import enums.Side;
 import enums.TimeInForce;
 import enums.Type;
-import exceptions.ParameterException;
 
 import java.text.NumberFormat;
 import java.util.HashMap;
@@ -136,6 +135,7 @@ public class TradeParameters implements Parameters {
     private static final NumberFormat NUMBER_FORMATTER = NumberFormat.getNumberInstance();
     static {
         NUMBER_FORMATTER.setMaximumFractionDigits(9);
+        NUMBER_FORMATTER.setGroupingUsed(false);
     }
     private String getPrice() {
         return NUMBER_FORMATTER.format(price);
@@ -181,16 +181,7 @@ public class TradeParameters implements Parameters {
             this.tradeParameters = new TradeParameters(params);
         }
 
-        public TradeParameters build() throws ParameterException {
-            if (tradeParameters.type == Type.limit
-                    && (tradeParameters.price == null || tradeParameters.size == null)) {
-
-                throw new ParameterException("Limit orders require both price and size");
-            } else if (tradeParameters.type == Type.market
-                    && ((tradeParameters.size != null ? 1 : 0) + (tradeParameters.funds != null ? 1 : 0)) != 1) {
-
-                throw new ParameterException("Market orders require one of either size or funds");
-            }
+        public TradeParameters build() {
             return tradeParameters;
         }
 
@@ -199,10 +190,7 @@ public class TradeParameters implements Parameters {
             return this;
         }
 
-        public TradeParamsBuilder withRemark(String remark) throws ParameterException {
-            if (remark.length() > 100) {
-                throw new ParameterException("Remark cannot exceed 100 characters");
-            }
+        public TradeParamsBuilder withRemark(String remark) {
             tradeParameters.remark = remark;
             return this;
         }

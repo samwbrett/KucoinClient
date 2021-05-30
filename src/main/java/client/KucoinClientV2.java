@@ -7,7 +7,7 @@ import exceptions.EncryptionException;
 import exceptions.RequestException;
 import logging.Logging;
 import params.TradeParameters;
-import responses.*;
+import schemas.responses.*;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,18 +19,10 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class KucoinClientV2 {
-
-    private enum RequestType {
-        POST,
-        GET
-    }
 
     private static final Logger LOGGER = Logging.handledLogger(Logger.getLogger(KucoinClientV2.class.getName()));
 
@@ -59,50 +51,59 @@ public class KucoinClientV2 {
         }
     }
 
-    public PlaceOrderResponse placeOrder(TradeParameters tradeParameters) throws RequestException {
-        return new PlaceOrderResponse(POST("/api/v1/orders", tradeParameters.asMap()));
+    public KucoinClientV2Response<PostOrderResponse> placeOrder(TradeParameters tradeParameters) throws RequestException {
+        return POST("/api/v1/orders", tradeParameters.asMap(), PostOrderResponse.class);
     }
 
-    public OrderResponse getOrder(String orderId) throws RequestException {
-        return new OrderResponse(GET("/api/v1/orders/" + orderId));
+    // Limit of 5 orders with this endpoint
+    public KucoinClientV2Response<PostBulkOrdersResponse> placeMultiOrders(String symbol, List<TradeParameters> tradeParameters) throws RequestException {
+        return POST("/api/v1/orders/multi",
+                Map.of("symbol", symbol, "orderList", tradeParameters.subList(0, Math.min(5, tradeParameters.size()))),
+                PostBulkOrdersResponse.class);
     }
 
-    public SymbolListResponse getSymbolListResponse() throws RequestException {
-        return new SymbolListResponse(GET("/api/v1/symbols"));
+    public KucoinClientV2Response<PostOrderResponse> getOrder(String orderId) throws RequestException {
+        return GET("/api/v1/orders/" + orderId, PostOrderResponse.class);
     }
 
-    public HistoryResponse getHistoryResponse(CoinCurrency baseCoin, CoinCurrency counterCoin) throws RequestException {
-        return new HistoryResponse(GET("/api/v1/market/histories?symbol=" + CoinCurrency.getSymbol(baseCoin, counterCoin)));
+    public KucoinClientV2Response<GetRecentOrdersResponse> getRecentOrders(int pageSize) throws RequestException {
+        return GET("/api/v1/limit/orders", Map.of("currentPage", 1, "pageSize", pageSize), GetRecentOrdersResponse.class);
     }
 
-    public TickerResponse getTicker(CoinCurrency baseCoin, CoinCurrency counterCoin) throws RequestException {
-        return new TickerResponse(GET("/api/v1/market/orderbook/level1?symbol=" + CoinCurrency.getSymbol(baseCoin, counterCoin)));
+    public KucoinClientV2Response<GetSymbolListResponse> getSymbolListResponse() throws RequestException {
+        return GET("/api/v1/symbols", GetSymbolListResponse.class);
     }
 
-    public OrderBookResponse getOrderBook(CoinCurrency baseCoin, CoinCurrency counterCoin) throws RequestException {
-        return new OrderBookResponse(GET("/api/v1/market/orderbook/level2_100?symbol=" + CoinCurrency.getSymbol(baseCoin, counterCoin)));
+    public KucoinClientV2Response<GetHistoryResponse> getHistoryResponse(String symbol) throws RequestException {
+        return GET("/api/v1/market/histories", Map.of("symbol", symbol), GetHistoryResponse.class);
     }
 
-    public KucoinResponse getAccounts() throws RequestException {
-        return GET("/api/v1/accounts");
+    public KucoinClientV2Response<GetTickerResponse> getTicker(String symbol) throws RequestException {
+        return GET("/api/v1/market/orderbook/level1", Map.of("symbol", symbol), GetTickerResponse.class);
     }
 
-    public KucoinResponse POST(String url, Map<String, Object> data) throws RequestException {
-        return makeRequest(url, RequestType.POST, data);
+    public KucoinClientV2Response<GetOrderBookResponse> getOrderBook(String symbol) throws RequestException {
+        return GET("/api/v1/market/orderbook/level2_20", Map.of("symbol", symbol), GetOrderBookResponse.class);
     }
 
-    public KucoinResponse GET(String url) throws RequestException {
-        return makeRequest(url, RequestType.GET, null);
+    public KucoinClientV2Response<GetAccountsResponse> getAccounts() throws RequestException {
+        return GET("/api/v1/accounts", GetAccountsResponse.class);
     }
 
-    public KucoinResponse GET(String url, int pageNumber, int pageSize) throws RequestException {
-        return makeRequest(url + "?pageNumber=" + pageNumber + "&pageSize=" + pageSize, RequestType.GET, null);
+    public <T> KucoinClientV2Response<T> POST(String url, Map<String, Object> data, Class<T> clazz) throws RequestException {
+        return makeRequest(url, RequestType.POST, data, clazz);
     }
 
-    private KucoinResponse makeRequest(String url, RequestType requestType, Map<String, Object> data) throws RequestException {
+    public <T> KucoinClientV2Response<T> GET(String url, Class<T> clazz) throws RequestException {
+        return GET(url, null, clazz);
+    }
 
+    public <T> KucoinClientV2Response<T> GET(String url, Map<String, Object> parameters, Class<T> clazz) throws RequestException {
+        return makeRequest(url + getParameterString(parameters), RequestType.GET, null, clazz);
+    }
+
+    private <T> KucoinClientV2Response<T> makeRequest(String url, RequestType requestType, Map<String, Object> data, Class<T> clazz) throws RequestException {
         try {
-
             HttpRequest.Builder builder =
                     HttpRequest
                             .newBuilder()
@@ -117,11 +118,24 @@ public class KucoinClientV2 {
             HttpRequest request = builder.build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            KucoinResponse kucoinResponse = new KucoinResponse(response);
-            return kucoinResponse;
+            KucoinClientV2Response<T> kucoinClientV2Response = new KucoinClientV2Response<>(response, clazz);
+            return kucoinClientV2Response;
         } catch (EncryptionException | IOException | InterruptedException e) {
             throw new RequestException(e);
         }
+    }
+
+    private String getParameterString(Map<String, Object> parameters) {
+        if (parameters == null || parameters.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("?");
+        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+            builder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+        }
+        return builder.substring(0, builder.length() - 1);
     }
 
     private Map<String, String> getHeaders(String url, RequestType requestType, Map<String, Object> data) throws EncryptionException {

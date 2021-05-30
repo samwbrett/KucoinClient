@@ -1,0 +1,18 @@
+{
+  "$id": "PostBulkOrdersResponse",
+  "allOf": [{ "$ref": "../responses/KucoinResponse.json" }],
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "../objects/BulkOrderOrder.json"
+          }
+        }
+      }
+    }
+  }
+}

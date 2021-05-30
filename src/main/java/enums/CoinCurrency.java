@@ -20,7 +20,8 @@ public enum CoinCurrency {
     PROM,
     DERP,
     APL,
-    ELON;
+    ELON,
+    VEED;
 
     public static String getSymbol(CoinCurrency baseCoin, CoinCurrency counterCoin) {
         return baseCoin + "-" + counterCoin;

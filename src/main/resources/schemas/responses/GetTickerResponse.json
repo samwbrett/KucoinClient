@@ -1,0 +1,39 @@
+{
+  "$id": "GetTickerResponse",
+  "allOf": [{ "$ref": "../responses/KucoinResponse.json" }],
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer"
+        },
+        "sequence": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "number"
+        },
+        "size": {
+          "type": "number"
+        },
+        "bestBid": {
+          "type": "number"
+        },
+        "bestBidSize": {
+          "type": "number"
+        },
+        "bestAsk": {
+          "type": "number"
+        },
+        "bestAskSize": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

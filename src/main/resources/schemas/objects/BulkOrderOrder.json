@@ -1,0 +1,66 @@
+{
+  "$id": "BulkOrderOrder",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "side": {
+      "type": "string"
+    },
+    "price": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string"
+    },
+    "funds": {
+      "type": "null"
+    },
+    "stp": {
+      "type": "string"
+    },
+    "stop": {
+      "type": "string"
+    },
+    "stopPrice": {
+      "type": "string"
+    },
+    "timeInForce": {
+      "type": "string"
+    },
+    "cancelAfter": {
+      "type": "integer"
+    },
+    "postOnly": {
+      "type": "boolean"
+    },
+    "hidden": {
+      "type": "boolean"
+    },
+    "iceberg": {
+      "type": "boolean"
+    },
+    "visibleSize": {
+      "type": "string"
+    },
+    "channel": {
+      "type": "string"
+    },
+    "id": {
+      "type": "null"
+    },
+    "status": {
+      "type": "string"
+    },
+    "failMsg": {
+      "type": "string"
+    },
+    "clientOid": {
+      "type": "string"
+    }
+  }
+}

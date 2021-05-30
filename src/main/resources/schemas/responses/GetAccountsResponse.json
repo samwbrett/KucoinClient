@@ -1,0 +1,13 @@
+{
+  "$id": "GetAccountsResponse",
+  "allOf": [{ "$ref": "../responses/KucoinResponse.json" }],
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/Account.json"
+      }
+    }
+  }
+}
