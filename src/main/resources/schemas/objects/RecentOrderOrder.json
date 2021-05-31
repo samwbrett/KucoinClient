@@ -74,6 +74,9 @@
     "clientOid": {
       "type": "string"
     },
+    "isActive": {
+      "type": "boolean"
+    },
     "cancelExist": {
       "type": "boolean"
     },

@@ -15,11 +15,11 @@ public class HistoryDeserializer implements JsonDeserializer<History> {
     public History deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         History history = new History();
         JsonObject jsonObject = json.getAsJsonObject();
-        history.withSequence(jsonObject.get("sequence").getAsLong());
-        history.withPrice(jsonObject.get("price").getAsDouble());
-        history.withSize(jsonObject.get("size").getAsDouble());
-        history.withSide(jsonObject.get("side").getAsString());
-        history.withTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(jsonObject.get("time").getAsLong()), ZoneId.systemDefault()));
+        history.withSequence(jsonObject.get("sequence") != JsonNull.INSTANCE ? jsonObject.get("sequence").getAsLong() : null);
+        history.withPrice(jsonObject.get("price") != JsonNull.INSTANCE ? jsonObject.get("price").getAsDouble() : null);
+        history.withSize(jsonObject.get("size") != JsonNull.INSTANCE ? jsonObject.get("size").getAsDouble() : null);
+        history.withSide(jsonObject.get("side") != JsonNull.INSTANCE ? jsonObject.get("side").getAsString() : null);
+        history.withTime(jsonObject.get("time") != JsonNull.INSTANCE ? LocalDateTime.ofInstant(Instant.ofEpochMilli(jsonObject.get("time").getAsLong()), ZoneId.systemDefault()) : null);
         return history;
     }
 

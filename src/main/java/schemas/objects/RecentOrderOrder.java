@@ -83,6 +83,9 @@ public class RecentOrderOrder implements Serializable
     @SerializedName("clientOid")
     @Expose
     private String clientOid;
+    @SerializedName("isActive")
+    @Expose
+    private Boolean isActive;
     @SerializedName("cancelExist")
     @Expose
     private Boolean cancelExist;
@@ -92,7 +95,7 @@ public class RecentOrderOrder implements Serializable
     @SerializedName("tradeType")
     @Expose
     private String tradeType;
-    private final static long serialVersionUID = 3993277495112080150L;
+    private final static long serialVersionUID = 3712839864159690980L;
 
     public String getId() {
         return id;
@@ -310,6 +313,15 @@ public class RecentOrderOrder implements Serializable
         return this;
     }
 
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public RecentOrderOrder withIsActive(Boolean isActive) {
+        this.isActive = isActive;
+        return this;
+    }
+
     public Boolean getCancelExist() {
         return cancelExist;
     }
@@ -437,6 +449,10 @@ public class RecentOrderOrder implements Serializable
         sb.append('=');
         sb.append(((this.clientOid == null)?"<null>":this.clientOid));
         sb.append(',');
+        sb.append("isActive");
+        sb.append('=');
+        sb.append(((this.isActive == null)?"<null>":this.isActive));
+        sb.append(',');
         sb.append("cancelExist");
         sb.append('=');
         sb.append(((this.cancelExist == null)?"<null>":this.cancelExist));
@@ -467,6 +483,7 @@ public class RecentOrderOrder implements Serializable
         result = ((result* 31)+((this.channel == null)? 0 :this.channel.hashCode()));
         result = ((result* 31)+((this.feeCurrency == null)? 0 :this.feeCurrency.hashCode()));
         result = ((result* 31)+((this.type == null)? 0 :this.type.hashCode()));
+        result = ((result* 31)+((this.isActive == null)? 0 :this.isActive.hashCode()));
         result = ((result* 31)+((this.createdAt == null)? 0 :this.createdAt.hashCode()));
         result = ((result* 31)+((this.visibleSize == null)? 0 :this.visibleSize.hashCode()));
         result = ((result* 31)+((this.price == null)? 0 :this.price.hashCode()));
@@ -499,7 +516,7 @@ public class RecentOrderOrder implements Serializable
             return false;
         }
         RecentOrderOrder rhs = ((RecentOrderOrder) other);
-        return ((((((((((((((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.hidden == rhs.hidden)||((this.hidden!= null)&&this.hidden.equals(rhs.hidden))))&&((this.opType == rhs.opType)||((this.opType!= null)&&this.opType.equals(rhs.opType))))&&((this.fee == rhs.fee)||((this.fee!= null)&&this.fee.equals(rhs.fee))))&&((this.channel == rhs.channel)||((this.channel!= null)&&this.channel.equals(rhs.channel))))&&((this.feeCurrency == rhs.feeCurrency)||((this.feeCurrency!= null)&&this.feeCurrency.equals(rhs.feeCurrency))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.createdAt == rhs.createdAt)||((this.createdAt!= null)&&this.createdAt.equals(rhs.createdAt))))&&((this.visibleSize == rhs.visibleSize)||((this.visibleSize!= null)&&this.visibleSize.equals(rhs.visibleSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.iceberg == rhs.iceberg)||((this.iceberg!= null)&&this.iceberg.equals(rhs.iceberg))))&&((this.stopTriggered == rhs.stopTriggered)||((this.stopTriggered!= null)&&this.stopTriggered.equals(rhs.stopTriggered))))&&((this.funds == rhs.funds)||((this.funds!= null)&&this.funds.equals(rhs.funds))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.timeInForce == rhs.timeInForce)||((this.timeInForce!= null)&&this.timeInForce.equals(rhs.timeInForce))))&&((this.tradeType == rhs.tradeType)||((this.tradeType!= null)&&this.tradeType.equals(rhs.tradeType))))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.dealSize == rhs.dealSize)||((this.dealSize!= null)&&this.dealSize.equals(rhs.dealSize))))&&((this.cancelAfter == rhs.cancelAfter)||((this.cancelAfter!= null)&&this.cancelAfter.equals(rhs.cancelAfter))))&&((this.dealFunds == rhs.dealFunds)||((this.dealFunds!= null)&&this.dealFunds.equals(rhs.dealFunds))))&&((this.stp == rhs.stp)||((this.stp!= null)&&this.stp.equals(rhs.stp))))&&((this.postOnly == rhs.postOnly)||((this.postOnly!= null)&&this.postOnly.equals(rhs.postOnly))))&&((this.stopPrice == rhs.stopPrice)||((this.stopPrice!= null)&&this.stopPrice.equals(rhs.stopPrice))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.stop == rhs.stop)||((this.stop!= null)&&this.stop.equals(rhs.stop))))&&((this.cancelExist == rhs.cancelExist)||((this.cancelExist!= null)&&this.cancelExist.equals(rhs.cancelExist))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))));
+        return (((((((((((((((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.hidden == rhs.hidden)||((this.hidden!= null)&&this.hidden.equals(rhs.hidden))))&&((this.opType == rhs.opType)||((this.opType!= null)&&this.opType.equals(rhs.opType))))&&((this.fee == rhs.fee)||((this.fee!= null)&&this.fee.equals(rhs.fee))))&&((this.channel == rhs.channel)||((this.channel!= null)&&this.channel.equals(rhs.channel))))&&((this.feeCurrency == rhs.feeCurrency)||((this.feeCurrency!= null)&&this.feeCurrency.equals(rhs.feeCurrency))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.isActive == rhs.isActive)||((this.isActive!= null)&&this.isActive.equals(rhs.isActive))))&&((this.createdAt == rhs.createdAt)||((this.createdAt!= null)&&this.createdAt.equals(rhs.createdAt))))&&((this.visibleSize == rhs.visibleSize)||((this.visibleSize!= null)&&this.visibleSize.equals(rhs.visibleSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.iceberg == rhs.iceberg)||((this.iceberg!= null)&&this.iceberg.equals(rhs.iceberg))))&&((this.stopTriggered == rhs.stopTriggered)||((this.stopTriggered!= null)&&this.stopTriggered.equals(rhs.stopTriggered))))&&((this.funds == rhs.funds)||((this.funds!= null)&&this.funds.equals(rhs.funds))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.timeInForce == rhs.timeInForce)||((this.timeInForce!= null)&&this.timeInForce.equals(rhs.timeInForce))))&&((this.tradeType == rhs.tradeType)||((this.tradeType!= null)&&this.tradeType.equals(rhs.tradeType))))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.dealSize == rhs.dealSize)||((this.dealSize!= null)&&this.dealSize.equals(rhs.dealSize))))&&((this.cancelAfter == rhs.cancelAfter)||((this.cancelAfter!= null)&&this.cancelAfter.equals(rhs.cancelAfter))))&&((this.dealFunds == rhs.dealFunds)||((this.dealFunds!= null)&&this.dealFunds.equals(rhs.dealFunds))))&&((this.stp == rhs.stp)||((this.stp!= null)&&this.stp.equals(rhs.stp))))&&((this.postOnly == rhs.postOnly)||((this.postOnly!= null)&&this.postOnly.equals(rhs.postOnly))))&&((this.stopPrice == rhs.stopPrice)||((this.stopPrice!= null)&&this.stopPrice.equals(rhs.stopPrice))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.stop == rhs.stop)||((this.stop!= null)&&this.stop.equals(rhs.stop))))&&((this.cancelExist == rhs.cancelExist)||((this.cancelExist!= null)&&this.cancelExist.equals(rhs.cancelExist))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))));
     }
 
 }

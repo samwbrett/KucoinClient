@@ -28,7 +28,13 @@ public class KucoinClientV2Response<T> {
             }
             this.code = tempCode;
         } else {
-            this.responseBody = null;
+            T tempResponseBody = null;
+            try {
+                tempResponseBody = clazz.getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                LOGGER.warning(e.getMessage());
+            }
+            this.responseBody = tempResponseBody;
             this.code = 0;
         }
     }

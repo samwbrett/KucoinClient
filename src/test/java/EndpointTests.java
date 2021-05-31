@@ -13,17 +13,12 @@ import org.json.JSONTokener;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import schemas.objects.BulkOrderOrder;
-import schemas.requests.PostBulkOrdersRequest;
-import schemas.requests.PostOrderRequest;
 import schemas.responses.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.UUID;
 
 public class EndpointTests {
 
@@ -93,7 +88,7 @@ public class EndpointTests {
 
     @Test
     public void testHistoryResponse() throws ValidationException, RequestException, IOException {
-        testEndpoint(() -> CLIENT.getHistoryResponse(CoinCurrency.getSymbol(CoinCurrency.BTC, CoinCurrency.USDT)), "/responses/GetHistoryResponse.json", GetHistoryResponse.class);
+        testEndpoint(() -> CLIENT.getHistoryResponse(CoinCurrency.getSymbol(CoinCurrency.VEED, CoinCurrency.USDT)), "/responses/GetHistoryResponse.json", GetHistoryResponse.class);
     }
 
     @Test
