@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import schemas.objects.BulkOrderOrder;
 
 @Generated("jsonschema2pojo")
-public class PlaceBulkOrderRequest implements Serializable
+public class PostBulkOrdersRequest implements Serializable
 {
 
     @SerializedName("symbol")
@@ -19,13 +19,13 @@ public class PlaceBulkOrderRequest implements Serializable
     @SerializedName("orderList")
     @Expose
     private List<BulkOrderOrder> orderList = new ArrayList<BulkOrderOrder>();
-    private final static long serialVersionUID = 4498876587254753054L;
+    private final static long serialVersionUID = -2388558081185395813L;
 
     public String getSymbol() {
         return symbol;
     }
 
-    public PlaceBulkOrderRequest withSymbol(String symbol) {
+    public PostBulkOrdersRequest withSymbol(String symbol) {
         this.symbol = symbol;
         return this;
     }
@@ -34,7 +34,7 @@ public class PlaceBulkOrderRequest implements Serializable
         return orderList;
     }
 
-    public PlaceBulkOrderRequest withOrderList(List<BulkOrderOrder> orderList) {
+    public PostBulkOrdersRequest withOrderList(List<BulkOrderOrder> orderList) {
         this.orderList = orderList;
         return this;
     }
@@ -42,7 +42,7 @@ public class PlaceBulkOrderRequest implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(PlaceBulkOrderRequest.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(PostBulkOrdersRequest.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("symbol");
         sb.append('=');
         sb.append(((this.symbol == null)?"<null>":this.symbol));
@@ -72,10 +72,10 @@ public class PlaceBulkOrderRequest implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof PlaceBulkOrderRequest) == false) {
+        if ((other instanceof PostBulkOrdersRequest) == false) {
             return false;
         }
-        PlaceBulkOrderRequest rhs = ((PlaceBulkOrderRequest) other);
+        PostBulkOrdersRequest rhs = ((PostBulkOrdersRequest) other);
         return (((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.orderList == rhs.orderList)||((this.orderList!= null)&&this.orderList.equals(rhs.orderList))));
     }
 

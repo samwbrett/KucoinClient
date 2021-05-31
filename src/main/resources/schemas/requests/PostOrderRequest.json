@@ -1,32 +1,32 @@
 {
-  "$id": "BulkOrderOrder",
+  "$id": "PlaceOrderRequest",
   "type": "object",
   "properties": {
+    "clientOid": {
+      "type": "string"
+    },
+    "side": {
+      "type": "side"
+    },
     "symbol": {
       "type": "string"
     },
     "type": {
       "type": "string"
     },
-    "side": {
+    "remark": {
+      "type": "string"
+    },
+    "stp": {
+      "type": "string"
+    },
+    "tradeType": {
       "type": "string"
     },
     "price": {
       "type": "number"
     },
     "size": {
-      "type": "number"
-    },
-    "funds": {
-      "type": "number"
-    },
-    "stp": {
-      "type": "string"
-    },
-    "stop": {
-      "type": "string"
-    },
-    "stopPrice": {
       "type": "number"
     },
     "timeInForce": {
@@ -47,20 +47,8 @@
     "visibleSize": {
       "type": "number"
     },
-    "channel": {
-      "type": "string"
-    },
-    "id": {
-      "type": "string"
-    },
-    "status": {
-      "type": "string"
-    },
-    "failMsg": {
-      "type": "string"
-    },
-    "clientOid": {
-      "type": "string"
+    "funds": {
+      "type": "number"
     }
   }
 }

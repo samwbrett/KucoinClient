@@ -12,17 +12,17 @@ public class GetTickerResponse implements Serializable
 
     @SerializedName("code")
     @Expose
-    private String code;
+    private Long code;
     @SerializedName("data")
     @Expose
     private Data__1 data;
-    private final static long serialVersionUID = -2598210969894336622L;
+    private final static long serialVersionUID = 5503113329628159936L;
 
-    public String getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public GetTickerResponse withCode(String code) {
+    public GetTickerResponse withCode(Long code) {
         this.code = code;
         return this;
     }

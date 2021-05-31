@@ -1,43 +1,30 @@
 {
   "$id": "GetOrderBookResponse",
-  "allOf": [{ "$ref": "../responses/KucoinResponse.json" }],
   "type": "object",
   "properties": {
+    "code": {
+      "type": "integer"
+    },
     "data": {
       "type": "object",
       "properties": {
         "time": {
-          "type": "integer"
+          "type": "object",
+          "format": "date-time"
         },
         "sequence": {
-          "type": "string"
+          "type": "integer"
         },
         "bids": {
           "type": "array",
           "items": {
-            "type": "array",
-            "items": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "number"
-              }
-            ]
+            "$ref": "../objects/PriceSize.json"
           }
         },
         "asks": {
           "type": "array",
           "items": {
-            "type": "array",
-            "items": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "number"
-              }
-            ]
+            "$ref": "../objects/PriceSize.json"
           }
         }
       }

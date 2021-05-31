@@ -2,11 +2,13 @@
 package schemas.responses;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import schemas.objects.PriceSize;
 
 @Generated("jsonschema2pojo")
 public class Data implements Serializable
@@ -14,50 +16,50 @@ public class Data implements Serializable
 
     @SerializedName("time")
     @Expose
-    private Long time;
+    private LocalDateTime time;
     @SerializedName("sequence")
     @Expose
-    private String sequence;
+    private Long sequence;
     @SerializedName("bids")
     @Expose
-    private List<List<Object>> bids = new ArrayList<List<Object>>();
+    private List<PriceSize> bids = new ArrayList<PriceSize>();
     @SerializedName("asks")
     @Expose
-    private List<List<Object>> asks = new ArrayList<List<Object>>();
-    private final static long serialVersionUID = 1572289557765916690L;
+    private List<PriceSize> asks = new ArrayList<PriceSize>();
+    private final static long serialVersionUID = -3025336328051016785L;
 
-    public Long getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public Data withTime(Long time) {
+    public Data withTime(LocalDateTime time) {
         this.time = time;
         return this;
     }
 
-    public String getSequence() {
+    public Long getSequence() {
         return sequence;
     }
 
-    public Data withSequence(String sequence) {
+    public Data withSequence(Long sequence) {
         this.sequence = sequence;
         return this;
     }
 
-    public List<List<Object>> getBids() {
+    public List<PriceSize> getBids() {
         return bids;
     }
 
-    public Data withBids(List<List<Object>> bids) {
+    public Data withBids(List<PriceSize> bids) {
         this.bids = bids;
         return this;
     }
 
-    public List<List<Object>> getAsks() {
+    public List<PriceSize> getAsks() {
         return asks;
     }
 
-    public Data withAsks(List<List<Object>> asks) {
+    public Data withAsks(List<PriceSize> asks) {
         this.asks = asks;
         return this;
     }

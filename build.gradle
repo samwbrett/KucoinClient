@@ -135,14 +135,6 @@ jsonSchema2Pojo  {
     // The character encoding that should be used when writing the generated Java source files
     outputEncoding = 'UTF-8'
 
-    // Whether to add JsonFormat annotations when using Jackson 2 that cause format "date", "time", and "date-time"
-    // fields to be formatted as yyyy-MM-dd, HH:mm:ss.SSS and yyyy-MM-dd'T'HH:mm:ss.SSSZ respectively. To customize these
-    // patterns, use customDatePattern, customTimePattern, and customDateTimePattern config options or add these inside a
-    // schema to affect an individual field
-    formatDateTimes = true
-    formatDates = true
-    formatTimes = true
-
     // Whether to initialize Set and List fields as empty collections, or leave them as null.
     initializeCollections = true
 
@@ -209,17 +201,5 @@ jsonSchema2Pojo  {
 
     // What type to use instead of string when adding string properties of format "time" to Java types
     timeType = "java.time.LocalDate"
-
-    // A custom pattern to use when formatting date fields during serialization. Requires support from
-    // your JSON binding library.
-    customDatePattern = "yyyy-MM-dd"
-
-    // A custom pattern to use when formatting date-time fields during serialization. Requires support from
-    // your JSON binding library.
-    customDateTimePattern = "yyyy-MM-dd HH:mm"
-
-    // A custom pattern to use when formatting time fields during serialization. Requires support from
-    // your JSON binding library.
-    customTimePattern = "HH:mm"
 
 }

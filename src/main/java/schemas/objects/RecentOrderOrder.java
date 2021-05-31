@@ -2,6 +2,7 @@
 package schemas.objects;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -42,7 +43,7 @@ public class RecentOrderOrder implements Serializable
     private Double dealSize;
     @SerializedName("fee")
     @Expose
-    private String fee;
+    private Double fee;
     @SerializedName("feeCurrency")
     @Expose
     private String feeCurrency;
@@ -72,7 +73,7 @@ public class RecentOrderOrder implements Serializable
     private Boolean iceberg;
     @SerializedName("visibleSize")
     @Expose
-    private String visibleSize;
+    private Double visibleSize;
     @SerializedName("cancelAfter")
     @Expose
     private Long cancelAfter;
@@ -87,11 +88,11 @@ public class RecentOrderOrder implements Serializable
     private Boolean cancelExist;
     @SerializedName("createdAt")
     @Expose
-    private Object createdAt;
+    private LocalDateTime createdAt;
     @SerializedName("tradeType")
     @Expose
     private String tradeType;
-    private final static long serialVersionUID = 6885440334512615614L;
+    private final static long serialVersionUID = 3993277495112080150L;
 
     public String getId() {
         return id;
@@ -183,11 +184,11 @@ public class RecentOrderOrder implements Serializable
         return this;
     }
 
-    public String getFee() {
+    public Double getFee() {
         return fee;
     }
 
-    public RecentOrderOrder withFee(String fee) {
+    public RecentOrderOrder withFee(Double fee) {
         this.fee = fee;
         return this;
     }
@@ -273,11 +274,11 @@ public class RecentOrderOrder implements Serializable
         return this;
     }
 
-    public String getVisibleSize() {
+    public Double getVisibleSize() {
         return visibleSize;
     }
 
-    public RecentOrderOrder withVisibleSize(String visibleSize) {
+    public RecentOrderOrder withVisibleSize(Double visibleSize) {
         this.visibleSize = visibleSize;
         return this;
     }
@@ -318,11 +319,11 @@ public class RecentOrderOrder implements Serializable
         return this;
     }
 
-    public Object getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public RecentOrderOrder withCreatedAt(Object createdAt) {
+    public RecentOrderOrder withCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }

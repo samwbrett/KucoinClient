@@ -33,7 +33,7 @@
       "type": "number"
     },
     "fee": {
-      "type": "string"
+      "type": "number"
     },
     "feeCurrency": {
       "type": "string"
@@ -63,7 +63,7 @@
       "type": "boolean"
     },
     "visibleSize": {
-      "type": "string"
+      "type": "number"
     },
     "cancelAfter": {
       "type": "integer"
@@ -78,7 +78,8 @@
       "type": "boolean"
     },
     "createdAt": {
-      "type": "date"
+      "type": "object",
+      "format": "date-time"
     },
     "tradeType": {
       "type": "string"

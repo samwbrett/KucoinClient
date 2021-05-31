@@ -1,6 +1,7 @@
 package client;
 
 import com.google.gson.Gson;
+import gson.GsonAdapters;
 import logging.Logging;
 
 import java.lang.reflect.InvocationTargetException;
@@ -18,12 +19,12 @@ public class KucoinClientV2Response<T> {
     public KucoinClientV2Response(HttpResponse<String> response, Class<T> clazz) {
         this.response = response;
         if (getStatusCode() / 100 == 2) {
-            this.responseBody = new Gson().fromJson(response.body(), clazz);
-            int tempCode = 0;
+            this.responseBody = GsonAdapters.getGson().fromJson(response.body(), clazz);
+            int tempCode = 200000;
             try {
                 tempCode = ((Long)this.responseBody.getClass().getMethod("getCode").invoke(this.responseBody)).intValue();
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                LOGGER.severe("Response body does not have getCode method\n" + e.getMessage());
+                LOGGER.warning(e.getMessage());
             }
             this.code = tempCode;
         } else {

@@ -13,10 +13,22 @@ import schemas.objects.History;
 public class GetHistoryResponse implements Serializable
 {
 
+    @SerializedName("code")
+    @Expose
+    private Long code;
     @SerializedName("data")
     @Expose
     private List<History> data = new ArrayList<History>();
-    private final static long serialVersionUID = 122628959345399591L;
+    private final static long serialVersionUID = 3977626152177628713L;
+
+    public Long getCode() {
+        return code;
+    }
+
+    public GetHistoryResponse withCode(Long code) {
+        this.code = code;
+        return this;
+    }
 
     public List<History> getData() {
         return data;
@@ -31,6 +43,10 @@ public class GetHistoryResponse implements Serializable
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(GetHistoryResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("code");
+        sb.append('=');
+        sb.append(((this.code == null)?"<null>":this.code));
+        sb.append(',');
         sb.append("data");
         sb.append('=');
         sb.append(((this.data == null)?"<null>":this.data));
@@ -47,6 +63,7 @@ public class GetHistoryResponse implements Serializable
     public int hashCode() {
         int result = 1;
         result = ((result* 31)+((this.data == null)? 0 :this.data.hashCode()));
+        result = ((result* 31)+((this.code == null)? 0 :this.code.hashCode()));
         return result;
     }
 
@@ -59,7 +76,7 @@ public class GetHistoryResponse implements Serializable
             return false;
         }
         GetHistoryResponse rhs = ((GetHistoryResponse) other);
-        return ((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)));
+        return (((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.code == rhs.code)||((this.code!= null)&&this.code.equals(rhs.code))));
     }
 
 }

@@ -2,6 +2,7 @@
 package schemas.responses;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,7 +13,7 @@ public class Data__1 implements Serializable
 
     @SerializedName("time")
     @Expose
-    private Long time;
+    private LocalDateTime time;
     @SerializedName("sequence")
     @Expose
     private Long sequence;
@@ -34,13 +35,13 @@ public class Data__1 implements Serializable
     @SerializedName("bestAskSize")
     @Expose
     private Double bestAskSize;
-    private final static long serialVersionUID = -6522819356363358204L;
+    private final static long serialVersionUID = -4453328676981998874L;
 
-    public Long getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public Data__1 withTime(Long time) {
+    public Data__1 withTime(LocalDateTime time) {
         this.time = time;
         return this;
     }

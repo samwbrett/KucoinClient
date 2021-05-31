@@ -2,6 +2,7 @@
 package schemas.objects;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,7 +13,7 @@ public class History implements Serializable
 
     @SerializedName("sequence")
     @Expose
-    private Double sequence;
+    private Long sequence;
     @SerializedName("price")
     @Expose
     private Double price;
@@ -24,14 +25,14 @@ public class History implements Serializable
     private String side;
     @SerializedName("time")
     @Expose
-    private Long time;
-    private final static long serialVersionUID = 8447635466898426394L;
+    private LocalDateTime time;
+    private final static long serialVersionUID = -273009576326307677L;
 
-    public Double getSequence() {
+    public Long getSequence() {
         return sequence;
     }
 
-    public History withSequence(Double sequence) {
+    public History withSequence(Long sequence) {
         this.sequence = sequence;
         return this;
     }
@@ -63,11 +64,11 @@ public class History implements Serializable
         return this;
     }
 
-    public Long getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public History withTime(Long time) {
+    public History withTime(LocalDateTime time) {
         this.time = time;
         return this;
     }

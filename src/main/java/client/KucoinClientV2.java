@@ -1,12 +1,12 @@
 package client;
 
-import com.google.gson.Gson;
-import enums.CoinCurrency;
 import exceptions.ConfigurationException;
 import exceptions.EncryptionException;
 import exceptions.RequestException;
+import gson.GsonAdapters;
 import logging.Logging;
-import params.TradeParameters;
+import schemas.requests.PostBulkOrdersRequest;
+import schemas.requests.PostOrderRequest;
 import schemas.responses.*;
 
 import javax.crypto.Mac;
@@ -19,7 +19,10 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 public class KucoinClientV2 {
@@ -51,15 +54,13 @@ public class KucoinClientV2 {
         }
     }
 
-    public KucoinClientV2Response<PostOrderResponse> placeOrder(TradeParameters tradeParameters) throws RequestException {
-        return POST("/api/v1/orders", tradeParameters.asMap(), PostOrderResponse.class);
+    public KucoinClientV2Response<PostOrderResponse> postOrder(PostOrderRequest request) throws RequestException {
+        return POST("/api/v1/orders", request, PostOrderResponse.class);
     }
 
     // Limit of 5 orders with this endpoint
-    public KucoinClientV2Response<PostBulkOrdersResponse> placeMultiOrders(String symbol, List<TradeParameters> tradeParameters) throws RequestException {
-        return POST("/api/v1/orders/multi",
-                Map.of("symbol", symbol, "orderList", tradeParameters.subList(0, Math.min(5, tradeParameters.size()))),
-                PostBulkOrdersResponse.class);
+    public KucoinClientV2Response<PostBulkOrdersResponse> postBulkOrders(PostBulkOrdersRequest request) throws RequestException {
+        return POST("/api/v1/orders/multi", request, PostBulkOrdersResponse.class);
     }
 
     public KucoinClientV2Response<PostOrderResponse> getOrder(String orderId) throws RequestException {
@@ -90,7 +91,7 @@ public class KucoinClientV2 {
         return GET("/api/v1/accounts", GetAccountsResponse.class);
     }
 
-    public <T> KucoinClientV2Response<T> POST(String url, Map<String, Object> data, Class<T> clazz) throws RequestException {
+    public <T, R> KucoinClientV2Response<T> POST(String url, R data, Class<T> clazz) throws RequestException {
         return makeRequest(url, RequestType.POST, data, clazz);
     }
 
@@ -102,7 +103,7 @@ public class KucoinClientV2 {
         return makeRequest(url + getParameterString(parameters), RequestType.GET, null, clazz);
     }
 
-    private <T> KucoinClientV2Response<T> makeRequest(String url, RequestType requestType, Map<String, Object> data, Class<T> clazz) throws RequestException {
+    private <T, R> KucoinClientV2Response<T> makeRequest(String url, RequestType requestType, R data, Class<T> clazz) throws RequestException {
         try {
             HttpRequest.Builder builder =
                     HttpRequest
@@ -113,7 +114,7 @@ public class KucoinClientV2 {
                 builder = builder.header(header.getKey(), header.getValue());
             }
             if (requestType == RequestType.POST && data != null) {
-                builder = builder.POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(data)));
+                builder = builder.POST(HttpRequest.BodyPublishers.ofString(GsonAdapters.getGson().toJson(data)));
             }
             HttpRequest request = builder.build();
 
@@ -138,10 +139,10 @@ public class KucoinClientV2 {
         return builder.substring(0, builder.length() - 1);
     }
 
-    private Map<String, String> getHeaders(String url, RequestType requestType, Map<String, Object> data) throws EncryptionException {
+    private <R> Map<String, String> getHeaders(String url, RequestType requestType, R data) throws EncryptionException {
 
         long currentMilli = System.currentTimeMillis();
-        String toSign = currentMilli + requestType.name() + url + (data != null ? new Gson().toJson(data) : "");
+        String toSign = currentMilli + requestType.name() + url + (data != null ? GsonAdapters.getGson().toJson(data) : "");
         String encryptedToSign = getEncryptedMessage(toSign);
         String encryptedPassphrase = getEncryptedMessage(properties.getProperty(PASSPHRASE));
 

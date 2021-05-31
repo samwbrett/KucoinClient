@@ -10,10 +10,22 @@ import com.google.gson.annotations.SerializedName;
 public class PostBulkOrdersResponse implements Serializable
 {
 
+    @SerializedName("code")
+    @Expose
+    private Long code;
     @SerializedName("data")
     @Expose
     private Data__2 data;
-    private final static long serialVersionUID = -8687902654974430999L;
+    private final static long serialVersionUID = -7086294377245063451L;
+
+    public Long getCode() {
+        return code;
+    }
+
+    public PostBulkOrdersResponse withCode(Long code) {
+        this.code = code;
+        return this;
+    }
 
     public Data__2 getData() {
         return data;
@@ -28,6 +40,10 @@ public class PostBulkOrdersResponse implements Serializable
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(PostBulkOrdersResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("code");
+        sb.append('=');
+        sb.append(((this.code == null)?"<null>":this.code));
+        sb.append(',');
         sb.append("data");
         sb.append('=');
         sb.append(((this.data == null)?"<null>":this.data));
@@ -44,6 +60,7 @@ public class PostBulkOrdersResponse implements Serializable
     public int hashCode() {
         int result = 1;
         result = ((result* 31)+((this.data == null)? 0 :this.data.hashCode()));
+        result = ((result* 31)+((this.code == null)? 0 :this.code.hashCode()));
         return result;
     }
 
@@ -56,7 +73,7 @@ public class PostBulkOrdersResponse implements Serializable
             return false;
         }
         PostBulkOrdersResponse rhs = ((PostBulkOrdersResponse) other);
-        return ((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)));
+        return (((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.code == rhs.code)||((this.code!= null)&&this.code.equals(rhs.code))));
     }
 
 }

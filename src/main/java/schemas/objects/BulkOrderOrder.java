@@ -21,13 +21,13 @@ public class BulkOrderOrder implements Serializable
     private String side;
     @SerializedName("price")
     @Expose
-    private String price;
+    private Double price;
     @SerializedName("size")
     @Expose
-    private String size;
+    private Double size;
     @SerializedName("funds")
     @Expose
-    private Object funds;
+    private Double funds;
     @SerializedName("stp")
     @Expose
     private String stp;
@@ -36,7 +36,7 @@ public class BulkOrderOrder implements Serializable
     private String stop;
     @SerializedName("stopPrice")
     @Expose
-    private String stopPrice;
+    private Double stopPrice;
     @SerializedName("timeInForce")
     @Expose
     private String timeInForce;
@@ -54,13 +54,13 @@ public class BulkOrderOrder implements Serializable
     private Boolean iceberg;
     @SerializedName("visibleSize")
     @Expose
-    private String visibleSize;
+    private Double visibleSize;
     @SerializedName("channel")
     @Expose
     private String channel;
     @SerializedName("id")
     @Expose
-    private Object id;
+    private String id;
     @SerializedName("status")
     @Expose
     private String status;
@@ -70,7 +70,7 @@ public class BulkOrderOrder implements Serializable
     @SerializedName("clientOid")
     @Expose
     private String clientOid;
-    private final static long serialVersionUID = -4268415127792627009L;
+    private final static long serialVersionUID = 6961772141108336201L;
 
     public String getSymbol() {
         return symbol;
@@ -99,29 +99,29 @@ public class BulkOrderOrder implements Serializable
         return this;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public BulkOrderOrder withPrice(String price) {
+    public BulkOrderOrder withPrice(Double price) {
         this.price = price;
         return this;
     }
 
-    public String getSize() {
+    public Double getSize() {
         return size;
     }
 
-    public BulkOrderOrder withSize(String size) {
+    public BulkOrderOrder withSize(Double size) {
         this.size = size;
         return this;
     }
 
-    public Object getFunds() {
+    public Double getFunds() {
         return funds;
     }
 
-    public BulkOrderOrder withFunds(Object funds) {
+    public BulkOrderOrder withFunds(Double funds) {
         this.funds = funds;
         return this;
     }
@@ -144,11 +144,11 @@ public class BulkOrderOrder implements Serializable
         return this;
     }
 
-    public String getStopPrice() {
+    public Double getStopPrice() {
         return stopPrice;
     }
 
-    public BulkOrderOrder withStopPrice(String stopPrice) {
+    public BulkOrderOrder withStopPrice(Double stopPrice) {
         this.stopPrice = stopPrice;
         return this;
     }
@@ -198,11 +198,11 @@ public class BulkOrderOrder implements Serializable
         return this;
     }
 
-    public String getVisibleSize() {
+    public Double getVisibleSize() {
         return visibleSize;
     }
 
-    public BulkOrderOrder withVisibleSize(String visibleSize) {
+    public BulkOrderOrder withVisibleSize(Double visibleSize) {
         this.visibleSize = visibleSize;
         return this;
     }
@@ -216,11 +216,11 @@ public class BulkOrderOrder implements Serializable
         return this;
     }
 
-    public Object getId() {
+    public String getId() {
         return id;
     }
 
-    public BulkOrderOrder withId(Object id) {
+    public BulkOrderOrder withId(String id) {
         this.id = id;
         return this;
     }

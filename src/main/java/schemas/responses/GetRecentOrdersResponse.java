@@ -13,10 +13,22 @@ import schemas.objects.RecentOrderOrder;
 public class GetRecentOrdersResponse implements Serializable
 {
 
+    @SerializedName("code")
+    @Expose
+    private Long code;
     @SerializedName("data")
     @Expose
     private List<RecentOrderOrder> data = new ArrayList<RecentOrderOrder>();
-    private final static long serialVersionUID = -6040455839366889098L;
+    private final static long serialVersionUID = -5214956043639451434L;
+
+    public Long getCode() {
+        return code;
+    }
+
+    public GetRecentOrdersResponse withCode(Long code) {
+        this.code = code;
+        return this;
+    }
 
     public List<RecentOrderOrder> getData() {
         return data;
@@ -31,6 +43,10 @@ public class GetRecentOrdersResponse implements Serializable
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(GetRecentOrdersResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("code");
+        sb.append('=');
+        sb.append(((this.code == null)?"<null>":this.code));
+        sb.append(',');
         sb.append("data");
         sb.append('=');
         sb.append(((this.data == null)?"<null>":this.data));
@@ -47,6 +63,7 @@ public class GetRecentOrdersResponse implements Serializable
     public int hashCode() {
         int result = 1;
         result = ((result* 31)+((this.data == null)? 0 :this.data.hashCode()));
+        result = ((result* 31)+((this.code == null)? 0 :this.code.hashCode()));
         return result;
     }
 
@@ -59,7 +76,7 @@ public class GetRecentOrdersResponse implements Serializable
             return false;
         }
         GetRecentOrdersResponse rhs = ((GetRecentOrdersResponse) other);
-        return ((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)));
+        return (((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.code == rhs.code)||((this.code!= null)&&this.code.equals(rhs.code))));
     }
 
 }

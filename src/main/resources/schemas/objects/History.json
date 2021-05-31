@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "sequence": {
-      "type": "number"
+      "type": "integer"
     },
     "price": {
       "type": "number"
@@ -15,7 +15,8 @@
       "type": "string"
     },
     "time": {
-      "type": "integer"
+      "type": "object",
+      "format": "date-time"
     }
   }
 }

@@ -1,16 +1,16 @@
 {
   "$id": "GetTickerResponse",
-  "allOf": [{ "$ref": "../responses/KucoinResponse.json" }],
   "type": "object",
   "properties": {
     "code": {
-      "type": "string"
+      "type": "integer"
     },
     "data": {
       "type": "object",
       "properties": {
         "time": {
-          "type": "integer"
+          "type": "object",
+          "format": "date-time"
         },
         "sequence": {
           "type": "integer"
