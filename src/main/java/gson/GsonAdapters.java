@@ -23,7 +23,6 @@ public class GsonAdapters {
             .registerTypeAdapter(RecentOrderOrder.class, new RecentOrderOrderDeserializer())
             .registerTypeAdapter(History.class, new HistoryDeserializer())
             .registerTypeAdapter(ListOrdersParameters.class, new ListOrderParametersSerializer())
-            .setPrettyPrinting()
             .create();
 
     public static Gson getGson() {

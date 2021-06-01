@@ -19,7 +19,7 @@ public class Logging {
         }
     }
 
-    public static Logger handledLogger(Class clazz) {
+    public static <T> Logger handledLogger(Class<T> clazz) {
         Logger logger = Logger.getLogger(clazz.getName());
         if (LOG_HANDLER != null) {
             logger.addHandler(LOG_HANDLER);
