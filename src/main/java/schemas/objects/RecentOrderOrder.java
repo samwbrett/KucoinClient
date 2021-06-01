@@ -3,6 +3,8 @@ package schemas.objects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -19,13 +21,13 @@ public class RecentOrderOrder implements Serializable
     private String symbol;
     @SerializedName("opType")
     @Expose
-    private String opType;
+    private RecentOrderOrder.OpType opType;
     @SerializedName("type")
     @Expose
-    private String type;
+    private RecentOrderOrder.Type type;
     @SerializedName("side")
     @Expose
-    private String side;
+    private RecentOrderOrder.Side side;
     @SerializedName("price")
     @Expose
     private Double price;
@@ -49,7 +51,7 @@ public class RecentOrderOrder implements Serializable
     private String feeCurrency;
     @SerializedName("stp")
     @Expose
-    private String stp;
+    private RecentOrderOrder.Stp stp;
     @SerializedName("stop")
     @Expose
     private String stop;
@@ -61,7 +63,7 @@ public class RecentOrderOrder implements Serializable
     private String stopPrice;
     @SerializedName("timeInForce")
     @Expose
-    private String timeInForce;
+    private RecentOrderOrder.TimeInForce timeInForce;
     @SerializedName("postOnly")
     @Expose
     private Boolean postOnly;
@@ -94,8 +96,8 @@ public class RecentOrderOrder implements Serializable
     private LocalDateTime createdAt;
     @SerializedName("tradeType")
     @Expose
-    private String tradeType;
-    private final static long serialVersionUID = 3712839864159690980L;
+    private RecentOrderOrder.TradeType tradeType;
+    private final static long serialVersionUID = 7045642601621562410L;
 
     public String getId() {
         return id;
@@ -115,29 +117,29 @@ public class RecentOrderOrder implements Serializable
         return this;
     }
 
-    public String getOpType() {
+    public RecentOrderOrder.OpType getOpType() {
         return opType;
     }
 
-    public RecentOrderOrder withOpType(String opType) {
+    public RecentOrderOrder withOpType(RecentOrderOrder.OpType opType) {
         this.opType = opType;
         return this;
     }
 
-    public String getType() {
+    public RecentOrderOrder.Type getType() {
         return type;
     }
 
-    public RecentOrderOrder withType(String type) {
+    public RecentOrderOrder withType(RecentOrderOrder.Type type) {
         this.type = type;
         return this;
     }
 
-    public String getSide() {
+    public RecentOrderOrder.Side getSide() {
         return side;
     }
 
-    public RecentOrderOrder withSide(String side) {
+    public RecentOrderOrder withSide(RecentOrderOrder.Side side) {
         this.side = side;
         return this;
     }
@@ -205,11 +207,11 @@ public class RecentOrderOrder implements Serializable
         return this;
     }
 
-    public String getStp() {
+    public RecentOrderOrder.Stp getStp() {
         return stp;
     }
 
-    public RecentOrderOrder withStp(String stp) {
+    public RecentOrderOrder withStp(RecentOrderOrder.Stp stp) {
         this.stp = stp;
         return this;
     }
@@ -241,11 +243,11 @@ public class RecentOrderOrder implements Serializable
         return this;
     }
 
-    public String getTimeInForce() {
+    public RecentOrderOrder.TimeInForce getTimeInForce() {
         return timeInForce;
     }
 
-    public RecentOrderOrder withTimeInForce(String timeInForce) {
+    public RecentOrderOrder withTimeInForce(RecentOrderOrder.TimeInForce timeInForce) {
         this.timeInForce = timeInForce;
         return this;
     }
@@ -340,11 +342,11 @@ public class RecentOrderOrder implements Serializable
         return this;
     }
 
-    public String getTradeType() {
+    public RecentOrderOrder.TradeType getTradeType() {
         return tradeType;
     }
 
-    public RecentOrderOrder withTradeType(String tradeType) {
+    public RecentOrderOrder withTradeType(RecentOrderOrder.TradeType tradeType) {
         this.tradeType = tradeType;
         return this;
     }
@@ -517,6 +519,256 @@ public class RecentOrderOrder implements Serializable
         }
         RecentOrderOrder rhs = ((RecentOrderOrder) other);
         return (((((((((((((((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.hidden == rhs.hidden)||((this.hidden!= null)&&this.hidden.equals(rhs.hidden))))&&((this.opType == rhs.opType)||((this.opType!= null)&&this.opType.equals(rhs.opType))))&&((this.fee == rhs.fee)||((this.fee!= null)&&this.fee.equals(rhs.fee))))&&((this.channel == rhs.channel)||((this.channel!= null)&&this.channel.equals(rhs.channel))))&&((this.feeCurrency == rhs.feeCurrency)||((this.feeCurrency!= null)&&this.feeCurrency.equals(rhs.feeCurrency))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.isActive == rhs.isActive)||((this.isActive!= null)&&this.isActive.equals(rhs.isActive))))&&((this.createdAt == rhs.createdAt)||((this.createdAt!= null)&&this.createdAt.equals(rhs.createdAt))))&&((this.visibleSize == rhs.visibleSize)||((this.visibleSize!= null)&&this.visibleSize.equals(rhs.visibleSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.iceberg == rhs.iceberg)||((this.iceberg!= null)&&this.iceberg.equals(rhs.iceberg))))&&((this.stopTriggered == rhs.stopTriggered)||((this.stopTriggered!= null)&&this.stopTriggered.equals(rhs.stopTriggered))))&&((this.funds == rhs.funds)||((this.funds!= null)&&this.funds.equals(rhs.funds))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.timeInForce == rhs.timeInForce)||((this.timeInForce!= null)&&this.timeInForce.equals(rhs.timeInForce))))&&((this.tradeType == rhs.tradeType)||((this.tradeType!= null)&&this.tradeType.equals(rhs.tradeType))))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.dealSize == rhs.dealSize)||((this.dealSize!= null)&&this.dealSize.equals(rhs.dealSize))))&&((this.cancelAfter == rhs.cancelAfter)||((this.cancelAfter!= null)&&this.cancelAfter.equals(rhs.cancelAfter))))&&((this.dealFunds == rhs.dealFunds)||((this.dealFunds!= null)&&this.dealFunds.equals(rhs.dealFunds))))&&((this.stp == rhs.stp)||((this.stp!= null)&&this.stp.equals(rhs.stp))))&&((this.postOnly == rhs.postOnly)||((this.postOnly!= null)&&this.postOnly.equals(rhs.postOnly))))&&((this.stopPrice == rhs.stopPrice)||((this.stopPrice!= null)&&this.stopPrice.equals(rhs.stopPrice))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.stop == rhs.stop)||((this.stop!= null)&&this.stop.equals(rhs.stop))))&&((this.cancelExist == rhs.cancelExist)||((this.cancelExist!= null)&&this.cancelExist.equals(rhs.cancelExist))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))));
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum OpType {
+
+        @SerializedName("DEAL")
+        DEAL("DEAL");
+        private final String value;
+        private final static Map<String, RecentOrderOrder.OpType> CONSTANTS = new HashMap<String, RecentOrderOrder.OpType>();
+
+        static {
+            for (RecentOrderOrder.OpType c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        OpType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static RecentOrderOrder.OpType fromValue(String value) {
+            RecentOrderOrder.OpType constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Side {
+
+        @SerializedName("buy")
+        BUY("buy"),
+        @SerializedName("sell")
+        SELL("sell");
+        private final String value;
+        private final static Map<String, RecentOrderOrder.Side> CONSTANTS = new HashMap<String, RecentOrderOrder.Side>();
+
+        static {
+            for (RecentOrderOrder.Side c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Side(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static RecentOrderOrder.Side fromValue(String value) {
+            RecentOrderOrder.Side constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Stp {
+
+        @SerializedName("CN")
+        CN("CN"),
+        @SerializedName("CO")
+        CO("CO"),
+        @SerializedName("CB")
+        CB("CB"),
+        @SerializedName("DC")
+        DC("DC");
+        private final String value;
+        private final static Map<String, RecentOrderOrder.Stp> CONSTANTS = new HashMap<String, RecentOrderOrder.Stp>();
+
+        static {
+            for (RecentOrderOrder.Stp c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Stp(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static RecentOrderOrder.Stp fromValue(String value) {
+            RecentOrderOrder.Stp constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum TimeInForce {
+
+        @SerializedName("GTC")
+        GTC("GTC"),
+        @SerializedName("GTT")
+        GTT("GTT"),
+        @SerializedName("IOC")
+        IOC("IOC"),
+        @SerializedName("FOK")
+        FOK("FOK");
+        private final String value;
+        private final static Map<String, RecentOrderOrder.TimeInForce> CONSTANTS = new HashMap<String, RecentOrderOrder.TimeInForce>();
+
+        static {
+            for (RecentOrderOrder.TimeInForce c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        TimeInForce(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static RecentOrderOrder.TimeInForce fromValue(String value) {
+            RecentOrderOrder.TimeInForce constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum TradeType {
+
+        @SerializedName("TRADE")
+        TRADE("TRADE"),
+        @SerializedName("MARGIN_TRADE")
+        MARGIN_TRADE("MARGIN_TRADE");
+        private final String value;
+        private final static Map<String, RecentOrderOrder.TradeType> CONSTANTS = new HashMap<String, RecentOrderOrder.TradeType>();
+
+        static {
+            for (RecentOrderOrder.TradeType c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        TradeType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static RecentOrderOrder.TradeType fromValue(String value) {
+            RecentOrderOrder.TradeType constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Type {
+
+        @SerializedName("limit")
+        LIMIT("limit"),
+        @SerializedName("market")
+        MARKET("market"),
+        @SerializedName("limit_stop")
+        LIMIT_STOP("limit_stop"),
+        @SerializedName("market_stop")
+        MARKET_STOP("market_stop");
+        private final String value;
+        private final static Map<String, RecentOrderOrder.Type> CONSTANTS = new HashMap<String, RecentOrderOrder.Type>();
+
+        static {
+            for (RecentOrderOrder.Type c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Type(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static RecentOrderOrder.Type fromValue(String value) {
+            RecentOrderOrder.Type constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
     }
 
 }

@@ -2,11 +2,7 @@ package gson;
 
 import com.google.gson.*;
 import logging.Logging;
-import schemas.objects.History;
-import schemas.objects.RecentOrderOrder;
-import schemas.requests.ListOrdersParameters;
 import schemas.responses.Data;
-import schemas.responses.Data__1;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -19,10 +15,7 @@ public class GsonAdapters {
 
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Data.class, new GetOrderBookResponseDataDeserializer())
-            .registerTypeAdapter(Data__1.class, new GetTickerResponseDataDeserializer())
-            .registerTypeAdapter(RecentOrderOrder.class, new RecentOrderOrderDeserializer())
-            .registerTypeAdapter(History.class, new HistoryDeserializer())
-            .registerTypeAdapter(ListOrdersParameters.class, new ListOrderParametersSerializer())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter())
             .create();
 
     public static Gson getGson() {

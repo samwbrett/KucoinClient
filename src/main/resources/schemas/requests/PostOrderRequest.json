@@ -6,22 +6,26 @@
       "type": "string"
     },
     "side": {
-      "type": "side"
+      "type": "side",
+      "enum": ["buy", "sell"]
     },
     "symbol": {
       "type": "string"
     },
     "type": {
-      "type": "string"
+      "type": "string",
+      "enum": ["market", "limit"]
     },
     "remark": {
       "type": "string"
     },
     "stp": {
-      "type": "string"
+      "type": "string",
+      "enum": ["CN", "CO", "CB", "DC"]
     },
     "tradeType": {
-      "type": "string"
+      "type": "string",
+      "enum": ["TRADE", "MARGIN_TRADE"]
     },
     "price": {
       "type": "number"
@@ -30,7 +34,8 @@
       "type": "number"
     },
     "timeInForce": {
-      "type": "string"
+      "type": "string",
+      "enum": ["GTC", "GTT", "IOC", "FOK"]
     },
     "cancelAfter": {
       "type": "integer"

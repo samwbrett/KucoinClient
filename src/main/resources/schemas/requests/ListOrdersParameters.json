@@ -22,11 +22,11 @@
       "enum": ["TRADE", "MARGIN_TRADE"]
     },
     "startAt": {
-      "type": "object",
+      "type": "integer",
       "format": "date-time"
     },
     "endAt": {
-      "type": "object",
+      "type": "integer",
       "format": "date-time"
     }
   }

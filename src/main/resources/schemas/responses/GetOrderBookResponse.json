@@ -9,7 +9,7 @@
       "type": "object",
       "properties": {
         "time": {
-          "type": "object",
+          "type": "integer",
           "format": "date-time"
         },
         "sequence": {

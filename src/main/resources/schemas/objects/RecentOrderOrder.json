@@ -9,13 +9,16 @@
       "type": "string"
     },
     "opType": {
-      "type": "string"
+      "type": "string",
+      "enum": ["DEAL"]
     },
     "type": {
-      "type": "string"
+      "type": "string",
+      "enum": ["limit", "market", "limit_stop", "market_stop"]
     },
     "side": {
-      "type": "string"
+      "type": "string",
+      "enum": ["buy", "sell"]
     },
     "price": {
       "type": "number"
@@ -39,7 +42,8 @@
       "type": "string"
     },
     "stp": {
-      "type": "string"
+      "type": "string",
+      "enum": ["CN", "CO", "CB", "DC"]
     },
     "stop": {
       "type": "string"
@@ -51,7 +55,8 @@
       "type": "string"
     },
     "timeInForce": {
-      "type": "string"
+      "type": "string",
+      "enum": ["GTC", "GTT", "IOC", "FOK"]
     },
     "postOnly": {
       "type": "boolean"
@@ -81,11 +86,12 @@
       "type": "boolean"
     },
     "createdAt": {
-      "type": "object",
+      "type": "integer",
       "format": "date-time"
     },
     "tradeType": {
-      "type": "string"
+      "type": "string",
+      "enum": ["TRADE", "MARGIN_TRADE"]
     }
   }
 }

@@ -16,7 +16,7 @@
       "enum": ["buy", "sell"]
     },
     "time": {
-      "type": "object",
+      "type": "integer",
       "format": "date-time"
     }
   }

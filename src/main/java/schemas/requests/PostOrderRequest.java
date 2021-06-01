@@ -2,6 +2,8 @@
 package schemas.requests;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -15,22 +17,22 @@ public class PostOrderRequest implements Serializable
     private String clientOid;
     @SerializedName("side")
     @Expose
-    private Object side;
+    private PostOrderRequest.Side side;
     @SerializedName("symbol")
     @Expose
     private String symbol;
     @SerializedName("type")
     @Expose
-    private String type;
+    private PostOrderRequest.Type type;
     @SerializedName("remark")
     @Expose
     private String remark;
     @SerializedName("stp")
     @Expose
-    private String stp;
+    private PostOrderRequest.Stp stp;
     @SerializedName("tradeType")
     @Expose
-    private String tradeType;
+    private PostOrderRequest.TradeType tradeType;
     @SerializedName("price")
     @Expose
     private Double price;
@@ -39,7 +41,7 @@ public class PostOrderRequest implements Serializable
     private Double size;
     @SerializedName("timeInForce")
     @Expose
-    private String timeInForce;
+    private PostOrderRequest.TimeInForce timeInForce;
     @SerializedName("cancelAfter")
     @Expose
     private Long cancelAfter;
@@ -58,7 +60,7 @@ public class PostOrderRequest implements Serializable
     @SerializedName("funds")
     @Expose
     private Double funds;
-    private final static long serialVersionUID = 6549506152366768906L;
+    private final static long serialVersionUID = 8877290499450907975L;
 
     public String getClientOid() {
         return clientOid;
@@ -69,11 +71,11 @@ public class PostOrderRequest implements Serializable
         return this;
     }
 
-    public Object getSide() {
+    public PostOrderRequest.Side getSide() {
         return side;
     }
 
-    public PostOrderRequest withSide(Object side) {
+    public PostOrderRequest withSide(PostOrderRequest.Side side) {
         this.side = side;
         return this;
     }
@@ -87,11 +89,11 @@ public class PostOrderRequest implements Serializable
         return this;
     }
 
-    public String getType() {
+    public PostOrderRequest.Type getType() {
         return type;
     }
 
-    public PostOrderRequest withType(String type) {
+    public PostOrderRequest withType(PostOrderRequest.Type type) {
         this.type = type;
         return this;
     }
@@ -105,20 +107,20 @@ public class PostOrderRequest implements Serializable
         return this;
     }
 
-    public String getStp() {
+    public PostOrderRequest.Stp getStp() {
         return stp;
     }
 
-    public PostOrderRequest withStp(String stp) {
+    public PostOrderRequest withStp(PostOrderRequest.Stp stp) {
         this.stp = stp;
         return this;
     }
 
-    public String getTradeType() {
+    public PostOrderRequest.TradeType getTradeType() {
         return tradeType;
     }
 
-    public PostOrderRequest withTradeType(String tradeType) {
+    public PostOrderRequest withTradeType(PostOrderRequest.TradeType tradeType) {
         this.tradeType = tradeType;
         return this;
     }
@@ -141,11 +143,11 @@ public class PostOrderRequest implements Serializable
         return this;
     }
 
-    public String getTimeInForce() {
+    public PostOrderRequest.TimeInForce getTimeInForce() {
         return timeInForce;
     }
 
-    public PostOrderRequest withTimeInForce(String timeInForce) {
+    public PostOrderRequest withTimeInForce(PostOrderRequest.TimeInForce timeInForce) {
         this.timeInForce = timeInForce;
         return this;
     }
@@ -312,6 +314,209 @@ public class PostOrderRequest implements Serializable
         }
         PostOrderRequest rhs = ((PostOrderRequest) other);
         return (((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.hidden == rhs.hidden)||((this.hidden!= null)&&this.hidden.equals(rhs.hidden))))&&((this.cancelAfter == rhs.cancelAfter)||((this.cancelAfter!= null)&&this.cancelAfter.equals(rhs.cancelAfter))))&&((this.remark == rhs.remark)||((this.remark!= null)&&this.remark.equals(rhs.remark))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.stp == rhs.stp)||((this.stp!= null)&&this.stp.equals(rhs.stp))))&&((this.postOnly == rhs.postOnly)||((this.postOnly!= null)&&this.postOnly.equals(rhs.postOnly))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.visibleSize == rhs.visibleSize)||((this.visibleSize!= null)&&this.visibleSize.equals(rhs.visibleSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.iceberg == rhs.iceberg)||((this.iceberg!= null)&&this.iceberg.equals(rhs.iceberg))))&&((this.funds == rhs.funds)||((this.funds!= null)&&this.funds.equals(rhs.funds))))&&((this.timeInForce == rhs.timeInForce)||((this.timeInForce!= null)&&this.timeInForce.equals(rhs.timeInForce))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))))&&((this.tradeType == rhs.tradeType)||((this.tradeType!= null)&&this.tradeType.equals(rhs.tradeType))));
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Side {
+
+        @SerializedName("buy")
+        BUY(null),
+        @SerializedName("sell")
+        SELL(null);
+        private final Object value;
+        private final static Map<Object, PostOrderRequest.Side> CONSTANTS = new HashMap<Object, PostOrderRequest.Side>();
+
+        static {
+            for (PostOrderRequest.Side c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Side(Object value) {
+            this.value = value;
+        }
+
+        public Object value() {
+            return this.value;
+        }
+
+        public static PostOrderRequest.Side fromValue(Object value) {
+            PostOrderRequest.Side constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException((value +""));
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Stp {
+
+        @SerializedName("CN")
+        CN("CN"),
+        @SerializedName("CO")
+        CO("CO"),
+        @SerializedName("CB")
+        CB("CB"),
+        @SerializedName("DC")
+        DC("DC");
+        private final String value;
+        private final static Map<String, PostOrderRequest.Stp> CONSTANTS = new HashMap<String, PostOrderRequest.Stp>();
+
+        static {
+            for (PostOrderRequest.Stp c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Stp(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static PostOrderRequest.Stp fromValue(String value) {
+            PostOrderRequest.Stp constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum TimeInForce {
+
+        @SerializedName("GTC")
+        GTC("GTC"),
+        @SerializedName("GTT")
+        GTT("GTT"),
+        @SerializedName("IOC")
+        IOC("IOC"),
+        @SerializedName("FOK")
+        FOK("FOK");
+        private final String value;
+        private final static Map<String, PostOrderRequest.TimeInForce> CONSTANTS = new HashMap<String, PostOrderRequest.TimeInForce>();
+
+        static {
+            for (PostOrderRequest.TimeInForce c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        TimeInForce(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static PostOrderRequest.TimeInForce fromValue(String value) {
+            PostOrderRequest.TimeInForce constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum TradeType {
+
+        @SerializedName("TRADE")
+        TRADE("TRADE"),
+        @SerializedName("MARGIN_TRADE")
+        MARGIN_TRADE("MARGIN_TRADE");
+        private final String value;
+        private final static Map<String, PostOrderRequest.TradeType> CONSTANTS = new HashMap<String, PostOrderRequest.TradeType>();
+
+        static {
+            for (PostOrderRequest.TradeType c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        TradeType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static PostOrderRequest.TradeType fromValue(String value) {
+            PostOrderRequest.TradeType constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Type {
+
+        @SerializedName("market")
+        MARKET("market"),
+        @SerializedName("limit")
+        LIMIT("limit");
+        private final String value;
+        private final static Map<String, PostOrderRequest.Type> CONSTANTS = new HashMap<String, PostOrderRequest.Type>();
+
+        static {
+            for (PostOrderRequest.Type c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Type(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static PostOrderRequest.Type fromValue(String value) {
+            PostOrderRequest.Type constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
     }
 
 }

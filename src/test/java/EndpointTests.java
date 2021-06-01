@@ -1,7 +1,7 @@
+import client.CoinCurrency;
 import client.Endpoint;
 import client.KucoinClientV2;
 import client.KucoinClientV2Response;
-import client.CoinCurrency;
 import exceptions.ConfigurationException;
 import exceptions.RequestException;
 import gson.GsonAdapters;
@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
@@ -107,7 +108,11 @@ public class EndpointTests {
     public void testGetOrderResponse() throws ValidationException, RequestException, IOException {
         AtomicReference<String> orderIdRef = new AtomicReference<>(null);
         testEndpoint(() -> {
-            KucoinClientV2Response<ListOrdersResponse> response = CLIENT.listOrders(new ListOrdersParameters().withSymbol("BTC-USDT").withSide(ListOrdersParameters.Side.BUY));
+            ListOrdersParameters parameters = new ListOrdersParameters()
+                    .withSymbol("BTC-USDT")
+                    .withSide(ListOrdersParameters.Side.BUY)
+                    .withStartAt(LocalDateTime.of(2021, 5, 31, 0, 0, 0));
+            KucoinClientV2Response<ListOrdersResponse> response = CLIENT.listOrders(parameters);
             orderIdRef.set(response.getResponseBody().getData().getItems().get(0).getId());
             return response;
         }, "/responses/ListOrdersResponse.json", ListOrdersResponse.class);
@@ -120,8 +125,8 @@ public class EndpointTests {
                 .withSize(0.01)
                 .withPrice(0.01)
                 .withClientOid(UUID.randomUUID().toString())
-                .withSide("buy")
-                .withType("limit")
+                .withSide(PostOrderRequest.Side.BUY)
+                .withType(PostOrderRequest.Type.LIMIT)
                 .withSymbol(CoinCurrency.getSymbol(CoinCurrency.KCS, CoinCurrency.USDT))
                 .withPostOnly(true)), "/responses/PostOrderResponse.json", PostOrderResponse.class);
     }
