@@ -1,8 +1,8 @@
 package client;
 
-import com.jsoniter.JsonIterator;
 import gson.GsonAdapters;
 import logging.Logging;
+
 import java.net.http.HttpResponse;
 import java.util.logging.Logger;
 

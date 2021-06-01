@@ -42,18 +42,18 @@ public class KucoinClientV2 {
     public static final String PASSPHRASE = "KC-API-PASSPHRASE";
     private static final String KEY_VERSION = "KC-API-KEY-VERSION";
 
-    private static final String BASE_URL = "https://api.kucoin.com";
-
     private final Properties properties;
     private final HttpClient client;
+    private final String baseUrl;
 
     static {
         JsoniterAdapters.startup();
     }
 
-    public KucoinClientV2() throws ConfigurationException {
+    public KucoinClientV2(boolean isProduction) throws ConfigurationException {
         this.properties = new Properties();
         this.client = HttpClient.newHttpClient();
+        this.baseUrl = isProduction ? "https://api.kucoin.com" : "https://openapi-sandbox.kucoin.com";
         try {
             this.properties.load(KucoinClientV2.class.getClassLoader().getResourceAsStream(CONFIG_LOCATION));
         } catch (IOException e) {
@@ -120,7 +120,7 @@ public class KucoinClientV2 {
             HttpRequest.Builder builder =
                     HttpRequest
                             .newBuilder()
-                            .uri(URI.create(BASE_URL + url))
+                            .uri(URI.create(baseUrl + url))
                             .header("Content-Type", "application/json");
             for (Map.Entry<String, String> header : getHeaders(url, requestType, data).entrySet()) {
                 if (header.getValue() != null) {
@@ -151,17 +151,7 @@ public class KucoinClientV2 {
         for (String key : element.getAsJsonObject().keySet()) {
             JsonElement el = element.getAsJsonObject().get(key);
             if (el != null && el != JsonNull.INSTANCE) {
-                String value = el.toString();
-                if (value.length() > 3 && value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
-                    value = value.substring(1, value.length() - 1);
-                } else if (value.length() > 2 && value.charAt(0) == '"') {
-                    value = value.substring(1);
-                } else if (value.length() > 2 && value.charAt(value.length() - 1) == '"') {
-                    value = value.substring(0, value.length() - 1);
-                } else {
-                    continue;
-                }
-                builder.append(key).append("=").append(value).append("&");
+                builder.append(key).append("=").append(el.getAsString()).append("&");
             }
         }
         return builder.substring(0, builder.length() - 1);

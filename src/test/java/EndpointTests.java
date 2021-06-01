@@ -50,7 +50,7 @@ public class EndpointTests {
     @BeforeAll
     protected static void createClient() {
         try {
-            CLIENT = new KucoinClientV2();
+            CLIENT = new KucoinClientV2(true);
         } catch (ConfigurationException e) {
             e.printStackTrace();
         }
@@ -107,21 +107,21 @@ public class EndpointTests {
     public void testGetOrderResponse() throws ValidationException, RequestException, IOException {
         AtomicReference<String> orderIdRef = new AtomicReference<>(null);
         testEndpoint(() -> {
-            KucoinClientV2Response<ListOrdersResponse> response = CLIENT.listOrders(new ListOrdersParameters().withSymbol("BTC-USDT"));
+            KucoinClientV2Response<ListOrdersResponse> response = CLIENT.listOrders(new ListOrdersParameters().withSymbol("BTC-USDT").withSide(ListOrdersParameters.Side.BUY));
             orderIdRef.set(response.getResponseBody().getData().getItems().get(0).getId());
             return response;
         }, "/responses/ListOrdersResponse.json", ListOrdersResponse.class);
         testEndpoint(() -> CLIENT.getOrder(orderIdRef.get()), "/responses/GetOrderResponse.json", GetOrderResponse.class);
     }
 
-    /*
     @Test
     public void testPostOrderResponse() throws ValidationException, RequestException, IOException {
         testEndpoint(() -> CLIENT.postOrder(new PostOrderRequest()
-                .withFunds(0.1)
+                .withSize(0.01)
+                .withPrice(0.01)
                 .withClientOid(UUID.randomUUID().toString())
                 .withSide("buy")
-                .withType("market")
+                .withType("limit")
                 .withSymbol(CoinCurrency.getSymbol(CoinCurrency.KCS, CoinCurrency.USDT))
                 .withPostOnly(true)), "/responses/PostOrderResponse.json", PostOrderResponse.class);
     }
@@ -132,12 +132,11 @@ public class EndpointTests {
                 .withSymbol(CoinCurrency.getSymbol(CoinCurrency.KCS, CoinCurrency.USDT))
                 .withOrderList(Arrays.asList(new BulkOrderOrder()
                         .withSize(0.01)
-                        .withPrice(6.61)
+                        .withPrice(0.01)
                         .withClientOid(UUID.randomUUID().toString())
                         .withSymbol(CoinCurrency.getSymbol(CoinCurrency.KCS, CoinCurrency.USDT))
                         .withSide(BulkOrderOrder.Side.BUY)
                         .withType(BulkOrderOrder.Type.LIMIT)))), "/responses/PostBulkOrdersResponse.json", PostBulkOrdersResponse.class);
     }
-    */
 
 }
