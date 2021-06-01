@@ -5,9 +5,10 @@ import java.io.Serializable;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import schemas.objects.RecentOrderOrder;
 
 @Generated("jsonschema2pojo")
-public class PostBulkOrdersResponse implements Serializable
+public class GetOrderResponse implements Serializable
 {
 
     @SerializedName("code")
@@ -15,23 +16,23 @@ public class PostBulkOrdersResponse implements Serializable
     private Long code;
     @SerializedName("data")
     @Expose
-    private Data__3 data;
-    private final static long serialVersionUID = -4287477840380087542L;
+    private RecentOrderOrder data;
+    private final static long serialVersionUID = 5930387373083630899L;
 
     public Long getCode() {
         return code;
     }
 
-    public PostBulkOrdersResponse withCode(Long code) {
+    public GetOrderResponse withCode(Long code) {
         this.code = code;
         return this;
     }
 
-    public Data__3 getData() {
+    public RecentOrderOrder getData() {
         return data;
     }
 
-    public PostBulkOrdersResponse withData(Data__3 data) {
+    public GetOrderResponse withData(RecentOrderOrder data) {
         this.data = data;
         return this;
     }
@@ -39,7 +40,7 @@ public class PostBulkOrdersResponse implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(PostBulkOrdersResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(GetOrderResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("code");
         sb.append('=');
         sb.append(((this.code == null)?"<null>":this.code));
@@ -69,10 +70,10 @@ public class PostBulkOrdersResponse implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof PostBulkOrdersResponse) == false) {
+        if ((other instanceof GetOrderResponse) == false) {
             return false;
         }
-        PostBulkOrdersResponse rhs = ((PostBulkOrdersResponse) other);
+        GetOrderResponse rhs = ((GetOrderResponse) other);
         return (((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.code == rhs.code)||((this.code!= null)&&this.code.equals(rhs.code))));
     }
 

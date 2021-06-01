@@ -3,6 +3,8 @@ package schemas.objects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -22,11 +24,11 @@ public class History implements Serializable
     private Double size;
     @SerializedName("side")
     @Expose
-    private String side;
+    private History.Side side;
     @SerializedName("time")
     @Expose
     private LocalDateTime time;
-    private final static long serialVersionUID = -273009576326307677L;
+    private final static long serialVersionUID = -1854488396586880077L;
 
     public Long getSequence() {
         return sequence;
@@ -55,11 +57,11 @@ public class History implements Serializable
         return this;
     }
 
-    public String getSide() {
+    public History.Side getSide() {
         return side;
     }
 
-    public History withSide(String side) {
+    public History withSide(History.Side side) {
         this.side = side;
         return this;
     }
@@ -126,6 +128,46 @@ public class History implements Serializable
         }
         History rhs = ((History) other);
         return ((((((this.sequence == rhs.sequence)||((this.sequence!= null)&&this.sequence.equals(rhs.sequence)))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.time == rhs.time)||((this.time!= null)&&this.time.equals(rhs.time))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))));
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Side {
+
+        @SerializedName("buy")
+        BUY("buy"),
+        @SerializedName("sell")
+        SELL("sell");
+        private final String value;
+        private final static Map<String, History.Side> CONSTANTS = new HashMap<String, History.Side>();
+
+        static {
+            for (History.Side c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Side(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static History.Side fromValue(String value) {
+            History.Side constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
     }
 
 }

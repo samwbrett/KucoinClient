@@ -5,9 +5,6 @@ import schemas.objects.PriceSize;
 import schemas.responses.Data;
 
 import java.lang.reflect.Type;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,14 +14,28 @@ public class GetOrderBookResponseDataDeserializer implements JsonDeserializer<Da
     public Data deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         Data data = new Data();
         JsonObject jsonObject = json.getAsJsonObject();
-        data.withTime(jsonObject.get("time") != JsonNull.INSTANCE ? LocalDateTime.ofInstant(Instant.ofEpochMilli(jsonObject.get("time").getAsLong()), ZoneId.systemDefault()) : null);
-        data.withSequence(jsonObject.get("sequence") != JsonNull.INSTANCE ? jsonObject.get("sequence").getAsLong() : null);
-        data.withBids(getPriceSizes(jsonObject.get("bids") != JsonNull.INSTANCE ? jsonObject.getAsJsonArray("bids") : null));
-        data.withAsks(getPriceSizes(jsonObject.get("asks") != JsonNull.INSTANCE ? jsonObject.getAsJsonArray("asks") : null));
+        GsonAdapters.addIfNonNullDateTime(jsonObject, data::withTime, "time");
+        GsonAdapters.addIfNonNullLong(jsonObject, data::withSequence, "sequence");
+        addIfNonNullBids(jsonObject, data);
+        addIfNonNullAsks(jsonObject, data);
         return data;
     }
 
-    private List<PriceSize> getPriceSizes(JsonArray array) {
+    private static void addIfNonNullBids(JsonObject object, Data data) {
+        JsonElement element = object.get("bids");
+        if (element != null && element != JsonNull.INSTANCE) {
+            data.withBids(getPriceSizes((JsonArray) element));
+        }
+    }
+
+    private static void addIfNonNullAsks(JsonObject object, Data data) {
+        JsonElement element = object.get("asks");
+        if (element != null && element != JsonNull.INSTANCE) {
+            data.withAsks(getPriceSizes((JsonArray) element));
+        }
+    }
+
+    private static List<PriceSize> getPriceSizes(JsonArray array) {
         if (array == null) {
             return Collections.emptyList();
         }

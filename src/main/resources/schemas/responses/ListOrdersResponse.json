@@ -1,0 +1,32 @@
+{
+  "$id": "ListOrdersResponse",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "currentPage": {
+          "type": "integer"
+        },
+        "pageSize": {
+          "type": "integer"
+        },
+        "totalNum": {
+          "type": "integer"
+        },
+        "totalPage": {
+          "type": "integer"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "../objects/RecentOrderOrder.json"
+          }
+        }
+      }
+    }
+  }
+}

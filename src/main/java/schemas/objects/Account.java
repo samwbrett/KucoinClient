@@ -2,6 +2,8 @@
 package schemas.objects;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -18,7 +20,7 @@ public class Account implements Serializable
     private String currency;
     @SerializedName("type")
     @Expose
-    private String type;
+    private Account.Type type;
     @SerializedName("balance")
     @Expose
     private Double balance;
@@ -28,7 +30,7 @@ public class Account implements Serializable
     @SerializedName("holds")
     @Expose
     private Double holds;
-    private final static long serialVersionUID = -3505219765766922796L;
+    private final static long serialVersionUID = -6668859080038250740L;
 
     public String getId() {
         return id;
@@ -48,11 +50,11 @@ public class Account implements Serializable
         return this;
     }
 
-    public String getType() {
+    public Account.Type getType() {
         return type;
     }
 
-    public Account withType(String type) {
+    public Account withType(Account.Type type) {
         this.type = type;
         return this;
     }
@@ -142,6 +144,50 @@ public class Account implements Serializable
         }
         Account rhs = ((Account) other);
         return (((((((this.balance == rhs.balance)||((this.balance!= null)&&this.balance.equals(rhs.balance)))&&((this.available == rhs.available)||((this.available!= null)&&this.available.equals(rhs.available))))&&((this.holds == rhs.holds)||((this.holds!= null)&&this.holds.equals(rhs.holds))))&&((this.currency == rhs.currency)||((this.currency!= null)&&this.currency.equals(rhs.currency))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))));
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Type {
+
+        @SerializedName("main")
+        MAIN("main"),
+        @SerializedName("trade")
+        TRADE("trade"),
+        @SerializedName("margin")
+        MARGIN("margin"),
+        @SerializedName("pool")
+        POOL("pool");
+        private final String value;
+        private final static Map<String, Account.Type> CONSTANTS = new HashMap<String, Account.Type>();
+
+        static {
+            for (Account.Type c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Type(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static Account.Type fromValue(String value) {
+            Account.Type constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
     }
 
 }

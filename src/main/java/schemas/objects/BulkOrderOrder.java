@@ -2,6 +2,8 @@
 package schemas.objects;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -15,10 +17,10 @@ public class BulkOrderOrder implements Serializable
     private String symbol;
     @SerializedName("type")
     @Expose
-    private String type;
+    private BulkOrderOrder.Type type;
     @SerializedName("side")
     @Expose
-    private String side;
+    private BulkOrderOrder.Side side;
     @SerializedName("price")
     @Expose
     private Double price;
@@ -30,16 +32,19 @@ public class BulkOrderOrder implements Serializable
     private Double funds;
     @SerializedName("stp")
     @Expose
-    private String stp;
+    private BulkOrderOrder.Stp stp;
+    @SerializedName("tradeType")
+    @Expose
+    private BulkOrderOrder.TradeType tradeType;
     @SerializedName("stop")
     @Expose
-    private String stop;
+    private BulkOrderOrder.Stop stop;
     @SerializedName("stopPrice")
     @Expose
     private Double stopPrice;
     @SerializedName("timeInForce")
     @Expose
-    private String timeInForce;
+    private BulkOrderOrder.TimeInForce timeInForce;
     @SerializedName("cancelAfter")
     @Expose
     private Long cancelAfter;
@@ -70,7 +75,7 @@ public class BulkOrderOrder implements Serializable
     @SerializedName("clientOid")
     @Expose
     private String clientOid;
-    private final static long serialVersionUID = 6961772141108336201L;
+    private final static long serialVersionUID = -6458706936214995251L;
 
     public String getSymbol() {
         return symbol;
@@ -81,20 +86,20 @@ public class BulkOrderOrder implements Serializable
         return this;
     }
 
-    public String getType() {
+    public BulkOrderOrder.Type getType() {
         return type;
     }
 
-    public BulkOrderOrder withType(String type) {
+    public BulkOrderOrder withType(BulkOrderOrder.Type type) {
         this.type = type;
         return this;
     }
 
-    public String getSide() {
+    public BulkOrderOrder.Side getSide() {
         return side;
     }
 
-    public BulkOrderOrder withSide(String side) {
+    public BulkOrderOrder withSide(BulkOrderOrder.Side side) {
         this.side = side;
         return this;
     }
@@ -126,20 +131,29 @@ public class BulkOrderOrder implements Serializable
         return this;
     }
 
-    public String getStp() {
+    public BulkOrderOrder.Stp getStp() {
         return stp;
     }
 
-    public BulkOrderOrder withStp(String stp) {
+    public BulkOrderOrder withStp(BulkOrderOrder.Stp stp) {
         this.stp = stp;
         return this;
     }
 
-    public String getStop() {
+    public BulkOrderOrder.TradeType getTradeType() {
+        return tradeType;
+    }
+
+    public BulkOrderOrder withTradeType(BulkOrderOrder.TradeType tradeType) {
+        this.tradeType = tradeType;
+        return this;
+    }
+
+    public BulkOrderOrder.Stop getStop() {
         return stop;
     }
 
-    public BulkOrderOrder withStop(String stop) {
+    public BulkOrderOrder withStop(BulkOrderOrder.Stop stop) {
         this.stop = stop;
         return this;
     }
@@ -153,11 +167,11 @@ public class BulkOrderOrder implements Serializable
         return this;
     }
 
-    public String getTimeInForce() {
+    public BulkOrderOrder.TimeInForce getTimeInForce() {
         return timeInForce;
     }
 
-    public BulkOrderOrder withTimeInForce(String timeInForce) {
+    public BulkOrderOrder withTimeInForce(BulkOrderOrder.TimeInForce timeInForce) {
         this.timeInForce = timeInForce;
         return this;
     }
@@ -284,6 +298,10 @@ public class BulkOrderOrder implements Serializable
         sb.append('=');
         sb.append(((this.stp == null)?"<null>":this.stp));
         sb.append(',');
+        sb.append("tradeType");
+        sb.append('=');
+        sb.append(((this.tradeType == null)?"<null>":this.tradeType));
+        sb.append(',');
         sb.append("stop");
         sb.append('=');
         sb.append(((this.stop == null)?"<null>":this.stop));
@@ -365,6 +383,7 @@ public class BulkOrderOrder implements Serializable
         result = ((result* 31)+((this.funds == null)? 0 :this.funds.hashCode()));
         result = ((result* 31)+((this.id == null)? 0 :this.id.hashCode()));
         result = ((result* 31)+((this.timeInForce == null)? 0 :this.timeInForce.hashCode()));
+        result = ((result* 31)+((this.tradeType == null)? 0 :this.tradeType.hashCode()));
         result = ((result* 31)+((this.clientOid == null)? 0 :this.clientOid.hashCode()));
         result = ((result* 31)+((this.status == null)? 0 :this.status.hashCode()));
         return result;
@@ -379,7 +398,255 @@ public class BulkOrderOrder implements Serializable
             return false;
         }
         BulkOrderOrder rhs = ((BulkOrderOrder) other);
-        return (((((((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.hidden == rhs.hidden)||((this.hidden!= null)&&this.hidden.equals(rhs.hidden))))&&((this.cancelAfter == rhs.cancelAfter)||((this.cancelAfter!= null)&&this.cancelAfter.equals(rhs.cancelAfter))))&&((this.channel == rhs.channel)||((this.channel!= null)&&this.channel.equals(rhs.channel))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.stp == rhs.stp)||((this.stp!= null)&&this.stp.equals(rhs.stp))))&&((this.postOnly == rhs.postOnly)||((this.postOnly!= null)&&this.postOnly.equals(rhs.postOnly))))&&((this.stopPrice == rhs.stopPrice)||((this.stopPrice!= null)&&this.stopPrice.equals(rhs.stopPrice))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.stop == rhs.stop)||((this.stop!= null)&&this.stop.equals(rhs.stop))))&&((this.visibleSize == rhs.visibleSize)||((this.visibleSize!= null)&&this.visibleSize.equals(rhs.visibleSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.iceberg == rhs.iceberg)||((this.iceberg!= null)&&this.iceberg.equals(rhs.iceberg))))&&((this.failMsg == rhs.failMsg)||((this.failMsg!= null)&&this.failMsg.equals(rhs.failMsg))))&&((this.funds == rhs.funds)||((this.funds!= null)&&this.funds.equals(rhs.funds))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.timeInForce == rhs.timeInForce)||((this.timeInForce!= null)&&this.timeInForce.equals(rhs.timeInForce))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))))&&((this.status == rhs.status)||((this.status!= null)&&this.status.equals(rhs.status))));
+        return ((((((((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.hidden == rhs.hidden)||((this.hidden!= null)&&this.hidden.equals(rhs.hidden))))&&((this.cancelAfter == rhs.cancelAfter)||((this.cancelAfter!= null)&&this.cancelAfter.equals(rhs.cancelAfter))))&&((this.channel == rhs.channel)||((this.channel!= null)&&this.channel.equals(rhs.channel))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.stp == rhs.stp)||((this.stp!= null)&&this.stp.equals(rhs.stp))))&&((this.postOnly == rhs.postOnly)||((this.postOnly!= null)&&this.postOnly.equals(rhs.postOnly))))&&((this.stopPrice == rhs.stopPrice)||((this.stopPrice!= null)&&this.stopPrice.equals(rhs.stopPrice))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.stop == rhs.stop)||((this.stop!= null)&&this.stop.equals(rhs.stop))))&&((this.visibleSize == rhs.visibleSize)||((this.visibleSize!= null)&&this.visibleSize.equals(rhs.visibleSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.iceberg == rhs.iceberg)||((this.iceberg!= null)&&this.iceberg.equals(rhs.iceberg))))&&((this.failMsg == rhs.failMsg)||((this.failMsg!= null)&&this.failMsg.equals(rhs.failMsg))))&&((this.funds == rhs.funds)||((this.funds!= null)&&this.funds.equals(rhs.funds))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.timeInForce == rhs.timeInForce)||((this.timeInForce!= null)&&this.timeInForce.equals(rhs.timeInForce))))&&((this.tradeType == rhs.tradeType)||((this.tradeType!= null)&&this.tradeType.equals(rhs.tradeType))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))))&&((this.status == rhs.status)||((this.status!= null)&&this.status.equals(rhs.status))));
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Side {
+
+        @SerializedName("buy")
+        BUY("buy"),
+        @SerializedName("sell")
+        SELL("sell");
+        private final String value;
+        private final static Map<String, BulkOrderOrder.Side> CONSTANTS = new HashMap<String, BulkOrderOrder.Side>();
+
+        static {
+            for (BulkOrderOrder.Side c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Side(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static BulkOrderOrder.Side fromValue(String value) {
+            BulkOrderOrder.Side constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Stop {
+
+        @SerializedName("loss")
+        LOSS("loss"),
+        @SerializedName("entry")
+        ENTRY("entry");
+        private final String value;
+        private final static Map<String, BulkOrderOrder.Stop> CONSTANTS = new HashMap<String, BulkOrderOrder.Stop>();
+
+        static {
+            for (BulkOrderOrder.Stop c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Stop(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static BulkOrderOrder.Stop fromValue(String value) {
+            BulkOrderOrder.Stop constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Stp {
+
+        @SerializedName("CN")
+        CN("CN"),
+        @SerializedName("CO")
+        CO("CO"),
+        @SerializedName("CB")
+        CB("CB"),
+        @SerializedName("DC")
+        DC("DC");
+        private final String value;
+        private final static Map<String, BulkOrderOrder.Stp> CONSTANTS = new HashMap<String, BulkOrderOrder.Stp>();
+
+        static {
+            for (BulkOrderOrder.Stp c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Stp(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static BulkOrderOrder.Stp fromValue(String value) {
+            BulkOrderOrder.Stp constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum TimeInForce {
+
+        @SerializedName("GTC")
+        GTC("GTC"),
+        @SerializedName("GTT")
+        GTT("GTT"),
+        @SerializedName("IOC")
+        IOC("IOC"),
+        @SerializedName("FOK")
+        FOK("FOK");
+        private final String value;
+        private final static Map<String, BulkOrderOrder.TimeInForce> CONSTANTS = new HashMap<String, BulkOrderOrder.TimeInForce>();
+
+        static {
+            for (BulkOrderOrder.TimeInForce c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        TimeInForce(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static BulkOrderOrder.TimeInForce fromValue(String value) {
+            BulkOrderOrder.TimeInForce constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum TradeType {
+
+        @SerializedName("TRADE")
+        TRADE("TRADE"),
+        @SerializedName("MARGIN_TRADE")
+        MARGIN_TRADE("MARGIN_TRADE");
+        private final String value;
+        private final static Map<String, BulkOrderOrder.TradeType> CONSTANTS = new HashMap<String, BulkOrderOrder.TradeType>();
+
+        static {
+            for (BulkOrderOrder.TradeType c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        TradeType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static BulkOrderOrder.TradeType fromValue(String value) {
+            BulkOrderOrder.TradeType constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
+
+    @Generated("jsonschema2pojo")
+    public enum Type {
+
+        @SerializedName("limit")
+        LIMIT("limit"),
+        @SerializedName("market")
+        MARKET("market");
+        private final String value;
+        private final static Map<String, BulkOrderOrder.Type> CONSTANTS = new HashMap<String, BulkOrderOrder.Type>();
+
+        static {
+            for (BulkOrderOrder.Type c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        Type(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static BulkOrderOrder.Type fromValue(String value) {
+            BulkOrderOrder.Type constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
     }
 
 }

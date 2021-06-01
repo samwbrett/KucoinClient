@@ -1,40 +1,26 @@
 package client;
 
-import com.google.gson.Gson;
+import com.jsoniter.JsonIterator;
 import gson.GsonAdapters;
 import logging.Logging;
-
-import java.lang.reflect.InvocationTargetException;
 import java.net.http.HttpResponse;
 import java.util.logging.Logger;
 
 public class KucoinClientV2Response<T> {
 
-    private static final Logger LOGGER = Logging.handledLogger(Logger.getLogger(KucoinClientV2Response.class.getName()));
+    private static final Logger LOGGER = Logging.handledLogger(KucoinClientV2Response.class);
 
     private final HttpResponse<String> response;
     private final T responseBody;
-    private final int code;
+    private final long code;
 
-    public KucoinClientV2Response(HttpResponse<String> response, Class<T> clazz) {
+    public KucoinClientV2Response(HttpResponse<String> response, Class<T> clazz, CodeGetter<T> codeGetter, T defaultObject) {
         this.response = response;
         if (getStatusCode() / 100 == 2) {
             this.responseBody = GsonAdapters.getGson().fromJson(response.body(), clazz);
-            int tempCode = 200000;
-            try {
-                tempCode = ((Long)this.responseBody.getClass().getMethod("getCode").invoke(this.responseBody)).intValue();
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                LOGGER.warning(e.getMessage());
-            }
-            this.code = tempCode;
+            this.code = codeGetter.getCode(this.responseBody);
         } else {
-            T tempResponseBody = null;
-            try {
-                tempResponseBody = clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                LOGGER.warning(e.getMessage());
-            }
-            this.responseBody = tempResponseBody;
+            this.responseBody = defaultObject;
             this.code = 0;
         }
     }
@@ -43,7 +29,7 @@ public class KucoinClientV2Response<T> {
         return response.statusCode();
     }
 
-    public int getCode() {
+    public long getCode() {
         return code;
     }
 

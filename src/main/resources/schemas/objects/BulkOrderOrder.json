@@ -6,10 +6,12 @@
       "type": "string"
     },
     "type": {
-      "type": "string"
+      "type": "string",
+      "enum": ["limit", "market"]
     },
     "side": {
-      "type": "string"
+      "type": "string",
+      "enum": ["buy", "sell"]
     },
     "price": {
       "type": "number"
@@ -21,16 +23,23 @@
       "type": "number"
     },
     "stp": {
-      "type": "string"
+      "type": "string",
+      "enum": ["CN", "CO", "CB", "DC"]
+    },
+    "tradeType": {
+      "type": "string",
+      "enum": ["TRADE", "MARGIN_TRADE"]
     },
     "stop": {
-      "type": "string"
+      "type": "string",
+      "enum": ["loss", "entry"]
     },
     "stopPrice": {
       "type": "number"
     },
     "timeInForce": {
-      "type": "string"
+      "type": "string",
+      "enum": ["GTC", "GTT", "IOC", "FOK"]
     },
     "cancelAfter": {
       "type": "integer"

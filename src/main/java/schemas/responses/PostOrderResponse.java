@@ -15,8 +15,8 @@ public class PostOrderResponse implements Serializable
     private Long code;
     @SerializedName("data")
     @Expose
-    private Data__3 data;
-    private final static long serialVersionUID = 2877714636599884202L;
+    private Data__4 data;
+    private final static long serialVersionUID = -7964927817038599701L;
 
     public Long getCode() {
         return code;
@@ -27,11 +27,11 @@ public class PostOrderResponse implements Serializable
         return this;
     }
 
-    public Data__3 getData() {
+    public Data__4 getData() {
         return data;
     }
 
-    public PostOrderResponse withData(Data__3 data) {
+    public PostOrderResponse withData(Data__4 data) {
         this.data = data;
         return this;
     }

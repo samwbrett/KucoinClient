@@ -12,7 +12,8 @@
       "type": "number"
     },
     "side": {
-      "type": "string"
+      "type": "string",
+      "enum": ["buy", "sell"]
     },
     "time": {
       "type": "object",

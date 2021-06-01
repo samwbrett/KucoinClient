@@ -1,7 +1,7 @@
 import client.Endpoint;
 import client.KucoinClientV2;
 import client.KucoinClientV2Response;
-import enums.CoinCurrency;
+import client.CoinCurrency;
 import exceptions.ConfigurationException;
 import exceptions.RequestException;
 import gson.GsonAdapters;
@@ -13,12 +13,19 @@ import org.json.JSONTokener;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import schemas.objects.BulkOrderOrder;
+import schemas.requests.ListOrdersParameters;
+import schemas.requests.PostBulkOrdersRequest;
+import schemas.requests.PostOrderRequest;
 import schemas.responses.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class EndpointTests {
 
@@ -88,12 +95,23 @@ public class EndpointTests {
 
     @Test
     public void testHistoryResponse() throws ValidationException, RequestException, IOException {
-        testEndpoint(() -> CLIENT.getHistoryResponse(CoinCurrency.getSymbol(CoinCurrency.VEED, CoinCurrency.USDT)), "/responses/GetHistoryResponse.json", GetHistoryResponse.class);
+        testEndpoint(() -> CLIENT.getHistoryResponse(CoinCurrency.getSymbol(CoinCurrency.DIVI, CoinCurrency.USDT)), "/responses/GetHistoryResponse.json", GetHistoryResponse.class);
     }
 
     @Test
     public void testOrderBookResponse() throws ValidationException, RequestException, IOException {
         testEndpoint(() -> CLIENT.getOrderBook(CoinCurrency.getSymbol(CoinCurrency.BTC, CoinCurrency.USDT)), "/responses/GetOrderBookResponse.json", GetOrderBookResponse.class);
+    }
+
+    @Test
+    public void testGetOrderResponse() throws ValidationException, RequestException, IOException {
+        AtomicReference<String> orderIdRef = new AtomicReference<>(null);
+        testEndpoint(() -> {
+            KucoinClientV2Response<ListOrdersResponse> response = CLIENT.listOrders(new ListOrdersParameters().withSymbol("BTC-USDT"));
+            orderIdRef.set(response.getResponseBody().getData().getItems().get(0).getId());
+            return response;
+        }, "/responses/ListOrdersResponse.json", ListOrdersResponse.class);
+        testEndpoint(() -> CLIENT.getOrder(orderIdRef.get()), "/responses/GetOrderResponse.json", GetOrderResponse.class);
     }
 
     /*
@@ -117,10 +135,9 @@ public class EndpointTests {
                         .withPrice(6.61)
                         .withClientOid(UUID.randomUUID().toString())
                         .withSymbol(CoinCurrency.getSymbol(CoinCurrency.KCS, CoinCurrency.USDT))
-                        .withSide("buy")
-                        .withType("limit")))), "/responses/PostBulkOrdersResponse.json", PostBulkOrdersResponse.class);
+                        .withSide(BulkOrderOrder.Side.BUY)
+                        .withType(BulkOrderOrder.Type.LIMIT)))), "/responses/PostBulkOrdersResponse.json", PostBulkOrdersResponse.class);
     }
-     */
-
+    */
 
 }
