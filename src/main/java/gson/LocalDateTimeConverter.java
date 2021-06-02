@@ -10,7 +10,11 @@ import java.time.ZoneId;
 public class LocalDateTimeConverter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
     @Override
     public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(json.getAsLong()), ZoneId.systemDefault());
+        long milli = json.getAsLong();
+        if (milli > 1000000000000000000L) {
+            milli /= 1000000L;
+        }
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(milli), ZoneId.systemDefault());
     }
 
     @Override
