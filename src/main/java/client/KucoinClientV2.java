@@ -6,7 +6,6 @@ import exceptions.ConfigurationException;
 import exceptions.EncryptionException;
 import exceptions.RequestException;
 import gson.GsonAdapters;
-import jsoniter.JsoniterAdapters;
 import logging.Logging;
 import schemas.requests.ListOrdersParameters;
 import schemas.requests.PostBulkOrdersRequest;
@@ -45,10 +44,6 @@ public class KucoinClientV2 {
     private final Properties properties;
     private final HttpClient client;
     private final String baseUrl;
-
-    static {
-        JsoniterAdapters.startup();
-    }
 
     public KucoinClientV2(boolean isProduction) throws ConfigurationException {
         this.properties = new Properties();

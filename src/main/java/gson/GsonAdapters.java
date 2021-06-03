@@ -138,7 +138,7 @@ public class GsonAdapters {
         }
     }
 
-    static void addIfNonNullDateTimePicoSeconds(JsonObject jsonObject, WithDateTime withDateTimeMethod, String property) {
+    static void addIfNonNullDateTimeNanoSeconds(JsonObject jsonObject, WithDateTime withDateTimeMethod, String property) {
         if (hasProperty(jsonObject, property)) {
             withDateTimeMethod.withDateTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(jsonObject.get(property).getAsLong() / 1000000), ZoneId.systemDefault()));
         }

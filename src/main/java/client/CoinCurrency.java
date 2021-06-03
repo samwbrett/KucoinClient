@@ -22,7 +22,8 @@ public enum CoinCurrency {
     APL,
     ELON,
     VEED,
-    DIVI;
+    DIVI,
+    JUP;
 
     public static String getSymbol(CoinCurrency baseCoin, CoinCurrency quoteCoin) {
         return baseCoin + "-" + quoteCoin;
