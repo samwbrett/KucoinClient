@@ -11,4 +11,8 @@ public class NumberUtils {
         return bd.doubleValue();
     }
 
+    public static int getPrecision(double value) {
+        return (int) Math.ceil(Math.log10(1d / value));
+    }
+
 }

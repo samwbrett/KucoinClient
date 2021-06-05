@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import schemas.objects.BulkOrderOrder;
-import schemas.requests.ListOrdersParameters;
+import schemas.parameters.ListOrdersParameters;
 import schemas.requests.PostBulkOrdersRequest;
 import schemas.requests.PostOrderRequest;
 import schemas.responses.*;

@@ -1,5 +1,5 @@
 
-package schemas.requests;
+package schemas.parameters;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -34,7 +34,7 @@ public class ListOrdersParameters implements Serializable
     @SerializedName("endAt")
     @Expose
     private LocalDateTime endAt;
-    private final static long serialVersionUID = -428873662282068652L;
+    private final static long serialVersionUID = 5278490396838889117L;
 
     public ListOrdersParameters.Status getStatus() {
         return status;

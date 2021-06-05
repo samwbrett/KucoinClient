@@ -7,7 +7,7 @@ import exceptions.EncryptionException;
 import exceptions.RequestException;
 import gson.GsonAdapters;
 import logging.Logging;
-import schemas.requests.ListOrdersParameters;
+import schemas.parameters.ListOrdersParameters;
 import schemas.requests.PostBulkOrdersRequest;
 import schemas.requests.PostOrderRequest;
 import schemas.responses.*;
