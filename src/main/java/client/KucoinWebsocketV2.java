@@ -25,30 +25,6 @@ import java.util.logging.Logger;
 
 public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
 
-    private static class CleanerState implements Runnable {
-
-        private final WebSocket webSocket;
-        private final String topic;
-        private final String topicId;
-
-        private CleanerState(WebSocket webSocket, String topic, String topicId) {
-            this.webSocket = webSocket;
-            this.topic = topic;
-            this.topicId = topicId;
-        }
-
-        public void run() {
-            webSocket.sendText(GsonAdapters.getGson().toJson(Map.of(
-                    "id", topicId,
-                    "type", "unsubscribe",
-                    "topic", topic,
-                    "privateChannel", false,
-                    "response", true
-            )), true);
-            webSocket.sendClose(200, "close");
-        }
-    }
-
     private static final Logger LOGGER = Logging.handledLogger(KucoinWebsocketV2.class);
     private static final Cleaner CLEANER = Cleaner.create();
 
@@ -86,8 +62,16 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
                     new URI(server.getEndpoint() + "?token=" + connectResponse.getData().getToken() + "&connectId=" + connectId),
                     this).get();
 
-            CleanerState cleanerState = new CleanerState(webSocket, topic, topicId);
-            this.cleanable = CLEANER.register(this, cleanerState);
+            this.cleanable = CLEANER.register(this, () -> {
+                webSocket.sendText(GsonAdapters.getGson().toJson(Map.of(
+                        "id", topicId,
+                        "type", "unsubscribe",
+                        "topic", topic,
+                        "privateChannel", privateChannel,
+                        "response", true
+                )), true);
+                webSocket.sendClose(200, "close");
+            });
         } catch (RequestException | WebsocketException | URISyntaxException | InterruptedException | ExecutionException e) {
             LOGGER.severe("Unable to establish websocket connection: " + e.getMessage());
             throw new WebsocketException(e);
