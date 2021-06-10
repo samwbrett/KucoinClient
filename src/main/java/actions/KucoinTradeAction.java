@@ -67,8 +67,13 @@ public abstract class KucoinTradeAction<T> {
     }
 
     public void writeToLog(Logger logger) {
-        logger.info(getLiveActions());
-        clearLiveActions();
+        liveInfoLock.writeLock().lock();
+        try {
+            logger.info(getLiveActions());
+            clearLiveActions();
+        } finally {
+            liveInfoLock.writeLock().unlock();
+        }
     }
 
     public abstract T attempt(SymbolInfo symbolInfo);

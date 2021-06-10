@@ -7,6 +7,7 @@ import logging.Logging;
 import schemas.objects.InstanceServer;
 import schemas.responses.WebsocketConnectResponse;
 import schemas.websockets.BestOrdersMessage;
+import schemas.websockets.OrderChangeMessage;
 import schemas.websockets.SymbolTickerMessage;
 import schemas.websockets.WebsocketMessage;
 
@@ -54,13 +55,14 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
     private final Cleaner.Cleanable cleanable;
 
     private final InstanceServer server;
+    private final boolean privateChannel;
     private final String connectId;
     private final String topicId;
     private final String topic;
     private final Class<T> topicResponseClazz;
     private final WebsocketMessageHandler<T> handler;
 
-    private KucoinWebsocketV2(KucoinClientV2 client, String topic, Class<T> topicResponseClazz, WebsocketMessageHandler<T> handler) throws WebsocketException {
+    private KucoinWebsocketV2(KucoinClientV2 client, String topic, Class<T> topicResponseClazz, WebsocketMessageHandler<T> handler, boolean privateChannel) throws WebsocketException {
         try {
             KucoinClientV2Response<WebsocketConnectResponse> websocketConnect = client.websocketConnect();
             if (!websocketConnect.isSuccess()) {
@@ -74,6 +76,7 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
             }
 
             this.topic = topic;
+            this.privateChannel = privateChannel;
             this.topicResponseClazz = topicResponseClazz;
             this.handler = handler;
             this.server = instanceServers.get(0);
@@ -121,7 +124,7 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
                     "id", topicId,
                     "type", "subscribe",
                     "topic", topic,
-                    "privateChannel", false,
+                    "privateChannel", privateChannel,
                     "response", true
             )), true);
         }
@@ -156,15 +159,19 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
     }
 
     public static KucoinWebsocketV2<BestOrdersMessage> bestFiveOrders(KucoinClientV2 client, String symbol, WebsocketMessageHandler<BestOrdersMessage> handler) throws WebsocketException {
-        return new KucoinWebsocketV2<>(client, "/spotMarket/level2Depth5:" + symbol, BestOrdersMessage.class, handler);
+        return new KucoinWebsocketV2<>(client, "/spotMarket/level2Depth5:" + symbol, BestOrdersMessage.class, handler, false);
     }
 
     public static KucoinWebsocketV2<BestOrdersMessage> bestFiftyOrders(KucoinClientV2 client, String symbol, WebsocketMessageHandler<BestOrdersMessage> handler) throws WebsocketException {
-        return new KucoinWebsocketV2<>(client, "/spotMarket/level2Depth50:" + symbol, BestOrdersMessage.class, handler);
+        return new KucoinWebsocketV2<>(client, "/spotMarket/level2Depth50:" + symbol, BestOrdersMessage.class, handler, false);
     }
 
     public static KucoinWebsocketV2<SymbolTickerMessage> symbolTicker(KucoinClientV2 client, String symbol, WebsocketMessageHandler<SymbolTickerMessage> handler) throws WebsocketException {
-        return new KucoinWebsocketV2<>(client, "/market/ticker:BTC-USDT:" + symbol, SymbolTickerMessage.class, handler);
+        return new KucoinWebsocketV2<>(client, "/market/ticker:" + symbol, SymbolTickerMessage.class, handler, false);
+    }
+
+    public static KucoinWebsocketV2<OrderChangeMessage> orderChange(KucoinClientV2 client, WebsocketMessageHandler<OrderChangeMessage> handler) throws WebsocketException {
+        return new KucoinWebsocketV2<>(client, "/spotMarket/tradeOrders", OrderChangeMessage.class, handler, true);
     }
 
 }
