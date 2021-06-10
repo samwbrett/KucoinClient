@@ -1,5 +1,5 @@
 
-package schemas.responses;
+package schemas.objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,10 +7,9 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import schemas.objects.RecentOrderOrder;
 
 @Generated("jsonschema2pojo")
-public class Data__2 implements Serializable
+public class OrderList implements Serializable
 {
 
     @SerializedName("currentPage")
@@ -27,14 +26,14 @@ public class Data__2 implements Serializable
     private Long totalPage;
     @SerializedName("items")
     @Expose
-    private List<RecentOrderOrder> items = new ArrayList<RecentOrderOrder>();
-    private final static long serialVersionUID = -7835548500615333031L;
+    private List<Order> items = new ArrayList<Order>();
+    private final static long serialVersionUID = 8742480252173174939L;
 
     public Long getCurrentPage() {
         return currentPage;
     }
 
-    public Data__2 withCurrentPage(Long currentPage) {
+    public OrderList withCurrentPage(Long currentPage) {
         this.currentPage = currentPage;
         return this;
     }
@@ -43,7 +42,7 @@ public class Data__2 implements Serializable
         return pageSize;
     }
 
-    public Data__2 withPageSize(Long pageSize) {
+    public OrderList withPageSize(Long pageSize) {
         this.pageSize = pageSize;
         return this;
     }
@@ -52,7 +51,7 @@ public class Data__2 implements Serializable
         return totalNum;
     }
 
-    public Data__2 withTotalNum(Long totalNum) {
+    public OrderList withTotalNum(Long totalNum) {
         this.totalNum = totalNum;
         return this;
     }
@@ -61,16 +60,16 @@ public class Data__2 implements Serializable
         return totalPage;
     }
 
-    public Data__2 withTotalPage(Long totalPage) {
+    public OrderList withTotalPage(Long totalPage) {
         this.totalPage = totalPage;
         return this;
     }
 
-    public List<RecentOrderOrder> getItems() {
+    public List<Order> getItems() {
         return items;
     }
 
-    public Data__2 withItems(List<RecentOrderOrder> items) {
+    public OrderList withItems(List<Order> items) {
         this.items = items;
         return this;
     }
@@ -78,7 +77,7 @@ public class Data__2 implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Data__2 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(OrderList.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("currentPage");
         sb.append('=');
         sb.append(((this.currentPage == null)?"<null>":this.currentPage));
@@ -123,10 +122,10 @@ public class Data__2 implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof Data__2) == false) {
+        if ((other instanceof OrderList) == false) {
             return false;
         }
-        Data__2 rhs = ((Data__2) other);
+        OrderList rhs = ((OrderList) other);
         return ((((((this.pageSize == rhs.pageSize)||((this.pageSize!= null)&&this.pageSize.equals(rhs.pageSize)))&&((this.currentPage == rhs.currentPage)||((this.currentPage!= null)&&this.currentPage.equals(rhs.currentPage))))&&((this.totalNum == rhs.totalNum)||((this.totalNum!= null)&&this.totalNum.equals(rhs.totalNum))))&&((this.items == rhs.items)||((this.items!= null)&&this.items.equals(rhs.items))))&&((this.totalPage == rhs.totalPage)||((this.totalPage!= null)&&this.totalPage.equals(rhs.totalPage))));
     }
 

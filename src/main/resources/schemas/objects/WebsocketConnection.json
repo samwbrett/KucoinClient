@@ -1,0 +1,15 @@
+{
+  "$id": "WebsocketConnection",
+  "type": "object",
+  "properties": {
+    "instanceServers": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/InstanceServer.json"
+      }
+    },
+    "token": {
+      "type": "string"
+    }
+  }
+}

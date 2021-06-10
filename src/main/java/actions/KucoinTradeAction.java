@@ -6,6 +6,8 @@ import schemas.objects.SymbolInfo;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Logger;
 
 /**
@@ -20,7 +22,8 @@ public abstract class KucoinTradeAction<T> {
 
     private final KucoinClientV2 client;
     private final String symbol;
-    private final StringBuilder liveInfo; // Written when finished
+    private final StringBuilder liveInfo; // Write when finished
+    private final ReadWriteLock liveInfoLock = new ReentrantReadWriteLock(true);
 
     protected KucoinTradeAction(KucoinClientV2 client, String symbol) {
         this.client = client;
@@ -37,20 +40,35 @@ public abstract class KucoinTradeAction<T> {
     }
 
     protected void addLiveInfo(String info) {
-        liveInfo.append(DATE_FORMAT.format(new Date())).append("\n").append(info).append("\n");
+        liveInfoLock.writeLock().lock();
+        try {
+            liveInfo.append(DATE_FORMAT.format(new Date())).append("\n").append(info).append("\n");
+        } finally {
+            liveInfoLock.writeLock().unlock();
+        }
     }
 
     public String getLiveActions() {
-        return liveInfo.toString();
+        liveInfoLock.readLock().lock();
+        try {
+            return liveInfo.toString();
+        } finally {
+            liveInfoLock.readLock().unlock();
+        }
     }
 
     public void clearLiveActions() {
-        liveInfo.setLength(0);
+        liveInfoLock.writeLock().lock();
+        try {
+            liveInfo.setLength(0);
+        } finally {
+            liveInfoLock.writeLock().unlock();
+        }
     }
 
     public void writeToLog(Logger logger) {
-        logger.info(liveInfo.toString());
-        liveInfo.setLength(0);
+        logger.info(getLiveActions());
+        clearLiveActions();
     }
 
     public abstract T attempt(SymbolInfo symbolInfo);

@@ -1,5 +1,5 @@
 
-package schemas.responses;
+package schemas.objects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -8,7 +8,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("jsonschema2pojo")
-public class Data__1 implements Serializable
+public class SequencedSymbolTicker implements Serializable
 {
 
     @SerializedName("time")
@@ -35,13 +35,13 @@ public class Data__1 implements Serializable
     @SerializedName("bestAskSize")
     @Expose
     private Double bestAskSize;
-    private final static long serialVersionUID = -4453328676981998874L;
+    private final static long serialVersionUID = 3039696180613745719L;
 
     public LocalDateTime getTime() {
         return time;
     }
 
-    public Data__1 withTime(LocalDateTime time) {
+    public SequencedSymbolTicker withTime(LocalDateTime time) {
         this.time = time;
         return this;
     }
@@ -50,7 +50,7 @@ public class Data__1 implements Serializable
         return sequence;
     }
 
-    public Data__1 withSequence(Long sequence) {
+    public SequencedSymbolTicker withSequence(Long sequence) {
         this.sequence = sequence;
         return this;
     }
@@ -59,7 +59,7 @@ public class Data__1 implements Serializable
         return price;
     }
 
-    public Data__1 withPrice(Double price) {
+    public SequencedSymbolTicker withPrice(Double price) {
         this.price = price;
         return this;
     }
@@ -68,7 +68,7 @@ public class Data__1 implements Serializable
         return size;
     }
 
-    public Data__1 withSize(Double size) {
+    public SequencedSymbolTicker withSize(Double size) {
         this.size = size;
         return this;
     }
@@ -77,7 +77,7 @@ public class Data__1 implements Serializable
         return bestBid;
     }
 
-    public Data__1 withBestBid(Double bestBid) {
+    public SequencedSymbolTicker withBestBid(Double bestBid) {
         this.bestBid = bestBid;
         return this;
     }
@@ -86,7 +86,7 @@ public class Data__1 implements Serializable
         return bestBidSize;
     }
 
-    public Data__1 withBestBidSize(Double bestBidSize) {
+    public SequencedSymbolTicker withBestBidSize(Double bestBidSize) {
         this.bestBidSize = bestBidSize;
         return this;
     }
@@ -95,7 +95,7 @@ public class Data__1 implements Serializable
         return bestAsk;
     }
 
-    public Data__1 withBestAsk(Double bestAsk) {
+    public SequencedSymbolTicker withBestAsk(Double bestAsk) {
         this.bestAsk = bestAsk;
         return this;
     }
@@ -104,7 +104,7 @@ public class Data__1 implements Serializable
         return bestAskSize;
     }
 
-    public Data__1 withBestAskSize(Double bestAskSize) {
+    public SequencedSymbolTicker withBestAskSize(Double bestAskSize) {
         this.bestAskSize = bestAskSize;
         return this;
     }
@@ -112,7 +112,7 @@ public class Data__1 implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Data__1 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(SequencedSymbolTicker.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("time");
         sb.append('=');
         sb.append(((this.time == null)?"<null>":this.time));
@@ -172,10 +172,10 @@ public class Data__1 implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof Data__1) == false) {
+        if ((other instanceof SequencedSymbolTicker) == false) {
             return false;
         }
-        Data__1 rhs = ((Data__1) other);
+        SequencedSymbolTicker rhs = ((SequencedSymbolTicker) other);
         return (((((((((this.sequence == rhs.sequence)||((this.sequence!= null)&&this.sequence.equals(rhs.sequence)))&&((this.bestAsk == rhs.bestAsk)||((this.bestAsk!= null)&&this.bestAsk.equals(rhs.bestAsk))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.bestBidSize == rhs.bestBidSize)||((this.bestBidSize!= null)&&this.bestBidSize.equals(rhs.bestBidSize))))&&((this.time == rhs.time)||((this.time!= null)&&this.time.equals(rhs.time))))&&((this.bestBid == rhs.bestBid)||((this.bestBid!= null)&&this.bestBid.equals(rhs.bestBid))))&&((this.bestAskSize == rhs.bestAskSize)||((this.bestAskSize!= null)&&this.bestAskSize.equals(rhs.bestAskSize))));
     }
 

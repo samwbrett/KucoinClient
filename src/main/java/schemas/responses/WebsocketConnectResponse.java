@@ -5,10 +5,10 @@ import java.io.Serializable;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import schemas.objects.Order;
+import schemas.objects.WebsocketConnection;
 
 @Generated("jsonschema2pojo")
-public class GetOrderResponse implements Serializable
+public class WebsocketConnectResponse implements Serializable
 {
 
     @SerializedName("code")
@@ -16,23 +16,23 @@ public class GetOrderResponse implements Serializable
     private Long code;
     @SerializedName("data")
     @Expose
-    private Order data;
-    private final static long serialVersionUID = 360612227685442775L;
+    private WebsocketConnection data;
+    private final static long serialVersionUID = -3885994853117966798L;
 
     public Long getCode() {
         return code;
     }
 
-    public GetOrderResponse withCode(Long code) {
+    public WebsocketConnectResponse withCode(Long code) {
         this.code = code;
         return this;
     }
 
-    public Order getData() {
+    public WebsocketConnection getData() {
         return data;
     }
 
-    public GetOrderResponse withData(Order data) {
+    public WebsocketConnectResponse withData(WebsocketConnection data) {
         this.data = data;
         return this;
     }
@@ -40,7 +40,7 @@ public class GetOrderResponse implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GetOrderResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(WebsocketConnectResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("code");
         sb.append('=');
         sb.append(((this.code == null)?"<null>":this.code));
@@ -70,10 +70,10 @@ public class GetOrderResponse implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof GetOrderResponse) == false) {
+        if ((other instanceof WebsocketConnectResponse) == false) {
             return false;
         }
-        GetOrderResponse rhs = ((GetOrderResponse) other);
+        WebsocketConnectResponse rhs = ((WebsocketConnectResponse) other);
         return (((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.code == rhs.code)||((this.code!= null)&&this.code.equals(rhs.code))));
     }
 

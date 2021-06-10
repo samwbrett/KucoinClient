@@ -1,5 +1,5 @@
 
-package schemas.responses;
+package schemas.objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,22 +7,21 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import schemas.objects.BulkOrderOrder;
 
 @Generated("jsonschema2pojo")
-public class Data__3 implements Serializable
+public class BulkOrderList implements Serializable
 {
 
     @SerializedName("data")
     @Expose
-    private List<BulkOrderOrder> data = new ArrayList<BulkOrderOrder>();
-    private final static long serialVersionUID = 7881024846896978371L;
+    private List<BulkOrder> data = new ArrayList<BulkOrder>();
+    private final static long serialVersionUID = -2255969451342617363L;
 
-    public List<BulkOrderOrder> getData() {
+    public List<BulkOrder> getData() {
         return data;
     }
 
-    public Data__3 withData(List<BulkOrderOrder> data) {
+    public BulkOrderList withData(List<BulkOrder> data) {
         this.data = data;
         return this;
     }
@@ -30,7 +29,7 @@ public class Data__3 implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Data__3 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(BulkOrderList.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("data");
         sb.append('=');
         sb.append(((this.data == null)?"<null>":this.data));
@@ -55,10 +54,10 @@ public class Data__3 implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof Data__3) == false) {
+        if ((other instanceof BulkOrderList) == false) {
             return false;
         }
-        Data__3 rhs = ((Data__3) other);
+        BulkOrderList rhs = ((BulkOrderList) other);
         return ((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)));
     }
 

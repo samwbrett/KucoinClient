@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("jsonschema2pojo")
-public class BulkOrderOrder implements Serializable
+public class BulkOrder implements Serializable
 {
 
     @SerializedName("symbol")
@@ -17,10 +17,10 @@ public class BulkOrderOrder implements Serializable
     private String symbol;
     @SerializedName("type")
     @Expose
-    private BulkOrderOrder.Type type;
+    private BulkOrder.Type type;
     @SerializedName("side")
     @Expose
-    private BulkOrderOrder.Side side;
+    private BulkOrder.Side side;
     @SerializedName("price")
     @Expose
     private Double price;
@@ -32,19 +32,19 @@ public class BulkOrderOrder implements Serializable
     private Double funds;
     @SerializedName("stp")
     @Expose
-    private BulkOrderOrder.Stp stp;
+    private BulkOrder.Stp stp;
     @SerializedName("tradeType")
     @Expose
-    private BulkOrderOrder.TradeType tradeType;
+    private BulkOrder.TradeType tradeType;
     @SerializedName("stop")
     @Expose
-    private BulkOrderOrder.Stop stop;
+    private BulkOrder.Stop stop;
     @SerializedName("stopPrice")
     @Expose
     private Double stopPrice;
     @SerializedName("timeInForce")
     @Expose
-    private BulkOrderOrder.TimeInForce timeInForce;
+    private BulkOrder.TimeInForce timeInForce;
     @SerializedName("cancelAfter")
     @Expose
     private Long cancelAfter;
@@ -75,31 +75,31 @@ public class BulkOrderOrder implements Serializable
     @SerializedName("clientOid")
     @Expose
     private String clientOid;
-    private final static long serialVersionUID = -6458706936214995251L;
+    private final static long serialVersionUID = -3149376796703204716L;
 
     public String getSymbol() {
         return symbol;
     }
 
-    public BulkOrderOrder withSymbol(String symbol) {
+    public BulkOrder withSymbol(String symbol) {
         this.symbol = symbol;
         return this;
     }
 
-    public BulkOrderOrder.Type getType() {
+    public BulkOrder.Type getType() {
         return type;
     }
 
-    public BulkOrderOrder withType(BulkOrderOrder.Type type) {
+    public BulkOrder withType(BulkOrder.Type type) {
         this.type = type;
         return this;
     }
 
-    public BulkOrderOrder.Side getSide() {
+    public BulkOrder.Side getSide() {
         return side;
     }
 
-    public BulkOrderOrder withSide(BulkOrderOrder.Side side) {
+    public BulkOrder withSide(BulkOrder.Side side) {
         this.side = side;
         return this;
     }
@@ -108,7 +108,7 @@ public class BulkOrderOrder implements Serializable
         return price;
     }
 
-    public BulkOrderOrder withPrice(Double price) {
+    public BulkOrder withPrice(Double price) {
         this.price = price;
         return this;
     }
@@ -117,7 +117,7 @@ public class BulkOrderOrder implements Serializable
         return size;
     }
 
-    public BulkOrderOrder withSize(Double size) {
+    public BulkOrder withSize(Double size) {
         this.size = size;
         return this;
     }
@@ -126,34 +126,34 @@ public class BulkOrderOrder implements Serializable
         return funds;
     }
 
-    public BulkOrderOrder withFunds(Double funds) {
+    public BulkOrder withFunds(Double funds) {
         this.funds = funds;
         return this;
     }
 
-    public BulkOrderOrder.Stp getStp() {
+    public BulkOrder.Stp getStp() {
         return stp;
     }
 
-    public BulkOrderOrder withStp(BulkOrderOrder.Stp stp) {
+    public BulkOrder withStp(BulkOrder.Stp stp) {
         this.stp = stp;
         return this;
     }
 
-    public BulkOrderOrder.TradeType getTradeType() {
+    public BulkOrder.TradeType getTradeType() {
         return tradeType;
     }
 
-    public BulkOrderOrder withTradeType(BulkOrderOrder.TradeType tradeType) {
+    public BulkOrder withTradeType(BulkOrder.TradeType tradeType) {
         this.tradeType = tradeType;
         return this;
     }
 
-    public BulkOrderOrder.Stop getStop() {
+    public BulkOrder.Stop getStop() {
         return stop;
     }
 
-    public BulkOrderOrder withStop(BulkOrderOrder.Stop stop) {
+    public BulkOrder withStop(BulkOrder.Stop stop) {
         this.stop = stop;
         return this;
     }
@@ -162,16 +162,16 @@ public class BulkOrderOrder implements Serializable
         return stopPrice;
     }
 
-    public BulkOrderOrder withStopPrice(Double stopPrice) {
+    public BulkOrder withStopPrice(Double stopPrice) {
         this.stopPrice = stopPrice;
         return this;
     }
 
-    public BulkOrderOrder.TimeInForce getTimeInForce() {
+    public BulkOrder.TimeInForce getTimeInForce() {
         return timeInForce;
     }
 
-    public BulkOrderOrder withTimeInForce(BulkOrderOrder.TimeInForce timeInForce) {
+    public BulkOrder withTimeInForce(BulkOrder.TimeInForce timeInForce) {
         this.timeInForce = timeInForce;
         return this;
     }
@@ -180,7 +180,7 @@ public class BulkOrderOrder implements Serializable
         return cancelAfter;
     }
 
-    public BulkOrderOrder withCancelAfter(Long cancelAfter) {
+    public BulkOrder withCancelAfter(Long cancelAfter) {
         this.cancelAfter = cancelAfter;
         return this;
     }
@@ -189,7 +189,7 @@ public class BulkOrderOrder implements Serializable
         return postOnly;
     }
 
-    public BulkOrderOrder withPostOnly(Boolean postOnly) {
+    public BulkOrder withPostOnly(Boolean postOnly) {
         this.postOnly = postOnly;
         return this;
     }
@@ -198,7 +198,7 @@ public class BulkOrderOrder implements Serializable
         return hidden;
     }
 
-    public BulkOrderOrder withHidden(Boolean hidden) {
+    public BulkOrder withHidden(Boolean hidden) {
         this.hidden = hidden;
         return this;
     }
@@ -207,7 +207,7 @@ public class BulkOrderOrder implements Serializable
         return iceberg;
     }
 
-    public BulkOrderOrder withIceberg(Boolean iceberg) {
+    public BulkOrder withIceberg(Boolean iceberg) {
         this.iceberg = iceberg;
         return this;
     }
@@ -216,7 +216,7 @@ public class BulkOrderOrder implements Serializable
         return visibleSize;
     }
 
-    public BulkOrderOrder withVisibleSize(Double visibleSize) {
+    public BulkOrder withVisibleSize(Double visibleSize) {
         this.visibleSize = visibleSize;
         return this;
     }
@@ -225,7 +225,7 @@ public class BulkOrderOrder implements Serializable
         return channel;
     }
 
-    public BulkOrderOrder withChannel(String channel) {
+    public BulkOrder withChannel(String channel) {
         this.channel = channel;
         return this;
     }
@@ -234,7 +234,7 @@ public class BulkOrderOrder implements Serializable
         return id;
     }
 
-    public BulkOrderOrder withId(String id) {
+    public BulkOrder withId(String id) {
         this.id = id;
         return this;
     }
@@ -243,7 +243,7 @@ public class BulkOrderOrder implements Serializable
         return status;
     }
 
-    public BulkOrderOrder withStatus(String status) {
+    public BulkOrder withStatus(String status) {
         this.status = status;
         return this;
     }
@@ -252,7 +252,7 @@ public class BulkOrderOrder implements Serializable
         return failMsg;
     }
 
-    public BulkOrderOrder withFailMsg(String failMsg) {
+    public BulkOrder withFailMsg(String failMsg) {
         this.failMsg = failMsg;
         return this;
     }
@@ -261,7 +261,7 @@ public class BulkOrderOrder implements Serializable
         return clientOid;
     }
 
-    public BulkOrderOrder withClientOid(String clientOid) {
+    public BulkOrder withClientOid(String clientOid) {
         this.clientOid = clientOid;
         return this;
     }
@@ -269,7 +269,7 @@ public class BulkOrderOrder implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(BulkOrderOrder.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(BulkOrder.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("symbol");
         sb.append('=');
         sb.append(((this.symbol == null)?"<null>":this.symbol));
@@ -394,10 +394,10 @@ public class BulkOrderOrder implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof BulkOrderOrder) == false) {
+        if ((other instanceof BulkOrder) == false) {
             return false;
         }
-        BulkOrderOrder rhs = ((BulkOrderOrder) other);
+        BulkOrder rhs = ((BulkOrder) other);
         return ((((((((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.hidden == rhs.hidden)||((this.hidden!= null)&&this.hidden.equals(rhs.hidden))))&&((this.cancelAfter == rhs.cancelAfter)||((this.cancelAfter!= null)&&this.cancelAfter.equals(rhs.cancelAfter))))&&((this.channel == rhs.channel)||((this.channel!= null)&&this.channel.equals(rhs.channel))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.stp == rhs.stp)||((this.stp!= null)&&this.stp.equals(rhs.stp))))&&((this.postOnly == rhs.postOnly)||((this.postOnly!= null)&&this.postOnly.equals(rhs.postOnly))))&&((this.stopPrice == rhs.stopPrice)||((this.stopPrice!= null)&&this.stopPrice.equals(rhs.stopPrice))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.stop == rhs.stop)||((this.stop!= null)&&this.stop.equals(rhs.stop))))&&((this.visibleSize == rhs.visibleSize)||((this.visibleSize!= null)&&this.visibleSize.equals(rhs.visibleSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.iceberg == rhs.iceberg)||((this.iceberg!= null)&&this.iceberg.equals(rhs.iceberg))))&&((this.failMsg == rhs.failMsg)||((this.failMsg!= null)&&this.failMsg.equals(rhs.failMsg))))&&((this.funds == rhs.funds)||((this.funds!= null)&&this.funds.equals(rhs.funds))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.timeInForce == rhs.timeInForce)||((this.timeInForce!= null)&&this.timeInForce.equals(rhs.timeInForce))))&&((this.tradeType == rhs.tradeType)||((this.tradeType!= null)&&this.tradeType.equals(rhs.tradeType))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))))&&((this.status == rhs.status)||((this.status!= null)&&this.status.equals(rhs.status))));
     }
 
@@ -409,10 +409,10 @@ public class BulkOrderOrder implements Serializable
         @SerializedName("sell")
         SELL("sell");
         private final String value;
-        private final static Map<String, BulkOrderOrder.Side> CONSTANTS = new HashMap<String, BulkOrderOrder.Side>();
+        private final static Map<String, BulkOrder.Side> CONSTANTS = new HashMap<String, BulkOrder.Side>();
 
         static {
-            for (BulkOrderOrder.Side c: values()) {
+            for (BulkOrder.Side c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -430,8 +430,8 @@ public class BulkOrderOrder implements Serializable
             return this.value;
         }
 
-        public static BulkOrderOrder.Side fromValue(String value) {
-            BulkOrderOrder.Side constant = CONSTANTS.get(value);
+        public static BulkOrder.Side fromValue(String value) {
+            BulkOrder.Side constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -449,10 +449,10 @@ public class BulkOrderOrder implements Serializable
         @SerializedName("entry")
         ENTRY("entry");
         private final String value;
-        private final static Map<String, BulkOrderOrder.Stop> CONSTANTS = new HashMap<String, BulkOrderOrder.Stop>();
+        private final static Map<String, BulkOrder.Stop> CONSTANTS = new HashMap<String, BulkOrder.Stop>();
 
         static {
-            for (BulkOrderOrder.Stop c: values()) {
+            for (BulkOrder.Stop c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -470,8 +470,8 @@ public class BulkOrderOrder implements Serializable
             return this.value;
         }
 
-        public static BulkOrderOrder.Stop fromValue(String value) {
-            BulkOrderOrder.Stop constant = CONSTANTS.get(value);
+        public static BulkOrder.Stop fromValue(String value) {
+            BulkOrder.Stop constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -493,10 +493,10 @@ public class BulkOrderOrder implements Serializable
         @SerializedName("DC")
         DC("DC");
         private final String value;
-        private final static Map<String, BulkOrderOrder.Stp> CONSTANTS = new HashMap<String, BulkOrderOrder.Stp>();
+        private final static Map<String, BulkOrder.Stp> CONSTANTS = new HashMap<String, BulkOrder.Stp>();
 
         static {
-            for (BulkOrderOrder.Stp c: values()) {
+            for (BulkOrder.Stp c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -514,8 +514,8 @@ public class BulkOrderOrder implements Serializable
             return this.value;
         }
 
-        public static BulkOrderOrder.Stp fromValue(String value) {
-            BulkOrderOrder.Stp constant = CONSTANTS.get(value);
+        public static BulkOrder.Stp fromValue(String value) {
+            BulkOrder.Stp constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -537,10 +537,10 @@ public class BulkOrderOrder implements Serializable
         @SerializedName("FOK")
         FOK("FOK");
         private final String value;
-        private final static Map<String, BulkOrderOrder.TimeInForce> CONSTANTS = new HashMap<String, BulkOrderOrder.TimeInForce>();
+        private final static Map<String, BulkOrder.TimeInForce> CONSTANTS = new HashMap<String, BulkOrder.TimeInForce>();
 
         static {
-            for (BulkOrderOrder.TimeInForce c: values()) {
+            for (BulkOrder.TimeInForce c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -558,8 +558,8 @@ public class BulkOrderOrder implements Serializable
             return this.value;
         }
 
-        public static BulkOrderOrder.TimeInForce fromValue(String value) {
-            BulkOrderOrder.TimeInForce constant = CONSTANTS.get(value);
+        public static BulkOrder.TimeInForce fromValue(String value) {
+            BulkOrder.TimeInForce constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -577,10 +577,10 @@ public class BulkOrderOrder implements Serializable
         @SerializedName("MARGIN_TRADE")
         MARGIN_TRADE("MARGIN_TRADE");
         private final String value;
-        private final static Map<String, BulkOrderOrder.TradeType> CONSTANTS = new HashMap<String, BulkOrderOrder.TradeType>();
+        private final static Map<String, BulkOrder.TradeType> CONSTANTS = new HashMap<String, BulkOrder.TradeType>();
 
         static {
-            for (BulkOrderOrder.TradeType c: values()) {
+            for (BulkOrder.TradeType c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -598,8 +598,8 @@ public class BulkOrderOrder implements Serializable
             return this.value;
         }
 
-        public static BulkOrderOrder.TradeType fromValue(String value) {
-            BulkOrderOrder.TradeType constant = CONSTANTS.get(value);
+        public static BulkOrder.TradeType fromValue(String value) {
+            BulkOrder.TradeType constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -617,10 +617,10 @@ public class BulkOrderOrder implements Serializable
         @SerializedName("market")
         MARKET("market");
         private final String value;
-        private final static Map<String, BulkOrderOrder.Type> CONSTANTS = new HashMap<String, BulkOrderOrder.Type>();
+        private final static Map<String, BulkOrder.Type> CONSTANTS = new HashMap<String, BulkOrder.Type>();
 
         static {
-            for (BulkOrderOrder.Type c: values()) {
+            for (BulkOrder.Type c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -638,8 +638,8 @@ public class BulkOrderOrder implements Serializable
             return this.value;
         }
 
-        public static BulkOrderOrder.Type fromValue(String value) {
-            BulkOrderOrder.Type constant = CONSTANTS.get(value);
+        public static BulkOrder.Type fromValue(String value) {
+            BulkOrder.Type constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {

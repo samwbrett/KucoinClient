@@ -28,7 +28,14 @@ public enum CoinCurrency {
     LSS,
     ABBC,
     KOK,
-    POLS;
+    POLS,
+    ZCX,
+    ROSN,
+    DORA,
+    GMEE,
+    NORD,
+    XAVA,
+    SFUND;
 
     public static String getSymbol(CoinCurrency baseCoin, CoinCurrency quoteCoin) {
         return baseCoin + "-" + quoteCoin;

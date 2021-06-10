@@ -1,5 +1,5 @@
 
-package schemas.responses;
+package schemas.objects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -8,10 +8,9 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import schemas.objects.PriceSize;
 
 @Generated("jsonschema2pojo")
-public class Data implements Serializable
+public class SequencedOrderBook implements Serializable
 {
 
     @SerializedName("time")
@@ -26,13 +25,13 @@ public class Data implements Serializable
     @SerializedName("asks")
     @Expose
     private List<PriceSize> asks = new ArrayList<PriceSize>();
-    private final static long serialVersionUID = -3025336328051016785L;
+    private final static long serialVersionUID = -5565223741481187809L;
 
     public LocalDateTime getTime() {
         return time;
     }
 
-    public Data withTime(LocalDateTime time) {
+    public SequencedOrderBook withTime(LocalDateTime time) {
         this.time = time;
         return this;
     }
@@ -41,7 +40,7 @@ public class Data implements Serializable
         return sequence;
     }
 
-    public Data withSequence(Long sequence) {
+    public SequencedOrderBook withSequence(Long sequence) {
         this.sequence = sequence;
         return this;
     }
@@ -50,7 +49,7 @@ public class Data implements Serializable
         return bids;
     }
 
-    public Data withBids(List<PriceSize> bids) {
+    public SequencedOrderBook withBids(List<PriceSize> bids) {
         this.bids = bids;
         return this;
     }
@@ -59,7 +58,7 @@ public class Data implements Serializable
         return asks;
     }
 
-    public Data withAsks(List<PriceSize> asks) {
+    public SequencedOrderBook withAsks(List<PriceSize> asks) {
         this.asks = asks;
         return this;
     }
@@ -67,7 +66,7 @@ public class Data implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Data.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(SequencedOrderBook.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("time");
         sb.append('=');
         sb.append(((this.time == null)?"<null>":this.time));
@@ -107,10 +106,10 @@ public class Data implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof Data) == false) {
+        if ((other instanceof SequencedOrderBook) == false) {
             return false;
         }
-        Data rhs = ((Data) other);
+        SequencedOrderBook rhs = ((SequencedOrderBook) other);
         return (((((this.bids == rhs.bids)||((this.bids!= null)&&this.bids.equals(rhs.bids)))&&((this.sequence == rhs.sequence)||((this.sequence!= null)&&this.sequence.equals(rhs.sequence))))&&((this.time == rhs.time)||((this.time!= null)&&this.time.equals(rhs.time))))&&((this.asks == rhs.asks)||((this.asks!= null)&&this.asks.equals(rhs.asks))));
     }
 

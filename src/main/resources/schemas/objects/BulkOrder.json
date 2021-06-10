@@ -1,5 +1,5 @@
 {
-  "$id": "BulkOrderOrder",
+  "$id": "BulkOrder",
   "type": "object",
   "properties": {
     "symbol": {

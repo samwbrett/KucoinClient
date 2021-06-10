@@ -8,7 +8,7 @@
     "orderList": {
       "type": "array",
       "items": {
-        "$ref": "../objects/BulkOrderOrder.json",
+        "$ref": "../objects/BulkOrder.json",
         "maxItems": 5
       }
     }

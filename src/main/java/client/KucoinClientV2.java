@@ -22,10 +22,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class KucoinClientV2 {
@@ -36,9 +33,9 @@ public class KucoinClientV2 {
 
     private static final String SIGNATURE = "KC-API-SIGN";
     private static final String TIMESTAMP = "KC-API-TIMESTAMP";
-    public static final String KEY = "KC-API-KEY";
-    public static final String SECRET = "KC-API-SECRET";
-    public static final String PASSPHRASE = "KC-API-PASSPHRASE";
+    private static final String KEY = "KC-API-KEY";
+    private static final String SECRET = "KC-API-SECRET";
+    private static final String PASSPHRASE = "KC-API-PASSPHRASE";
     private static final String KEY_VERSION = "KC-API-KEY-VERSION";
 
     private final Properties properties;
@@ -55,6 +52,14 @@ public class KucoinClientV2 {
             LOGGER.severe("Could not read config file: " + e.getMessage());
             throw new ConfigurationException(e);
         }
+    }
+
+    HttpClient getHttpClient() {
+        return client;
+    }
+
+    KucoinClientV2Response<WebsocketConnectResponse> websocketConnect() throws RequestException {
+        return POST("/api/v1/bullet-private", Collections.emptyMap(), WebsocketConnectResponse.class, WebsocketConnectResponse::getCode, new WebsocketConnectResponse());
     }
 
     public KucoinClientV2Response<PostOrderResponse> postOrder(PostOrderRequest request) throws RequestException {
@@ -122,7 +127,7 @@ public class KucoinClientV2 {
                     builder = builder.header(header.getKey(), header.getValue());
                 }
             }
-            if (requestType == RequestType.POST && data != null) {
+            if (requestType == RequestType.POST) {
                 builder = builder.POST(HttpRequest.BodyPublishers.ofString(GsonAdapters.getGson().toJson(data)));
             }
             HttpRequest request = builder.build();

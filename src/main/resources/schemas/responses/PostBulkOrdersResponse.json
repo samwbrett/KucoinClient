@@ -6,15 +6,7 @@
       "type": "integer"
     },
     "data": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "type": "array",
-          "items": {
-            "$ref": "../objects/BulkOrderOrder.json"
-          }
-        }
-      }
+      "$ref": "../objects/BulkOrderList.json"
     }
   }
 }

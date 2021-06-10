@@ -2,20 +2,25 @@ package gson;
 
 import com.google.gson.*;
 import logging.Logging;
-import schemas.responses.Data;
+import schemas.objects.OrderBook;
+import schemas.objects.SequencedOrderBook;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.logging.Logger;
 
+/**
+ * TODO: Should use an actual adapter for when transitioning to a higher performance JSON parser
+ */
 public class GsonAdapters {
 
     private static final Logger LOGGER = Logging.handledLogger(GsonAdapters.class);
 
     private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(Data.class, new GetOrderBookResponseDataDeserializer())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter())
+            .registerTypeAdapter(SequencedOrderBook.class, new SequencedOrderBookDeserializer())
+            .registerTypeAdapter(OrderBook.class, new OrderBookDeserializer())
             .create();
 
     public static Gson getGson() {

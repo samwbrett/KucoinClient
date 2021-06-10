@@ -7,7 +7,7 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import schemas.objects.RecentOrderOrder;
+import schemas.objects.Order;
 
 @Generated("jsonschema2pojo")
 public class GetRecentOrdersResponse implements Serializable
@@ -18,8 +18,8 @@ public class GetRecentOrdersResponse implements Serializable
     private Long code;
     @SerializedName("data")
     @Expose
-    private List<RecentOrderOrder> data = new ArrayList<RecentOrderOrder>();
-    private final static long serialVersionUID = -5214956043639451434L;
+    private List<Order> data = new ArrayList<Order>();
+    private final static long serialVersionUID = -7745272004437316088L;
 
     public Long getCode() {
         return code;
@@ -30,11 +30,11 @@ public class GetRecentOrdersResponse implements Serializable
         return this;
     }
 
-    public List<RecentOrderOrder> getData() {
+    public List<Order> getData() {
         return data;
     }
 
-    public GetRecentOrdersResponse withData(List<RecentOrderOrder> data) {
+    public GetRecentOrdersResponse withData(List<Order> data) {
         this.data = data;
         return this;
     }

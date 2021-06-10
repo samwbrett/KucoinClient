@@ -1,0 +1,24 @@
+{
+  "$id": "ListOrdersData",
+  "type": "object",
+  "properties": {
+    "currentPage": {
+      "type": "integer"
+    },
+    "pageSize": {
+      "type": "integer"
+    },
+    "totalNum": {
+      "type": "integer"
+    },
+    "totalPage": {
+      "type": "integer"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./Order.json"
+      }
+    }
+  }
+}

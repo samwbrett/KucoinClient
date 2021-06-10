@@ -1,0 +1,22 @@
+{
+  "$id": "OrderBook",
+  "type": "object",
+  "properties": {
+    "bids": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/PriceSize.json"
+      }
+    },
+    "asks": {
+      "type": "array",
+      "items": {
+        "$ref": "../objects/PriceSize.json"
+      }
+    },
+    "timestamp": {
+      "type": "integer",
+      "format": "date-time"
+    }
+  }
+}

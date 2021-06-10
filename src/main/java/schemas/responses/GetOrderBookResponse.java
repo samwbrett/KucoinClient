@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import schemas.objects.SequencedOrderBook;
 
 @Generated("jsonschema2pojo")
 public class GetOrderBookResponse implements Serializable
@@ -15,8 +16,8 @@ public class GetOrderBookResponse implements Serializable
     private Long code;
     @SerializedName("data")
     @Expose
-    private Data data;
-    private final static long serialVersionUID = -1124121259554462167L;
+    private SequencedOrderBook data;
+    private final static long serialVersionUID = 5660293703650764893L;
 
     public Long getCode() {
         return code;
@@ -27,11 +28,11 @@ public class GetOrderBookResponse implements Serializable
         return this;
     }
 
-    public Data getData() {
+    public SequencedOrderBook getData() {
         return data;
     }
 
-    public GetOrderBookResponse withData(Data data) {
+    public GetOrderBookResponse withData(SequencedOrderBook data) {
         this.data = data;
         return this;
     }

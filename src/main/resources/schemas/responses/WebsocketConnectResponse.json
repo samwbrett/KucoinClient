@@ -1,12 +1,12 @@
 {
-  "$id": "ListOrdersResponse",
+  "$id": "WebsocketConnectResponse",
   "type": "object",
   "properties": {
     "code": {
       "type": "integer"
     },
     "data": {
-      "$ref": "../objects/OrderList.json"
+      "$ref": "../objects/WebsocketConnection.json"
     }
   }
 }

@@ -13,7 +13,7 @@ import org.json.JSONTokener;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import schemas.objects.BulkOrderOrder;
+import schemas.objects.BulkOrder;
 import schemas.parameters.ListOrdersParameters;
 import schemas.requests.PostBulkOrdersRequest;
 import schemas.requests.PostOrderRequest;
@@ -135,13 +135,13 @@ public class EndpointTests {
     public void testPostBulkOrdersResponse() throws ValidationException, RequestException, IOException {
         testEndpoint(() -> CLIENT.postBulkOrders(new PostBulkOrdersRequest()
                 .withSymbol(CoinCurrency.getSymbol(CoinCurrency.KCS, CoinCurrency.USDT))
-                .withOrderList(Arrays.asList(new BulkOrderOrder()
+                .withOrderList(Arrays.asList(new BulkOrder()
                         .withSize(0.01)
                         .withPrice(0.01)
                         .withClientOid(UUID.randomUUID().toString())
                         .withSymbol(CoinCurrency.getSymbol(CoinCurrency.KCS, CoinCurrency.USDT))
-                        .withSide(BulkOrderOrder.Side.BUY)
-                        .withType(BulkOrderOrder.Type.LIMIT)))), "/responses/PostBulkOrdersResponse.json", PostBulkOrdersResponse.class);
+                        .withSide(BulkOrder.Side.BUY)
+                        .withType(BulkOrder.Type.LIMIT)))), "/responses/PostBulkOrdersResponse.json", PostBulkOrdersResponse.class);
     }
 
 }

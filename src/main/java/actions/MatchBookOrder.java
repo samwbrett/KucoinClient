@@ -17,7 +17,7 @@ import java.util.*;
  * May place multiple orders if the size of a given order on the book is too small.
  * Intended behavior is to return null on an unsuccessful attempt
  */
-public class MatchBookOrder extends KucoinTradeAction<Collection<RecentOrderOrder>> {
+public class MatchBookOrder extends KucoinTradeAction<Collection<Order>> {
 
     private static final double DEFAULT_MAX_PERCENT_DIFF_MAX = 100;
     private static final int DEFAULT_THRESHOLD_HISTORIES = 0;
@@ -28,7 +28,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<RecentOrderOrde
     private int thresholdHistories;
     private boolean postOnly;
 
-    private final Map<String, RecentOrderOrder> executedOrders = new HashMap<>(); // Order id to order response
+    private final Map<String, Order> executedOrders = new HashMap<>(); // Order id to order response
 
     public MatchBookOrder(KucoinClientV2 client, String symbol, ListOrdersParameters.Side tradeSide, double size) {
         super(client, symbol);
@@ -52,7 +52,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<RecentOrderOrde
     }
 
     @Override
-    public Collection<RecentOrderOrder> attempt(SymbolInfo symbolInfo) {
+    public Collection<Order> attempt(SymbolInfo symbolInfo) {
 
         try {
             addLiveInfo(getSymbol());
@@ -80,7 +80,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<RecentOrderOrde
             }
 
             // Test the prices on the reverse side
-            Data orderData = orderBookResponse.getResponseBody().getData();
+            SequencedOrderBook orderData = orderBookResponse.getResponseBody().getData();
             List<PriceSize> reverseOrders = tradeSide == ListOrdersParameters.Side.BUY ? orderData.getAsks() : orderData.getBids();
             if (reverseOrders.isEmpty()) {
                 addLiveInfo("No orders on the reverse side");
@@ -138,19 +138,19 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<RecentOrderOrde
             }
 
             // Attempt to place the orders
-            List<BulkOrderOrder> toTradeBulkOrders = new ArrayList<>(prices.size());
+            List<BulkOrder> toTradeBulkOrders = new ArrayList<>(prices.size());
             for (int i = 0; i != prices.size(); i++) {
 
                 double price = prices.get(i);
                 double size = sizes.get(i);
 
                 toTradeBulkOrders.add(
-                        new BulkOrderOrder()
+                        new BulkOrder()
                                 .withClientOid(UUID.randomUUID().toString())
-                                .withSide(BulkOrderOrder.Side.fromValue(tradeSide.value()))
+                                .withSide(BulkOrder.Side.fromValue(tradeSide.value()))
                                 .withSymbol(getSymbol())
-                                .withType(BulkOrderOrder.Type.LIMIT)
-                                .withTimeInForce(BulkOrderOrder.TimeInForce.GTT)
+                                .withType(BulkOrder.Type.LIMIT)
+                                .withTimeInForce(BulkOrder.TimeInForce.GTT)
                                 .withCancelAfter(1L)
                                 .withPrice(price)
                                 .withSize(size)
@@ -173,7 +173,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<RecentOrderOrde
                 for (KucoinClientV2Response<PostBulkOrdersResponse> bulkOrdersResponse : bulkOrdersResponses) {
                     if (bulkOrdersResponse.isSuccess()) {
 
-                        for (BulkOrderOrder recentOrder : bulkOrdersResponse.getResponseBody().getData().getData()) {
+                        for (BulkOrder recentOrder : bulkOrdersResponse.getResponseBody().getData().getData()) {
                             if (recentOrder.getFailMsg() != null && !recentOrder.getFailMsg().isEmpty()) {
                                 addLiveInfo(recentOrder.toString());
                                 continue;
@@ -182,7 +182,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<RecentOrderOrde
                             if (!executedOrders.containsKey(recentOrder.getId())) {
 
                                 KucoinClientV2Response<GetOrderResponse> orderResponse = getClient().getOrder(recentOrder.getId());
-                                RecentOrderOrder order = orderResponse.getResponseBody().getData();
+                                Order order = orderResponse.getResponseBody().getData();
                                 if (order.getIsActive()) {
                                     allFinished = false;
                                 } else {

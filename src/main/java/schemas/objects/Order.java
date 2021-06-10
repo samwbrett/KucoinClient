@@ -10,7 +10,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("jsonschema2pojo")
-public class RecentOrderOrder implements Serializable
+public class Order implements Serializable
 {
 
     @SerializedName("id")
@@ -21,13 +21,13 @@ public class RecentOrderOrder implements Serializable
     private String symbol;
     @SerializedName("opType")
     @Expose
-    private RecentOrderOrder.OpType opType;
+    private Order.OpType opType;
     @SerializedName("type")
     @Expose
-    private RecentOrderOrder.Type type;
+    private Order.Type type;
     @SerializedName("side")
     @Expose
-    private RecentOrderOrder.Side side;
+    private Order.Side side;
     @SerializedName("price")
     @Expose
     private Double price;
@@ -51,7 +51,7 @@ public class RecentOrderOrder implements Serializable
     private String feeCurrency;
     @SerializedName("stp")
     @Expose
-    private RecentOrderOrder.Stp stp;
+    private Order.Stp stp;
     @SerializedName("stop")
     @Expose
     private String stop;
@@ -63,7 +63,7 @@ public class RecentOrderOrder implements Serializable
     private String stopPrice;
     @SerializedName("timeInForce")
     @Expose
-    private RecentOrderOrder.TimeInForce timeInForce;
+    private Order.TimeInForce timeInForce;
     @SerializedName("postOnly")
     @Expose
     private Boolean postOnly;
@@ -96,14 +96,14 @@ public class RecentOrderOrder implements Serializable
     private LocalDateTime createdAt;
     @SerializedName("tradeType")
     @Expose
-    private RecentOrderOrder.TradeType tradeType;
-    private final static long serialVersionUID = 7045642601621562410L;
+    private Order.TradeType tradeType;
+    private final static long serialVersionUID = 6839241195832823240L;
 
     public String getId() {
         return id;
     }
 
-    public RecentOrderOrder withId(String id) {
+    public Order withId(String id) {
         this.id = id;
         return this;
     }
@@ -112,34 +112,34 @@ public class RecentOrderOrder implements Serializable
         return symbol;
     }
 
-    public RecentOrderOrder withSymbol(String symbol) {
+    public Order withSymbol(String symbol) {
         this.symbol = symbol;
         return this;
     }
 
-    public RecentOrderOrder.OpType getOpType() {
+    public Order.OpType getOpType() {
         return opType;
     }
 
-    public RecentOrderOrder withOpType(RecentOrderOrder.OpType opType) {
+    public Order withOpType(Order.OpType opType) {
         this.opType = opType;
         return this;
     }
 
-    public RecentOrderOrder.Type getType() {
+    public Order.Type getType() {
         return type;
     }
 
-    public RecentOrderOrder withType(RecentOrderOrder.Type type) {
+    public Order withType(Order.Type type) {
         this.type = type;
         return this;
     }
 
-    public RecentOrderOrder.Side getSide() {
+    public Order.Side getSide() {
         return side;
     }
 
-    public RecentOrderOrder withSide(RecentOrderOrder.Side side) {
+    public Order withSide(Order.Side side) {
         this.side = side;
         return this;
     }
@@ -148,7 +148,7 @@ public class RecentOrderOrder implements Serializable
         return price;
     }
 
-    public RecentOrderOrder withPrice(Double price) {
+    public Order withPrice(Double price) {
         this.price = price;
         return this;
     }
@@ -157,7 +157,7 @@ public class RecentOrderOrder implements Serializable
         return size;
     }
 
-    public RecentOrderOrder withSize(Double size) {
+    public Order withSize(Double size) {
         this.size = size;
         return this;
     }
@@ -166,7 +166,7 @@ public class RecentOrderOrder implements Serializable
         return funds;
     }
 
-    public RecentOrderOrder withFunds(Double funds) {
+    public Order withFunds(Double funds) {
         this.funds = funds;
         return this;
     }
@@ -175,7 +175,7 @@ public class RecentOrderOrder implements Serializable
         return dealFunds;
     }
 
-    public RecentOrderOrder withDealFunds(Double dealFunds) {
+    public Order withDealFunds(Double dealFunds) {
         this.dealFunds = dealFunds;
         return this;
     }
@@ -184,7 +184,7 @@ public class RecentOrderOrder implements Serializable
         return dealSize;
     }
 
-    public RecentOrderOrder withDealSize(Double dealSize) {
+    public Order withDealSize(Double dealSize) {
         this.dealSize = dealSize;
         return this;
     }
@@ -193,7 +193,7 @@ public class RecentOrderOrder implements Serializable
         return fee;
     }
 
-    public RecentOrderOrder withFee(Double fee) {
+    public Order withFee(Double fee) {
         this.fee = fee;
         return this;
     }
@@ -202,16 +202,16 @@ public class RecentOrderOrder implements Serializable
         return feeCurrency;
     }
 
-    public RecentOrderOrder withFeeCurrency(String feeCurrency) {
+    public Order withFeeCurrency(String feeCurrency) {
         this.feeCurrency = feeCurrency;
         return this;
     }
 
-    public RecentOrderOrder.Stp getStp() {
+    public Order.Stp getStp() {
         return stp;
     }
 
-    public RecentOrderOrder withStp(RecentOrderOrder.Stp stp) {
+    public Order withStp(Order.Stp stp) {
         this.stp = stp;
         return this;
     }
@@ -220,7 +220,7 @@ public class RecentOrderOrder implements Serializable
         return stop;
     }
 
-    public RecentOrderOrder withStop(String stop) {
+    public Order withStop(String stop) {
         this.stop = stop;
         return this;
     }
@@ -229,7 +229,7 @@ public class RecentOrderOrder implements Serializable
         return stopTriggered;
     }
 
-    public RecentOrderOrder withStopTriggered(Boolean stopTriggered) {
+    public Order withStopTriggered(Boolean stopTriggered) {
         this.stopTriggered = stopTriggered;
         return this;
     }
@@ -238,16 +238,16 @@ public class RecentOrderOrder implements Serializable
         return stopPrice;
     }
 
-    public RecentOrderOrder withStopPrice(String stopPrice) {
+    public Order withStopPrice(String stopPrice) {
         this.stopPrice = stopPrice;
         return this;
     }
 
-    public RecentOrderOrder.TimeInForce getTimeInForce() {
+    public Order.TimeInForce getTimeInForce() {
         return timeInForce;
     }
 
-    public RecentOrderOrder withTimeInForce(RecentOrderOrder.TimeInForce timeInForce) {
+    public Order withTimeInForce(Order.TimeInForce timeInForce) {
         this.timeInForce = timeInForce;
         return this;
     }
@@ -256,7 +256,7 @@ public class RecentOrderOrder implements Serializable
         return postOnly;
     }
 
-    public RecentOrderOrder withPostOnly(Boolean postOnly) {
+    public Order withPostOnly(Boolean postOnly) {
         this.postOnly = postOnly;
         return this;
     }
@@ -265,7 +265,7 @@ public class RecentOrderOrder implements Serializable
         return hidden;
     }
 
-    public RecentOrderOrder withHidden(Boolean hidden) {
+    public Order withHidden(Boolean hidden) {
         this.hidden = hidden;
         return this;
     }
@@ -274,7 +274,7 @@ public class RecentOrderOrder implements Serializable
         return iceberg;
     }
 
-    public RecentOrderOrder withIceberg(Boolean iceberg) {
+    public Order withIceberg(Boolean iceberg) {
         this.iceberg = iceberg;
         return this;
     }
@@ -283,7 +283,7 @@ public class RecentOrderOrder implements Serializable
         return visibleSize;
     }
 
-    public RecentOrderOrder withVisibleSize(Double visibleSize) {
+    public Order withVisibleSize(Double visibleSize) {
         this.visibleSize = visibleSize;
         return this;
     }
@@ -292,7 +292,7 @@ public class RecentOrderOrder implements Serializable
         return cancelAfter;
     }
 
-    public RecentOrderOrder withCancelAfter(Long cancelAfter) {
+    public Order withCancelAfter(Long cancelAfter) {
         this.cancelAfter = cancelAfter;
         return this;
     }
@@ -301,7 +301,7 @@ public class RecentOrderOrder implements Serializable
         return channel;
     }
 
-    public RecentOrderOrder withChannel(String channel) {
+    public Order withChannel(String channel) {
         this.channel = channel;
         return this;
     }
@@ -310,7 +310,7 @@ public class RecentOrderOrder implements Serializable
         return clientOid;
     }
 
-    public RecentOrderOrder withClientOid(String clientOid) {
+    public Order withClientOid(String clientOid) {
         this.clientOid = clientOid;
         return this;
     }
@@ -319,7 +319,7 @@ public class RecentOrderOrder implements Serializable
         return isActive;
     }
 
-    public RecentOrderOrder withIsActive(Boolean isActive) {
+    public Order withIsActive(Boolean isActive) {
         this.isActive = isActive;
         return this;
     }
@@ -328,7 +328,7 @@ public class RecentOrderOrder implements Serializable
         return cancelExist;
     }
 
-    public RecentOrderOrder withCancelExist(Boolean cancelExist) {
+    public Order withCancelExist(Boolean cancelExist) {
         this.cancelExist = cancelExist;
         return this;
     }
@@ -337,16 +337,16 @@ public class RecentOrderOrder implements Serializable
         return createdAt;
     }
 
-    public RecentOrderOrder withCreatedAt(LocalDateTime createdAt) {
+    public Order withCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
 
-    public RecentOrderOrder.TradeType getTradeType() {
+    public Order.TradeType getTradeType() {
         return tradeType;
     }
 
-    public RecentOrderOrder withTradeType(RecentOrderOrder.TradeType tradeType) {
+    public Order withTradeType(Order.TradeType tradeType) {
         this.tradeType = tradeType;
         return this;
     }
@@ -354,7 +354,7 @@ public class RecentOrderOrder implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(RecentOrderOrder.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Order.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
@@ -514,10 +514,10 @@ public class RecentOrderOrder implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof RecentOrderOrder) == false) {
+        if ((other instanceof Order) == false) {
             return false;
         }
-        RecentOrderOrder rhs = ((RecentOrderOrder) other);
+        Order rhs = ((Order) other);
         return (((((((((((((((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.hidden == rhs.hidden)||((this.hidden!= null)&&this.hidden.equals(rhs.hidden))))&&((this.opType == rhs.opType)||((this.opType!= null)&&this.opType.equals(rhs.opType))))&&((this.fee == rhs.fee)||((this.fee!= null)&&this.fee.equals(rhs.fee))))&&((this.channel == rhs.channel)||((this.channel!= null)&&this.channel.equals(rhs.channel))))&&((this.feeCurrency == rhs.feeCurrency)||((this.feeCurrency!= null)&&this.feeCurrency.equals(rhs.feeCurrency))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.isActive == rhs.isActive)||((this.isActive!= null)&&this.isActive.equals(rhs.isActive))))&&((this.createdAt == rhs.createdAt)||((this.createdAt!= null)&&this.createdAt.equals(rhs.createdAt))))&&((this.visibleSize == rhs.visibleSize)||((this.visibleSize!= null)&&this.visibleSize.equals(rhs.visibleSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.iceberg == rhs.iceberg)||((this.iceberg!= null)&&this.iceberg.equals(rhs.iceberg))))&&((this.stopTriggered == rhs.stopTriggered)||((this.stopTriggered!= null)&&this.stopTriggered.equals(rhs.stopTriggered))))&&((this.funds == rhs.funds)||((this.funds!= null)&&this.funds.equals(rhs.funds))))&&((this.id == rhs.id)||((this.id!= null)&&this.id.equals(rhs.id))))&&((this.timeInForce == rhs.timeInForce)||((this.timeInForce!= null)&&this.timeInForce.equals(rhs.timeInForce))))&&((this.tradeType == rhs.tradeType)||((this.tradeType!= null)&&this.tradeType.equals(rhs.tradeType))))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.dealSize == rhs.dealSize)||((this.dealSize!= null)&&this.dealSize.equals(rhs.dealSize))))&&((this.cancelAfter == rhs.cancelAfter)||((this.cancelAfter!= null)&&this.cancelAfter.equals(rhs.cancelAfter))))&&((this.dealFunds == rhs.dealFunds)||((this.dealFunds!= null)&&this.dealFunds.equals(rhs.dealFunds))))&&((this.stp == rhs.stp)||((this.stp!= null)&&this.stp.equals(rhs.stp))))&&((this.postOnly == rhs.postOnly)||((this.postOnly!= null)&&this.postOnly.equals(rhs.postOnly))))&&((this.stopPrice == rhs.stopPrice)||((this.stopPrice!= null)&&this.stopPrice.equals(rhs.stopPrice))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.stop == rhs.stop)||((this.stop!= null)&&this.stop.equals(rhs.stop))))&&((this.cancelExist == rhs.cancelExist)||((this.cancelExist!= null)&&this.cancelExist.equals(rhs.cancelExist))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))));
     }
 
@@ -527,10 +527,10 @@ public class RecentOrderOrder implements Serializable
         @SerializedName("DEAL")
         DEAL("DEAL");
         private final String value;
-        private final static Map<String, RecentOrderOrder.OpType> CONSTANTS = new HashMap<String, RecentOrderOrder.OpType>();
+        private final static Map<String, Order.OpType> CONSTANTS = new HashMap<String, Order.OpType>();
 
         static {
-            for (RecentOrderOrder.OpType c: values()) {
+            for (Order.OpType c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -548,8 +548,8 @@ public class RecentOrderOrder implements Serializable
             return this.value;
         }
 
-        public static RecentOrderOrder.OpType fromValue(String value) {
-            RecentOrderOrder.OpType constant = CONSTANTS.get(value);
+        public static Order.OpType fromValue(String value) {
+            Order.OpType constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -567,10 +567,10 @@ public class RecentOrderOrder implements Serializable
         @SerializedName("sell")
         SELL("sell");
         private final String value;
-        private final static Map<String, RecentOrderOrder.Side> CONSTANTS = new HashMap<String, RecentOrderOrder.Side>();
+        private final static Map<String, Order.Side> CONSTANTS = new HashMap<String, Order.Side>();
 
         static {
-            for (RecentOrderOrder.Side c: values()) {
+            for (Order.Side c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -588,8 +588,8 @@ public class RecentOrderOrder implements Serializable
             return this.value;
         }
 
-        public static RecentOrderOrder.Side fromValue(String value) {
-            RecentOrderOrder.Side constant = CONSTANTS.get(value);
+        public static Order.Side fromValue(String value) {
+            Order.Side constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -611,10 +611,10 @@ public class RecentOrderOrder implements Serializable
         @SerializedName("DC")
         DC("DC");
         private final String value;
-        private final static Map<String, RecentOrderOrder.Stp> CONSTANTS = new HashMap<String, RecentOrderOrder.Stp>();
+        private final static Map<String, Order.Stp> CONSTANTS = new HashMap<String, Order.Stp>();
 
         static {
-            for (RecentOrderOrder.Stp c: values()) {
+            for (Order.Stp c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -632,8 +632,8 @@ public class RecentOrderOrder implements Serializable
             return this.value;
         }
 
-        public static RecentOrderOrder.Stp fromValue(String value) {
-            RecentOrderOrder.Stp constant = CONSTANTS.get(value);
+        public static Order.Stp fromValue(String value) {
+            Order.Stp constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -655,10 +655,10 @@ public class RecentOrderOrder implements Serializable
         @SerializedName("FOK")
         FOK("FOK");
         private final String value;
-        private final static Map<String, RecentOrderOrder.TimeInForce> CONSTANTS = new HashMap<String, RecentOrderOrder.TimeInForce>();
+        private final static Map<String, Order.TimeInForce> CONSTANTS = new HashMap<String, Order.TimeInForce>();
 
         static {
-            for (RecentOrderOrder.TimeInForce c: values()) {
+            for (Order.TimeInForce c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -676,8 +676,8 @@ public class RecentOrderOrder implements Serializable
             return this.value;
         }
 
-        public static RecentOrderOrder.TimeInForce fromValue(String value) {
-            RecentOrderOrder.TimeInForce constant = CONSTANTS.get(value);
+        public static Order.TimeInForce fromValue(String value) {
+            Order.TimeInForce constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -695,10 +695,10 @@ public class RecentOrderOrder implements Serializable
         @SerializedName("MARGIN_TRADE")
         MARGIN_TRADE("MARGIN_TRADE");
         private final String value;
-        private final static Map<String, RecentOrderOrder.TradeType> CONSTANTS = new HashMap<String, RecentOrderOrder.TradeType>();
+        private final static Map<String, Order.TradeType> CONSTANTS = new HashMap<String, Order.TradeType>();
 
         static {
-            for (RecentOrderOrder.TradeType c: values()) {
+            for (Order.TradeType c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -716,8 +716,8 @@ public class RecentOrderOrder implements Serializable
             return this.value;
         }
 
-        public static RecentOrderOrder.TradeType fromValue(String value) {
-            RecentOrderOrder.TradeType constant = CONSTANTS.get(value);
+        public static Order.TradeType fromValue(String value) {
+            Order.TradeType constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {
@@ -739,10 +739,10 @@ public class RecentOrderOrder implements Serializable
         @SerializedName("market_stop")
         MARKET_STOP("market_stop");
         private final String value;
-        private final static Map<String, RecentOrderOrder.Type> CONSTANTS = new HashMap<String, RecentOrderOrder.Type>();
+        private final static Map<String, Order.Type> CONSTANTS = new HashMap<String, Order.Type>();
 
         static {
-            for (RecentOrderOrder.Type c: values()) {
+            for (Order.Type c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -760,8 +760,8 @@ public class RecentOrderOrder implements Serializable
             return this.value;
         }
 
-        public static RecentOrderOrder.Type fromValue(String value) {
-            RecentOrderOrder.Type constant = CONSTANTS.get(value);
+        public static Order.Type fromValue(String value) {
+            Order.Type constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {

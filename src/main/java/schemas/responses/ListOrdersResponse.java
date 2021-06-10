@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import schemas.objects.OrderList;
 
 @Generated("jsonschema2pojo")
 public class ListOrdersResponse implements Serializable
@@ -15,8 +16,8 @@ public class ListOrdersResponse implements Serializable
     private Long code;
     @SerializedName("data")
     @Expose
-    private Data__2 data;
-    private final static long serialVersionUID = 177342697294619815L;
+    private OrderList data;
+    private final static long serialVersionUID = 8680859957419548940L;
 
     public Long getCode() {
         return code;
@@ -27,11 +28,11 @@ public class ListOrdersResponse implements Serializable
         return this;
     }
 
-    public Data__2 getData() {
+    public OrderList getData() {
         return data;
     }
 
-    public ListOrdersResponse withData(Data__2 data) {
+    public ListOrdersResponse withData(OrderList data) {
         this.data = data;
         return this;
     }

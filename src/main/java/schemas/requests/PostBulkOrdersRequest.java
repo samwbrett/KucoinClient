@@ -7,7 +7,7 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import schemas.objects.BulkOrderOrder;
+import schemas.objects.BulkOrder;
 
 @Generated("jsonschema2pojo")
 public class PostBulkOrdersRequest implements Serializable
@@ -18,8 +18,8 @@ public class PostBulkOrdersRequest implements Serializable
     private String symbol;
     @SerializedName("orderList")
     @Expose
-    private List<BulkOrderOrder> orderList = new ArrayList<BulkOrderOrder>();
-    private final static long serialVersionUID = -2388558081185395813L;
+    private List<BulkOrder> orderList = new ArrayList<BulkOrder>();
+    private final static long serialVersionUID = -7506267021880873756L;
 
     public String getSymbol() {
         return symbol;
@@ -30,11 +30,11 @@ public class PostBulkOrdersRequest implements Serializable
         return this;
     }
 
-    public List<BulkOrderOrder> getOrderList() {
+    public List<BulkOrder> getOrderList() {
         return orderList;
     }
 
-    public PostBulkOrdersRequest withOrderList(List<BulkOrderOrder> orderList) {
+    public PostBulkOrdersRequest withOrderList(List<BulkOrder> orderList) {
         this.orderList = orderList;
         return this;
     }

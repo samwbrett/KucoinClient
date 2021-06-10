@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.annotation.processing.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import schemas.objects.SequencedSymbolTicker;
 
 @Generated("jsonschema2pojo")
 public class GetTickerResponse implements Serializable
@@ -15,8 +16,8 @@ public class GetTickerResponse implements Serializable
     private Long code;
     @SerializedName("data")
     @Expose
-    private Data__1 data;
-    private final static long serialVersionUID = 5503113329628159936L;
+    private SequencedSymbolTicker data;
+    private final static long serialVersionUID = 2053585659473988774L;
 
     public Long getCode() {
         return code;
@@ -27,11 +28,11 @@ public class GetTickerResponse implements Serializable
         return this;
     }
 
-    public Data__1 getData() {
+    public SequencedSymbolTicker getData() {
         return data;
     }
 
-    public GetTickerResponse withData(Data__1 data) {
+    public GetTickerResponse withData(SequencedSymbolTicker data) {
         this.data = data;
         return this;
     }

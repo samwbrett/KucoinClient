@@ -6,34 +6,7 @@
       "type": "integer"
     },
     "data": {
-      "type": "object",
-      "properties": {
-        "time": {
-          "type": "integer",
-          "format": "date-time"
-        },
-        "sequence": {
-          "type": "integer"
-        },
-        "price": {
-          "type": "number"
-        },
-        "size": {
-          "type": "number"
-        },
-        "bestBid": {
-          "type": "number"
-        },
-        "bestBidSize": {
-          "type": "number"
-        },
-        "bestAsk": {
-          "type": "number"
-        },
-        "bestAskSize": {
-          "type": "number"
-        }
-      }
+      "$ref": "../objects/SequencedSymbolTicker.json"
     }
   }
 }

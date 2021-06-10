@@ -6,12 +6,7 @@
       "type": "integer"
     },
     "data": {
-      "type": "object",
-      "properties": {
-        "orderId": {
-          "type": "string"
-        }
-      }
+      "$ref": "../objects/OrderId.json"
     }
   }
 }

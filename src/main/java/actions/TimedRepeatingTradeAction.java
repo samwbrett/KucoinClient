@@ -84,6 +84,7 @@ public class TimedRepeatingTradeAction {
                         T actionResult = action.attempt(symbolInfo);
                         if (actionResult != null) {
                             future.complete(actionResult);
+                            action.writeToLog(LOGGER);
                             return;
                         }
 
@@ -92,6 +93,7 @@ public class TimedRepeatingTradeAction {
                     }
                 }
 
+                action.writeToLog(LOGGER);
                 future.complete(null);
                 String timeoutMessage = "Unable to execute action " + action + " in " + timeoutSeconds + " seconds";
                 LOGGER.warning(timeoutMessage);
