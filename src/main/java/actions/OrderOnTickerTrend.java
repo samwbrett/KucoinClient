@@ -26,16 +26,19 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Collection<Order>> {
 
     private static final int DEFAULT_MIN_MATCHES = 5;
     private static final double DEFAULT_REQUIRED_PERCENT = 0.01;
+    private static final int DEFAULT_ORDER_TIMEOUT = 60;
 
     private final PostOrderRequest postOrder;
     private int matchCount;
     private double requiredPercent;
+    private int orderTimeoutSeconds;
 
     public OrderOnTickerTrend(KucoinClientV2 client, PostOrderRequest postOrder) {
         super(client, postOrder.getSymbol());
         this.postOrder = postOrder;
         this.matchCount = DEFAULT_MIN_MATCHES;
         this.requiredPercent = DEFAULT_REQUIRED_PERCENT;
+        this.orderTimeoutSeconds = DEFAULT_ORDER_TIMEOUT;
     }
 
     public void setMatchCount(int matchCount) {
@@ -44,6 +47,10 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Collection<Order>> {
 
     public void setRequiredPercent(double requiredPercent) {
         this.requiredPercent = requiredPercent;
+    }
+
+    public void setOrderTimeoutSeconds(int orderTimeoutSeconds) {
+        this.orderTimeoutSeconds = orderTimeoutSeconds;
     }
 
     @Override
@@ -81,7 +88,7 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Collection<Order>> {
                         MatchBookOrder matchBook = new MatchBookOrder(client, symbol,
                                 ListOrdersParameters.Side.fromValue(postOrder.getSide().name().toLowerCase()), postOrder.getFunds() / price);
 
-                        WithSymbolTradeAction repeating = WithSymbolTradeAction.getTimedRepeatingAction(client, 600);
+                        WithSymbolTradeAction repeating = WithSymbolTradeAction.getTimedRepeatingAction(client, orderTimeoutSeconds);
                         repeating.setPreSymbolSeconds(0);
                         Collection<Order> orders = null;
                         try {
