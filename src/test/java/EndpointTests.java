@@ -2,7 +2,6 @@ import client.CoinCurrency;
 import client.Endpoint;
 import client.KucoinClientV2;
 import client.KucoinClientV2Response;
-import exceptions.ConfigurationException;
 import exceptions.RequestException;
 import gson.GsonAdapters;
 import org.everit.json.schema.Schema;
@@ -50,11 +49,7 @@ public class EndpointTests {
 
     @BeforeAll
     protected static void createClient() {
-        try {
-            CLIENT = new KucoinClientV2(true);
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-        }
+        CLIENT = new KucoinClientV2(true);
     }
 
     private <T> void testEndpoint(Endpoint<T> endpoint, String schemaLocation, Class<T> clazz) throws ValidationException, RequestException, IOException {

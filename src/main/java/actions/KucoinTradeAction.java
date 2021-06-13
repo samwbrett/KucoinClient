@@ -6,6 +6,7 @@ import schemas.objects.SymbolInfo;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Logger;
@@ -24,11 +25,23 @@ public abstract class KucoinTradeAction<T> {
     private final String symbol;
     private final StringBuilder liveInfo; // Write when finished
     private final ReadWriteLock liveInfoLock = new ReentrantReadWriteLock(true);
+    private final String uuid;
 
     protected KucoinTradeAction(KucoinClientV2 client, String symbol) {
         this.client = client;
         this.symbol = symbol;
         this.liveInfo = new StringBuilder();
+        this.uuid = UUID.randomUUID().toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof KucoinTradeAction && this.uuid.equals(((KucoinTradeAction<?>) o).uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.uuid.hashCode();
     }
 
     public KucoinClientV2 getClient() {

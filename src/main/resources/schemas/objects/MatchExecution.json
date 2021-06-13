@@ -1,0 +1,39 @@
+{
+  "$id": "MatchExecution",
+  "type": "object",
+  "properties": {
+    "sequence": {
+      "type": "integer"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["match"]
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "side": {
+      "type": "string",
+      "enum": ["buy", "sell"]
+    },
+    "price": {
+      "type": "number"
+    },
+    "size": {
+      "type": "number"
+    },
+    "tradeId": {
+      "type": "string"
+    },
+    "takerOrderId": {
+      "type": "string"
+    },
+    "makerOrderId": {
+      "type": "string"
+    },
+    "time": {
+      "type": "integer",
+      "format": "date-time"
+    }
+  }
+}

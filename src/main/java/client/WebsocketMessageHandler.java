@@ -1,10 +1,8 @@
 package client;
 
-import java.util.concurrent.CompletionStage;
-
 @FunctionalInterface
 public interface WebsocketMessageHandler<T> {
 
-    CompletionStage<?> onMessage(T messageResponse);
+    void onMessage(T messageResponse);
 
 }

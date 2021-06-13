@@ -2,6 +2,7 @@ package logging;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Logging {
@@ -15,7 +16,7 @@ public class Logging {
             LOGGER.addHandler(LOG_HANDLER);
             Runtime.getRuntime().addShutdownHook(new Thread(LOG_HANDLER::close));
         } catch (IOException e) {
-            LOGGER.severe("File logging not enabled: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "File logging not enabled: " + e.getMessage(), e);
         }
     }
 

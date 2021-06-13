@@ -23,6 +23,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<Order>> {
     private static final int DEFAULT_THRESHOLD_HISTORIES = 0;
 
     private final ListOrdersParameters.Side tradeSide;
+
     private double sizeLeft;
     private double maxPercentDiffMax; // 1 is 100% percent
     private int thresholdHistories;
@@ -197,7 +198,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<Order>> {
 
             return sizeLeft <= 0 ? executedOrders.values() : null;
         } catch (RequestException e) {
-            addLiveInfo(e.getMessage());
+            addLiveInfo(e.toString());
             return null;
         }
     }

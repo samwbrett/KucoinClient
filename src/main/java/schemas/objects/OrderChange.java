@@ -40,6 +40,12 @@ public class OrderChange implements Serializable
     @SerializedName("price")
     @Expose
     private Double price;
+    @SerializedName("matchSize")
+    @Expose
+    private Double matchSize;
+    @SerializedName("matchPrice")
+    @Expose
+    private Double matchPrice;
     @SerializedName("clientOid")
     @Expose
     private String clientOid;
@@ -52,7 +58,7 @@ public class OrderChange implements Serializable
     @SerializedName("ts")
     @Expose
     private LocalDateTime ts;
-    private final static long serialVersionUID = -7335417451605951045L;
+    private final static long serialVersionUID = -6410563474362713287L;
 
     public String getSymbol() {
         return symbol;
@@ -135,6 +141,24 @@ public class OrderChange implements Serializable
         return this;
     }
 
+    public Double getMatchSize() {
+        return matchSize;
+    }
+
+    public OrderChange withMatchSize(Double matchSize) {
+        this.matchSize = matchSize;
+        return this;
+    }
+
+    public Double getMatchPrice() {
+        return matchPrice;
+    }
+
+    public OrderChange withMatchPrice(Double matchPrice) {
+        this.matchPrice = matchPrice;
+        return this;
+    }
+
     public String getClientOid() {
         return clientOid;
     }
@@ -211,6 +235,14 @@ public class OrderChange implements Serializable
         sb.append('=');
         sb.append(((this.price == null)?"<null>":this.price));
         sb.append(',');
+        sb.append("matchSize");
+        sb.append('=');
+        sb.append(((this.matchSize == null)?"<null>":this.matchSize));
+        sb.append(',');
+        sb.append("matchPrice");
+        sb.append('=');
+        sb.append(((this.matchPrice == null)?"<null>":this.matchPrice));
+        sb.append(',');
         sb.append("clientOid");
         sb.append('=');
         sb.append(((this.clientOid == null)?"<null>":this.clientOid));
@@ -247,6 +279,8 @@ public class OrderChange implements Serializable
         result = ((result* 31)+((this.size == null)? 0 :this.size.hashCode()));
         result = ((result* 31)+((this.filledSize == null)? 0 :this.filledSize.hashCode()));
         result = ((result* 31)+((this.price == null)? 0 :this.price.hashCode()));
+        result = ((result* 31)+((this.matchPrice == null)? 0 :this.matchPrice.hashCode()));
+        result = ((result* 31)+((this.matchSize == null)? 0 :this.matchSize.hashCode()));
         result = ((result* 31)+((this.clientOid == null)? 0 :this.clientOid.hashCode()));
         result = ((result* 31)+((this.remainSize == null)? 0 :this.remainSize.hashCode()));
         result = ((result* 31)+((this.status == null)? 0 :this.status.hashCode()));
@@ -263,7 +297,7 @@ public class OrderChange implements Serializable
             return false;
         }
         OrderChange rhs = ((OrderChange) other);
-        return ((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.orderType == rhs.orderType)||((this.orderType!= null)&&this.orderType.equals(rhs.orderType))))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.orderId == rhs.orderId)||((this.orderId!= null)&&this.orderId.equals(rhs.orderId))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.orderTime == rhs.orderTime)||((this.orderTime!= null)&&this.orderTime.equals(rhs.orderTime))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.filledSize == rhs.filledSize)||((this.filledSize!= null)&&this.filledSize.equals(rhs.filledSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))))&&((this.remainSize == rhs.remainSize)||((this.remainSize!= null)&&this.remainSize.equals(rhs.remainSize))))&&((this.status == rhs.status)||((this.status!= null)&&this.status.equals(rhs.status))))&&((this.ts == rhs.ts)||((this.ts!= null)&&this.ts.equals(rhs.ts))));
+        return ((((((((((((((((this.symbol == rhs.symbol)||((this.symbol!= null)&&this.symbol.equals(rhs.symbol)))&&((this.orderType == rhs.orderType)||((this.orderType!= null)&&this.orderType.equals(rhs.orderType))))&&((this.side == rhs.side)||((this.side!= null)&&this.side.equals(rhs.side))))&&((this.orderId == rhs.orderId)||((this.orderId!= null)&&this.orderId.equals(rhs.orderId))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.orderTime == rhs.orderTime)||((this.orderTime!= null)&&this.orderTime.equals(rhs.orderTime))))&&((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size))))&&((this.filledSize == rhs.filledSize)||((this.filledSize!= null)&&this.filledSize.equals(rhs.filledSize))))&&((this.price == rhs.price)||((this.price!= null)&&this.price.equals(rhs.price))))&&((this.matchPrice == rhs.matchPrice)||((this.matchPrice!= null)&&this.matchPrice.equals(rhs.matchPrice))))&&((this.matchSize == rhs.matchSize)||((this.matchSize!= null)&&this.matchSize.equals(rhs.matchSize))))&&((this.clientOid == rhs.clientOid)||((this.clientOid!= null)&&this.clientOid.equals(rhs.clientOid))))&&((this.remainSize == rhs.remainSize)||((this.remainSize!= null)&&this.remainSize.equals(rhs.remainSize))))&&((this.status == rhs.status)||((this.status!= null)&&this.status.equals(rhs.status))))&&((this.ts == rhs.ts)||((this.ts!= null)&&this.ts.equals(rhs.ts))));
     }
 
     @Generated("jsonschema2pojo")

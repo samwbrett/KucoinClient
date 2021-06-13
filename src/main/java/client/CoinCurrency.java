@@ -35,7 +35,20 @@ public enum CoinCurrency {
     GMEE,
     NORD,
     XAVA,
-    SFUND;
+    SFUND,
+    NFT,
+    MNST,
+    ALPACA,
+    AI,
+    IOI;
+
+    public static CoinCurrency getBaseCoin(String symbol) {
+        return fromValue(symbol.split("-")[0]);
+    }
+
+    public static CoinCurrency getQuoteCoin(String symbol) {
+        return fromValue(symbol.split("-")[1]);
+    }
 
     public static String getSymbol(CoinCurrency baseCoin, CoinCurrency quoteCoin) {
         return baseCoin + "-" + quoteCoin;

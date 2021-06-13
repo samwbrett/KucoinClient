@@ -33,6 +33,12 @@
     "price": {
       "type": "number"
     },
+    "matchSize": {
+      "type": "number"
+    },
+    "matchPrice": {
+      "type": "number"
+    },
     "clientOid": {
       "type": "string"
     },

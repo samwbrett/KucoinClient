@@ -6,10 +6,7 @@ import gson.GsonAdapters;
 import logging.Logging;
 import schemas.objects.InstanceServer;
 import schemas.responses.WebsocketConnectResponse;
-import schemas.websockets.BestOrdersMessage;
-import schemas.websockets.OrderChangeMessage;
-import schemas.websockets.SymbolTickerMessage;
-import schemas.websockets.WebsocketMessage;
+import schemas.websockets.*;
 
 import java.io.Closeable;
 import java.lang.ref.Cleaner;
@@ -21,8 +18,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
@@ -30,91 +28,119 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
     private static final Logger LOGGER = Logging.handledLogger(KucoinWebsocketV2.class);
     private static final Cleaner CLEANER = Cleaner.create();
 
-    private final Cleaner.Cleanable cleanable;
-
+    private final KucoinClientV2 client;
     private final boolean privateChannel;
-    private final String topicId;
     private final String topic;
     private final Class<T> topicResponseClazz;
     private final WebsocketMessageHandler<T> handler;
 
+    private final AtomicReference<Cleaner.Cleanable> cleanableReference = new AtomicReference<>(null);
+    private final AtomicReference<String> topicIdReference = new AtomicReference<>(null);
+    private final StringBuilder builder = new StringBuilder();
     private volatile boolean isConnected = false;
 
     private KucoinWebsocketV2(KucoinClientV2 client, String topic, Class<T> topicResponseClazz, WebsocketMessageHandler<T> handler, boolean privateChannel) throws WebsocketException {
         try {
-            KucoinClientV2Response<WebsocketConnectResponse> websocketConnect = client.websocketConnect();
-            if (!websocketConnect.isSuccess()) {
-                throw new WebsocketException("Bad status code:\n\t" + websocketConnect.getHttpResponse().body());
-            }
-            WebsocketConnectResponse connectResponse = websocketConnect.getResponseBody();
-
-            List<InstanceServer> instanceServers = connectResponse.getData().getInstanceServers();
-            if (instanceServers.isEmpty()) {
-                throw new WebsocketException("No instance servers:\n\t" + websocketConnect.getHttpResponse().body());
-            }
-            InstanceServer server = instanceServers.get(0);
-
+            this.client = client;
             this.topic = topic;
             this.privateChannel = privateChannel;
             this.topicResponseClazz = topicResponseClazz;
             this.handler = handler;
-            this.topicId = UUID.randomUUID().toString();
-            
-            String connectId = UUID.randomUUID().toString();
-            WebSocket webSocket = client.getHttpClient().newWebSocketBuilder().buildAsync(
-                    new URI(server.getEndpoint() + "?token=" + connectResponse.getData().getToken() + "&connectId=" + connectId),
-                    this).get();
-
-            // Schedule pings
-            TimerTask pingTask = new TimerTask() {
-                @Override
-                public void run() {
-                    if (isConnected) {
-                        ByteBuffer ping =
-                                ByteBuffer.wrap(GsonAdapters.getGson().toJson(Map.of(
-                                        "id", connectId,
-                                        "type", "ping"))
-                                        .getBytes(StandardCharsets.UTF_16));
-                        webSocket.sendPing(ping);
-                    }
-                }
-            };
-            Timer timer = new Timer();
-            timer.schedule(pingTask, 0L, server.getPingInterval());
-
-            Runnable closer = () -> {
-                pingTask.cancel();
-                timer.cancel();
-                webSocket.sendText(GsonAdapters.getGson().toJson(Map.of(
-                        "id", topicId,
-                        "type", "unsubscribe",
-                        "topic", topic,
-                        "privateChannel", privateChannel,
-                        "response", true
-                )), true);
-                webSocket.sendClose(200, "close");
-            };
-            this.cleanable = CLEANER.register(this, closer);
-            Runtime.getRuntime().addShutdownHook(new Thread(closer));
+            connect();
         } catch (RequestException | WebsocketException | URISyntaxException | InterruptedException | ExecutionException e) {
-            LOGGER.severe("Unable to establish websocket connection: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Unable to establish websocket connection: " + e.getMessage(), e);
             throw new WebsocketException(e);
         }
+    }
+
+    private void connect() throws WebsocketException, URISyntaxException, ExecutionException, InterruptedException, RequestException {
+
+        KucoinClientV2Response<WebsocketConnectResponse> websocketConnect = client.websocketConnect();
+        if (!websocketConnect.isSuccess()) {
+            throw new WebsocketException("Bad status code:\n\t" + websocketConnect.getHttpResponse().body());
+        }
+        WebsocketConnectResponse connectResponse = websocketConnect.getResponseBody();
+
+        List<InstanceServer> instanceServers = connectResponse.getData().getInstanceServers();
+        if (instanceServers.isEmpty()) {
+            throw new WebsocketException("No instance servers:\n\t" + websocketConnect.getHttpResponse().body());
+        }
+        InstanceServer server = instanceServers.get(0);
+
+        this.topicIdReference.set(UUID.randomUUID().toString());
+
+        String connectId = UUID.randomUUID().toString();
+        WebSocket webSocket = client.getHttpClient().newWebSocketBuilder().buildAsync(
+                new URI(server.getEndpoint() + "?token=" + connectResponse.getData().getToken() + "&connectId=" + connectId),
+                this).get();
+
+        // Schedule pings
+        TimerTask pingTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (isConnected) {
+                    ByteBuffer ping =
+                            ByteBuffer.wrap(GsonAdapters.getGson().toJson(Map.of(
+                                    "id", connectId,
+                                    "type", "ping"))
+                                    .getBytes(StandardCharsets.UTF_16));
+                    webSocket.sendPing(ping);
+                }
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(pingTask, 0L, server.getPingInterval());
+
+        Runnable closer = () -> {
+            isConnected = false;
+            pingTask.cancel();
+            timer.cancel();
+            webSocket.sendText(GsonAdapters.getGson().toJson(Map.of(
+                    "id", topicIdReference.get(),
+                    "type", "unsubscribe",
+                    "topic", topic,
+                    "privateChannel", privateChannel,
+                    "response", true
+            )), true);
+            webSocket.sendClose(200, "close");
+        };
+
+        Thread closerThread = new Thread(closer);
+        Runtime.getRuntime().addShutdownHook(closerThread);
+        this.cleanableReference.set(CLEANER.register(this, () -> {
+            closer.run();
+            Runtime.getRuntime().removeShutdownHook(closerThread);
+        }));
+    }
+
+    @Override
+    public void close() {
+        cleanableReference.get().clean();
     }
 
     @Override
     public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
         webSocket.request(1);
-        String dataString = data.toString();
+        if (!last) {
+            builder.append(data);
+            return null;
+        } else {
+            builder.append(data);
+        }
+        String dataString = builder.toString();
+        builder.setLength(0);
+
         WebsocketMessage response = GsonAdapters.getGson().fromJson(dataString, WebsocketMessage.class);
         if (response.getType() == WebsocketMessage.Type.MESSAGE) {
-            return handler.onMessage(GsonAdapters.getGson().fromJson(dataString, topicResponseClazz));
+            handler.onMessage(GsonAdapters.getGson().fromJson(dataString, topicResponseClazz));
+            return null;
         }
 
         if (response.getType() == WebsocketMessage.Type.WELCOME) {
             // Subscribe to topic
+            LOGGER.info(webSocket + "\nWelcome received: " + data);
             webSocket.sendText(GsonAdapters.getGson().toJson(Map.of(
-                    "id", topicId,
+                    "id", topicIdReference.get(),
                     "type", "subscribe",
                     "topic", topic,
                     "privateChannel", privateChannel,
@@ -130,23 +156,45 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
         webSocket.request(1);
     }
 
+    @Override
     public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
         return null;
     }
 
+    @Override
     public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
         return null;
     }
 
     @Override
-    public void onError(WebSocket webSocket, Throwable error) {
-        LOGGER.severe(error.getMessage());
+    public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
+        if (isConnected) {
+            LOGGER.warning("Server initiated termination...attempting restart: " + statusCode + " - " + reason + "\n" + webSocket);
+            reconnect();
+        }
+        return null;
     }
 
-    public void close() {
-        cleanable.clean();
+    private void reconnect() {
+        try {
+            cleanableReference.get().clean();
+            connect();
+        } catch (WebsocketException | URISyntaxException | ExecutionException | InterruptedException | RequestException e) {
+            LOGGER.log(Level.WARNING, "Reconnect failed: " + e.getMessage(), e);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException interruptedException) {
+                LOGGER.log(Level.WARNING, interruptedException.getMessage(), interruptedException);
+            }
+            reconnect();
+        }
+    }
+
+    @Override
+    public void onError(WebSocket webSocket, Throwable error) {
+        LOGGER.log(Level.WARNING, error.getMessage(), error);
     }
 
     public static <T> KucoinWebsocketV2<T> waitForConnect(KucoinWebsocketV2<T> websocket, int timeoutSeconds) throws InterruptedException, TimeoutException {
@@ -175,6 +223,10 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
 
     public static KucoinWebsocketV2<OrderChangeMessage> orderChange(KucoinClientV2 client, WebsocketMessageHandler<OrderChangeMessage> handler) throws WebsocketException {
         return new KucoinWebsocketV2<>(client, "/spotMarket/tradeOrders", OrderChangeMessage.class, handler, true);
+    }
+
+    public static KucoinWebsocketV2<MatchExecutionMessage> matchExecution(KucoinClientV2 client, String symbol, WebsocketMessageHandler<MatchExecutionMessage> handler) throws WebsocketException {
+        return new KucoinWebsocketV2<>(client, "/market/match:" + symbol, MatchExecutionMessage.class, handler, false);
     }
 
 }

@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class KucoinClientV2 {
@@ -42,14 +43,14 @@ public class KucoinClientV2 {
     private final HttpClient client;
     private final String baseUrl;
 
-    public KucoinClientV2(boolean isProduction) throws ConfigurationException {
+    public KucoinClientV2(boolean isProduction) {
         this.properties = new Properties();
         this.client = HttpClient.newHttpClient();
         this.baseUrl = isProduction ? "https://api.kucoin.com" : "https://openapi-sandbox.kucoin.com";
         try {
             this.properties.load(KucoinClientV2.class.getClassLoader().getResourceAsStream(CONFIG_LOCATION));
         } catch (IOException e) {
-            LOGGER.severe("Could not read config file: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Could not read config file: " + e.getMessage(), e);
             throw new ConfigurationException(e);
         }
     }

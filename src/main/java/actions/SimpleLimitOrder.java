@@ -44,6 +44,8 @@ public class SimpleLimitOrder extends KucoinTradeAction<KucoinClientV2Response<P
                     .withSide(side)
                     .withType(PostOrderRequest.Type.LIMIT)
                     .withSymbol(getSymbol())
+                    .withTradeType(PostOrderRequest.TradeType.TRADE)
+                    .withHidden(false)
                     .withPostOnly(postOnly));
             if (!response.isSuccess()) {
                 addLiveInfo(response.getHttpResponse().body());
@@ -51,7 +53,7 @@ public class SimpleLimitOrder extends KucoinTradeAction<KucoinClientV2Response<P
             }
             return response;
         } catch (RequestException e) {
-            addLiveInfo(e.getMessage());
+            addLiveInfo(e.toString());
             return null;
         }
     }
