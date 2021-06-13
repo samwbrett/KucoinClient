@@ -14,7 +14,7 @@ public class KucoinUtils {
             priceSize += hist.getSize() * hist.getPrice();
             size += hist.getSize();
         }
-        return priceSize / size;
+        return size != 0 ? priceSize / size : 0;
     }
 
     public static double getPriceSizeAverage(List<PriceSize> priceSizes) {
@@ -24,7 +24,7 @@ public class KucoinUtils {
             priceSize += ps.getSize() * ps.getPrice();
             size += ps.getSize();
         }
-        return priceSize / size;
+        return size != 0 ? priceSize / size : 0;
     }
 
 }
