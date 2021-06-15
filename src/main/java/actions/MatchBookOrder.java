@@ -17,7 +17,7 @@ import java.util.*;
  * May place multiple orders if the size of a given order on the book is too small.
  * Intended behavior is to return null on an unsuccessful attempt
  */
-public class MatchBookOrder extends KucoinTradeAction<Collection<Order>> {
+public class MatchBookOrder extends KucoinTradeAction<Double> {
 
     private static final double DEFAULT_MAX_PERCENT_DIFF_MAX = 100;
     private static final int DEFAULT_THRESHOLD_HISTORIES = 0;
@@ -53,7 +53,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<Order>> {
     }
 
     @Override
-    public Collection<Order> attempt(SymbolInfo symbolInfo) {
+    public Double attempt(SymbolInfo symbolInfo) {
 
         try {
             addLiveInfo(getSymbol());
@@ -196,7 +196,7 @@ public class MatchBookOrder extends KucoinTradeAction<Collection<Order>> {
                 }
             }
 
-            return sizeLeft <= 0 ? executedOrders.values() : null;
+            return sizeLeft;
         } catch (RequestException e) {
             addLiveInfo(e.toString());
             return null;

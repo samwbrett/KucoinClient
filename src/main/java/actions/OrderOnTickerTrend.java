@@ -6,27 +6,26 @@ import exceptions.WebsocketException;
 import logging.Logging;
 import org.apache.commons.math3.stat.regression.RegressionResults;
 import schemas.objects.MatchExecution;
-import schemas.objects.Order;
 import schemas.objects.SymbolInfo;
 import schemas.parameters.ListOrdersParameters;
 import schemas.requests.PostOrderRequest;
 import schemas.websockets.MatchExecutionMessage;
 import stats.RollingRegression;
 
-import java.util.Collection;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class OrderOnTickerTrend extends KucoinTradeAction<Collection<Order>> {
+public class OrderOnTickerTrend extends KucoinTradeAction<Double> {
 
     private static final Logger LOGGER = Logging.handledLogger(OrderOnTickerTrend.class);
 
     private static final int DEFAULT_MIN_MATCHES = 5;
     private static final double DEFAULT_REQUIRED_PERCENT = 0.01;
-    private static final int DEFAULT_ORDER_TIMEOUT = 60;
+    private static final int DEFAULT_ORDER_TIMEOUT = 1;
 
     private final PostOrderRequest postOrder;
     private int matchCount;
@@ -54,7 +53,7 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Collection<Order>> {
     }
 
     @Override
-    public Collection<Order> attempt(SymbolInfo symbolInfo) {
+    public Double attempt(SymbolInfo symbolInfo) {
 
         KucoinClientV2 client = getClient();
         String symbol = symbolInfo.getSymbol();
@@ -62,18 +61,16 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Collection<Order>> {
 
         try {
 
-            AtomicReference<Collection<Order>> responseReference = new AtomicReference<>(null);
+            AtomicReference<Double> responseReference = new AtomicReference<>(postOrder.getFunds());
             AtomicReference<KucoinWebsocketV2<MatchExecutionMessage>> historyReference = new AtomicReference<>(null);
-            AtomicBoolean finished = new AtomicBoolean(false);
+            AtomicBoolean ordering = new AtomicBoolean(false);
+            CountDownLatch latch = new CountDownLatch(1);
 
             KucoinWebsocketV2<MatchExecutionMessage> history = KucoinWebsocketV2.matchExecution(client, symbol, messageResponse -> {
-                if (finished.get()) {
-                    return;
-                }
 
                 MatchExecution match = messageResponse.getData();
                 regression.addDataPoint(match.getPrice());
-                if (regression.isFull()) {
+                if (!ordering.get() && regression.isFull()) {
 
                     RegressionResults results = regression.getResults();
                     double rate = results.getParameterEstimate(1) /
@@ -81,37 +78,38 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Collection<Order>> {
                     if (postOrder.getSide() == PostOrderRequest.Side.SELL) {
                         rate *= -1;
                     }
-                    if (rate >= requiredPercent && finished.compareAndSet(false, true)) {
+                    if (rate >= requiredPercent && ordering.compareAndSet(false, true)) {
 
                         double price = regression.getRegression().predict(regression.getNextX());
-
-                        MatchBookOrder matchBook = new MatchBookOrder(client, symbol,
-                                ListOrdersParameters.Side.fromValue(postOrder.getSide().name().toLowerCase()), postOrder.getFunds() / price);
+                        double size = postOrder.getSize() != null ? postOrder.getSize() : postOrder.getFunds() / price;
+                        MatchBookOrder matchBook = new MatchBookOrder(client, symbol, ListOrdersParameters.Side.fromValue(postOrder.getSide().name().toLowerCase()), size);
 
                         WithSymbolTradeAction repeating = WithSymbolTradeAction.getTimedRepeatingAction(client, orderTimeoutSeconds);
                         repeating.setPreSymbolSeconds(0);
-                        Collection<Order> orders = null;
+                        double sizeLeft = 0;
                         try {
-                            orders = repeating.executeAction(matchBook).get();
+                            sizeLeft = repeating.executeAction(matchBook).get();
                         } catch (InterruptedException | ExecutionException e) {
                             LOGGER.log(Level.WARNING, e.getMessage(), e);
                         }
 
-                        if (orders != null && !orders.isEmpty()) {
-                            responseReference.set(orders);
+                        if (sizeLeft <= 0) {
+                            responseReference.set(sizeLeft);
+                            latch.countDown();
                             historyReference.get().close();
                         } else {
-                            finished.set(false);
+                            if (postOrder.getSize() != null) {
+                                postOrder.withSize(sizeLeft);
+                            } else {
+                                postOrder.withFunds(sizeLeft * price);
+                            }
+                            ordering.set(false);
                         }
                     }
                 }
             });
             historyReference.set(history);
-
-            while (responseReference.get() == null) {
-                Thread.sleep(100);
-            }
-
+            latch.await();
             return responseReference.get();
 
         } catch (WebsocketException | InterruptedException e) {

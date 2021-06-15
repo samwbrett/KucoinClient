@@ -7,10 +7,10 @@ import schemas.objects.SymbolInfo;
 import schemas.responses.GetSymbolListResponse;
 
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +20,7 @@ import java.util.logging.Logger;
  */
 public class WithSymbolTradeAction {
 
+    private static final ScheduledThreadPoolExecutor TIMER = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 10);
     private static final Logger LOGGER = Logging.handledLogger(WithSymbolTradeAction.class);
     private static final int DEFAULT_PRE_SYMBOL_SECONDS = 60;
 
@@ -78,47 +79,39 @@ public class WithSymbolTradeAction {
         };
 
         Date symbolStartTime = new Date(startDate.getTime() - preSymbolSeconds * 1000L);
-        if (new Date().before(symbolStartTime)) {
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    getSymbolInfo.run();
-                }
-            }, symbolStartTime);
-        }
+        TIMER.schedule(getSymbolInfo, symbolStartTime.getTime() - new Date().getTime(), TimeUnit.MILLISECONDS);
 
         CompletableFuture<T> future = new CompletableFuture<>();
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
+        TIMER.schedule(() -> {
 
-                SymbolInfo symbolInfo = symbolInfoRef.get();
-                if (symbolInfo == null) {
-                    getSymbolInfo.run();
-                    symbolInfo = symbolInfoRef.get();
-                }
-                long startTime = System.currentTimeMillis();
-
-                while (System.currentTimeMillis() < startTime + timeoutSeconds * 1000L) {
-
-                    try {
-
-                        T actionResult = action.attempt(symbolInfo);
-                        if (actionResult != null || !repeating) {
-                            future.complete(actionResult);
-                            return;
-                        }
-
-                    } catch (RuntimeException e) {
-                        LOGGER.log(Level.WARNING, e.getMessage(), e);
-                    }
-                }
-
-                future.complete(null);
-                String timeoutMessage = "Unable to execute action " + action + " in " + timeoutSeconds + " seconds";
-                LOGGER.warning(timeoutMessage);
+            SymbolInfo symbolInfo = symbolInfoRef.get();
+            if (symbolInfo == null) {
+                getSymbolInfo.run();
+                symbolInfo = symbolInfoRef.get();
             }
-        }, startDate);
+            long startTime = System.currentTimeMillis();
+
+            while (System.currentTimeMillis() < startTime + timeoutSeconds * 1000L) {
+
+                try {
+
+                    T actionResult = action.attempt(symbolInfo);
+                    if (actionResult != null || !repeating) {
+                        future.complete(actionResult);
+                        action.writeToLog(LOGGER);
+                        return;
+                    }
+
+                } catch (RuntimeException e) {
+                    LOGGER.log(Level.WARNING, e.getMessage(), e);
+                }
+            }
+
+            future.complete(null);
+            action.writeToLog(LOGGER);
+            String timeoutMessage = "Unable to execute action " + action + " in " + timeoutSeconds + " seconds";
+            LOGGER.info(timeoutMessage);
+        }, startDate.getTime() - new Date().getTime(), TimeUnit.MILLISECONDS);
 
         return future;
     }

@@ -12,7 +12,7 @@ public class Logging {
     private static FileHandler LOG_HANDLER = null;
     static {
         try {
-            LOG_HANDLER = new FileHandler(LOG_LOCATION_PATTERN, 10 * 1024 * 1024, 100);
+            LOG_HANDLER = new FileHandler(LOG_LOCATION_PATTERN, 100 * 1024 * 1024, 1000);
             LOGGER.addHandler(LOG_HANDLER);
             Runtime.getRuntime().addShutdownHook(new Thread(LOG_HANDLER::close));
         } catch (IOException e) {

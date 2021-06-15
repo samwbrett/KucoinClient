@@ -4,7 +4,6 @@ import org.apache.commons.math3.stat.regression.RegressionResults;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 import java.util.LinkedList;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Use the past maxRecords to get a simple regression.
@@ -17,7 +16,6 @@ public class RollingRegression {
     private final int maxRecords;
     private final LinkedList<double[]> records;
     private final SimpleRegression regression;
-    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
 
     public RollingRegression() {
         this(DEFAULT_MAX_RECORDS);
@@ -30,90 +28,45 @@ public class RollingRegression {
     }
 
     public boolean isFull() {
-        lock.readLock().lock();
-        try {
-            return records.size() == maxRecords;
-        } finally {
-            lock.readLock().unlock();
-        }
+        return records.size() == maxRecords;
     }
 
     public int getRecordCount() {
-        lock.readLock().lock();
-        try {
-            return records.size();
-        } finally {
-            lock.readLock().unlock();
-        }
+        return records.size();
     }
 
     public long regressionRecords() {
-        lock.readLock().lock();
-        try {
-            return regression.getN();
-        } finally {
-            lock.readLock().unlock();
-        }
+        return regression.getN();
     }
 
     public void addDataPoint(double y) {
-        lock.writeLock().lock();
-        try {
-            if (records.size() == maxRecords) {
-                double[] first = records.removeFirst();
-                regression.removeData(first[0], first[1]);
-            }
-            double nextX = getNextX();
-            records.addLast(new double[]{nextX, y});
-            regression.addData(nextX, y);
-        } finally {
-            lock.writeLock().unlock();
+        if (records.size() == maxRecords) {
+            double[] first = records.removeFirst();
+            regression.removeData(first[0], first[1]);
         }
+        double nextX = getNextX();
+        records.addLast(new double[]{nextX, y});
+        regression.addData(nextX, y);
     }
 
     public int getFirstX() {
-        lock.readLock().lock();
-        try {
-            return (int)(records.getFirst()[0]);
-        } finally {
-            lock.readLock().unlock();
-        }
+        return (int)(records.getFirst()[0]);
     }
 
     public int getLastX() {
-        lock.readLock().lock();
-        try {
-            return (int)(records.getLast()[0]);
-        } finally {
-            lock.readLock().unlock();
-        }
+        return (int)(records.getLast()[0]);
     }
 
     public int getNextX() {
-        lock.readLock().lock();
-        try {
-            return !records.isEmpty() ? (int)records.getLast()[0] + 1 : 1;
-        } finally {
-            lock.readLock().unlock();
-        }
+        return !records.isEmpty() ? (int)records.getLast()[0] + 1 : 1;
     }
 
     public SimpleRegression getRegression() {
-        lock.readLock().lock();
-        try {
-            return regression;
-        } finally {
-            lock.readLock().unlock();
-        }
+        return regression;
     }
 
     public RegressionResults getResults() {
-        lock.readLock().lock();
-        try {
-            return regression.regress();
-        } finally {
-            lock.readLock().unlock();
-        }
+        return regression.regress();
     }
 
 }
