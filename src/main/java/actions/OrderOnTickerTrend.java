@@ -25,7 +25,6 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Double> {
 
     private static final int DEFAULT_MIN_MATCHES = 5;
     private static final double DEFAULT_REQUIRED_PERCENT = 0.01;
-    private static final int DEFAULT_ORDER_TIMEOUT = 1;
 
     private final PostOrderRequest postOrder;
     private int matchCount;
@@ -37,7 +36,6 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Double> {
         this.postOrder = postOrder;
         this.matchCount = DEFAULT_MIN_MATCHES;
         this.requiredPercent = DEFAULT_REQUIRED_PERCENT;
-        this.orderTimeoutSeconds = DEFAULT_ORDER_TIMEOUT;
     }
 
     public void setMatchCount(int matchCount) {
@@ -84,7 +82,7 @@ public class OrderOnTickerTrend extends KucoinTradeAction<Double> {
                         double size = postOrder.getSize() != null ? postOrder.getSize() : postOrder.getFunds() / price;
                         MatchBookOrder matchBook = new MatchBookOrder(client, symbol, ListOrdersParameters.Side.fromValue(postOrder.getSide().name().toLowerCase()), size);
 
-                        WithSymbolTradeAction repeating = WithSymbolTradeAction.getTimedRepeatingAction(client, orderTimeoutSeconds);
+                        WithSymbolTradeAction repeating = WithSymbolTradeAction.getTimedAction(client);
                         repeating.setPreSymbolSeconds(0);
                         double sizeLeft = 0;
                         try {

@@ -145,7 +145,7 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
         } catch (WebsocketException | URISyntaxException | ExecutionException | InterruptedException | RequestException e) {
             LOGGER.log(Level.WARNING, "Reconnect failed: " + e.getMessage(), e);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10000);
             } catch (InterruptedException interruptedException) {
                 LOGGER.log(Level.WARNING, interruptedException.getMessage(), interruptedException);
             }
@@ -211,23 +211,23 @@ public class KucoinWebsocketV2<T> implements WebSocket.Listener, Closeable {
     }
 
     public static KucoinWebsocketV2<BestOrdersMessage> bestFiveOrders(KucoinClientV2 client, String symbol, WebsocketMessageHandler<BestOrdersMessage> handler) throws WebsocketException {
-        return new KucoinWebsocketV2<>(client, "/spotMarket/level2Depth5:" + symbol, BestOrdersMessage.class, handler, false, DEFAULT_CONNECT_TIMEOUT_SECONDS);
+        return bestFiveOrders(client, symbol, handler, DEFAULT_CONNECT_TIMEOUT_SECONDS);
     }
 
     public static KucoinWebsocketV2<BestOrdersMessage> bestFiftyOrders(KucoinClientV2 client, String symbol, WebsocketMessageHandler<BestOrdersMessage> handler) throws WebsocketException {
-        return new KucoinWebsocketV2<>(client, "/spotMarket/level2Depth50:" + symbol, BestOrdersMessage.class, handler, false, DEFAULT_CONNECT_TIMEOUT_SECONDS);
+        return bestFiftyOrders(client, symbol, handler, DEFAULT_CONNECT_TIMEOUT_SECONDS);
     }
 
     public static KucoinWebsocketV2<SymbolTickerMessage> symbolTicker(KucoinClientV2 client, String symbol, WebsocketMessageHandler<SymbolTickerMessage> handler) throws WebsocketException {
-        return new KucoinWebsocketV2<>(client, "/market/ticker:" + symbol, SymbolTickerMessage.class, handler, false, DEFAULT_CONNECT_TIMEOUT_SECONDS);
+        return symbolTicker(client, symbol, handler, DEFAULT_CONNECT_TIMEOUT_SECONDS);
     }
 
     public static KucoinWebsocketV2<OrderChangeMessage> orderChange(KucoinClientV2 client, WebsocketMessageHandler<OrderChangeMessage> handler) throws WebsocketException {
-        return new KucoinWebsocketV2<>(client, "/spotMarket/tradeOrders", OrderChangeMessage.class, handler, true, DEFAULT_CONNECT_TIMEOUT_SECONDS);
+        return orderChange(client, handler, DEFAULT_CONNECT_TIMEOUT_SECONDS);
     }
 
     public static KucoinWebsocketV2<MatchExecutionMessage> matchExecution(KucoinClientV2 client, String symbol, WebsocketMessageHandler<MatchExecutionMessage> handler) throws WebsocketException {
-        return new KucoinWebsocketV2<>(client, "/market/match:" + symbol, MatchExecutionMessage.class, handler, false, DEFAULT_CONNECT_TIMEOUT_SECONDS);
+        return matchExecution(client, symbol, handler, DEFAULT_CONNECT_TIMEOUT_SECONDS);
     }
 
     public static KucoinWebsocketV2<BestOrdersMessage> bestFiveOrders(KucoinClientV2 client, String symbol, WebsocketMessageHandler<BestOrdersMessage> handler, int connectTimeoutSeconds) throws WebsocketException {

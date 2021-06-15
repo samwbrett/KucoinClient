@@ -2,15 +2,29 @@ package actions;
 
 import client.KucoinClientV2;
 import client.KucoinClientV2Response;
+import client.KucoinWebsocketV2;
 import exceptions.RequestException;
-import schemas.objects.*;
+import exceptions.WebsocketException;
+import schemas.objects.BulkOrder;
+import schemas.objects.OrderChange;
+import schemas.objects.PriceSize;
+import schemas.objects.SymbolInfo;
 import schemas.parameters.ListOrdersParameters;
 import schemas.requests.PostBulkOrdersRequest;
-import schemas.responses.*;
-import utils.KucoinUtils;
+import schemas.responses.PostBulkOrdersResponse;
+import schemas.websockets.BestOrdersMessage;
+import schemas.websockets.OrderChangeMessage;
 import utils.NumberUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Attempts to buy or sell at the best orders on the book up to a threshold of historical and listed prices.
@@ -19,33 +33,16 @@ import java.util.*;
  */
 public class MatchBookOrder extends KucoinTradeAction<Double> {
 
-    private static final double DEFAULT_MAX_PERCENT_DIFF_MAX = 100;
-    private static final int DEFAULT_THRESHOLD_HISTORIES = 0;
-
     private final ListOrdersParameters.Side tradeSide;
 
     private double sizeLeft;
-    private double maxPercentDiffMax; // 1 is 100% percent
-    private int thresholdHistories;
     private boolean postOnly;
-
-    private final Map<String, Order> executedOrders = new HashMap<>(); // Order id to order response
 
     public MatchBookOrder(KucoinClientV2 client, String symbol, ListOrdersParameters.Side tradeSide, double size) {
         super(client, symbol);
         this.tradeSide = tradeSide;
         this.sizeLeft = size;
-        this.maxPercentDiffMax = DEFAULT_MAX_PERCENT_DIFF_MAX;
-        this.thresholdHistories = DEFAULT_THRESHOLD_HISTORIES;
         this.postOnly = false;
-    }
-
-    public void setMaxPercentDiffMax(double maxPercentDiffMax) {
-        this.maxPercentDiffMax = maxPercentDiffMax;
-    }
-
-    public void setThresholdHistories(int thresholdHistories) {
-        this.thresholdHistories = thresholdHistories;
     }
 
     public void setPostOnly(boolean postOnly) {
@@ -56,100 +53,90 @@ public class MatchBookOrder extends KucoinTradeAction<Double> {
     public Double attempt(SymbolInfo symbolInfo) {
 
         try {
-            addLiveInfo(getSymbol());
-            int baseIncrementPlaces = NumberUtils.getPrecision(symbolInfo.getBaseIncrement());
-
-            // Get history and get highest non-outlier price
-            KucoinClientV2Response<GetHistoryResponse> historyResponse = getClient().getHistoryResponse(getSymbol());
-            addLiveInfo(historyResponse.toString());
-            if (!historyResponse.isSuccess()) {
-                return null;
-            }
-
-            List<History> histories = historyResponse.getResponseBody().getData();
-            if (histories.size() < thresholdHistories) {
-                addLiveInfo("Fewer than " + thresholdHistories + " historical orders");
-                return null;
-            }
-            double avgHistoryPrice = KucoinUtils.getHistoryAverage(histories);
+            String symbol = symbolInfo.getSymbol();
+            addLiveInfo(symbol);
+            double baseIncrement = symbolInfo.getBaseIncrement();
+            int baseIncrementPlaces = NumberUtils.getPrecision(baseIncrement);
 
             // Read the order book
-            KucoinClientV2Response<GetOrderBookResponse> orderBookResponse = getClient().getOrderBook(getSymbol());
-            addLiveInfo(orderBookResponse.toString());
-            if (!orderBookResponse.isSuccess()) {
-                return null;
-            }
+            CountDownLatch orderLatch = new CountDownLatch(1);
+            Object orderLock = new Object();
+            List<PriceSize> priceSizes = new ArrayList<>();
+            AtomicLong orderSizeAvailableIncrement = new AtomicLong((long)(sizeLeft / baseIncrement));
+            AtomicReference<KucoinWebsocketV2<BestOrdersMessage>> orderSocket = new AtomicReference<>(null);
+            KucoinWebsocketV2<BestOrdersMessage> bestFive = KucoinWebsocketV2.bestFiveOrders(getClient(), symbol, messageResponse -> {
+                List<PriceSize> reverseOrders = tradeSide == ListOrdersParameters.Side.BUY ? messageResponse.getData().getAsks() : messageResponse.getData().getBids();
+                boolean finished = false;
+                for (PriceSize order : reverseOrders) {
+                    double orderPrice = order.getPrice();
+                    synchronized (orderLock) {
+                        if (orderSizeAvailableIncrement.get() <= 0) {
+                            finished = true;
+                            break;
+                        }
 
-            // Test the prices on the reverse side
-            SequencedOrderBook orderData = orderBookResponse.getResponseBody().getData();
-            List<PriceSize> reverseOrders = tradeSide == ListOrdersParameters.Side.BUY ? orderData.getAsks() : orderData.getBids();
-            if (reverseOrders.isEmpty()) {
-                addLiveInfo("No orders on the reverse side");
-                return null;
-            }
+                        double orderSizeIncrement = Math.min(orderSizeAvailableIncrement.get(), order.getSize() / baseIncrement);
+                        double orderSize = orderSizeIncrement * baseIncrement;
 
-            Double bestReverseSidePrice = reverseOrders.get(0).getPrice();
-            double limitReverseSidePrice = tradeSide == ListOrdersParameters.Side.BUY ?
-                    (1 + maxPercentDiffMax) * avgHistoryPrice :
-                    (1 - maxPercentDiffMax) * avgHistoryPrice;
-            if ((tradeSide == ListOrdersParameters.Side.BUY && bestReverseSidePrice > limitReverseSidePrice)
-                    || (tradeSide == ListOrdersParameters.Side.SELL && bestReverseSidePrice < limitReverseSidePrice)) {
+                        orderSizeAvailableIncrement.set((long) (orderSizeAvailableIncrement.get() - orderSizeIncrement));
+                        priceSizes.add(new PriceSize().withPrice(orderPrice).withSize(orderSize));
+                    }
+                }
+                if (finished) {
+                    orderLatch.countDown();
+                    orderSocket.get().close();
+                }
+            });
+            orderSocket.set(bestFive);
 
-                addLiveInfo("Best reverse side price beyond " + (maxPercentDiffMax * 100) + "% of average historical");
-                return null;
-            }
+            // Order ids for later
+            Set<String> clientOids = ConcurrentHashMap.newKeySet();
 
-            // Test the prices on the same side
-            List<PriceSize> orders = tradeSide == ListOrdersParameters.Side.BUY ? orderData.getBids() : orderData.getAsks();
-            if (orders.isEmpty() && maxPercentDiffMax != DEFAULT_MAX_PERCENT_DIFF_MAX) {
-                addLiveInfo("No orders on the same side");
-                return null;
-            }
-            double averageSidePrice = KucoinUtils.getPriceSizeAverage(orders);
+            // Prepare for the finished orders
+            AtomicBoolean ordersSetup = new AtomicBoolean(false);
+            CountDownLatch finishedOrderLatch = new CountDownLatch(1);
+            Object finishedOrderLock = new Object();
+            AtomicReference<KucoinWebsocketV2<OrderChangeMessage>> finishedOrderSocket = new AtomicReference<>(null);
+            KucoinWebsocketV2<OrderChangeMessage> symbolChanges = KucoinWebsocketV2.orderChange(getClient(), messageResponse -> {
 
-            double limitSidePrice = tradeSide == ListOrdersParameters.Side.BUY ?
-                    (1 + maxPercentDiffMax) * averageSidePrice :
-                    (1 - maxPercentDiffMax) * averageSidePrice;
-            if ((tradeSide == ListOrdersParameters.Side.BUY && bestReverseSidePrice > limitSidePrice)
-                    || (tradeSide == ListOrdersParameters.Side.SELL && bestReverseSidePrice < limitSidePrice)) {
-
-                addLiveInfo("Best same side price beyond " + (maxPercentDiffMax * 100) + "% of average same side orders");
-                return null;
-            }
-
-            // Setup what the orders should be
-            List<Double> prices = new ArrayList<>();
-            List<Double> sizes = new ArrayList<>();
-            double orderSizeAvailable = sizeLeft;
-            for (PriceSize order : reverseOrders) {
-                double orderPrice = order.getPrice();
-                if (orderSizeAvailable <= 0
-                        || (tradeSide == ListOrdersParameters.Side.BUY && orderPrice > limitReverseSidePrice && orderPrice > limitSidePrice)
-                        || (tradeSide == ListOrdersParameters.Side.SELL && orderPrice < limitReverseSidePrice && orderPrice < limitSidePrice)) {
-                    break;
+                if (!ordersSetup.get()) {
+                    return;
                 }
 
-                prices.add(orderPrice);
+                OrderChange change = messageResponse.getData();
+                if (change.getSymbol().equals(symbol)) {
 
-                double orderSize = Math.min(orderSizeAvailable, order.getSize());
-                orderSize = NumberUtils.toPrecision((int) (orderSize / symbolInfo.getBaseIncrement()) * symbolInfo.getBaseIncrement(), baseIncrementPlaces);
+                    String clientOid = change.getClientOid();
+                    if (clientOids.contains(clientOid) && change.getStatus() == OrderChange.Status.DONE) {
+                        synchronized (finishedOrderLock) {
+                            sizeLeft = NumberUtils.toPrecision(sizeLeft - change.getFilledSize(), baseIncrementPlaces);
+                        }
+                        clientOids.remove(clientOid);
+                        if (clientOids.isEmpty() && ordersSetup.compareAndSet(true, false)) {
+                            finishedOrderLatch.countDown();
+                            finishedOrderSocket.get().close();
+                        }
+                    }
+                }
+            });
+            finishedOrderSocket.set(symbolChanges);
 
-                sizes.add(orderSize);
-                orderSizeAvailable = NumberUtils.toPrecision((int) ((orderSizeAvailable - orderSize) / symbolInfo.getBaseIncrement()) * symbolInfo.getBaseIncrement(), baseIncrementPlaces);
-            }
+            // Setup what the orders should be
+            orderLatch.await();
+            List<BulkOrder> toTradeBulkOrders = new ArrayList<>(priceSizes.size());
+            for (int i = 0; i != priceSizes.size(); i++) {
 
-            // Attempt to place the orders
-            List<BulkOrder> toTradeBulkOrders = new ArrayList<>(prices.size());
-            for (int i = 0; i != prices.size(); i++) {
-
-                double price = prices.get(i);
-                double size = sizes.get(i);
+                PriceSize priceSize = priceSizes.get(i);
+                double price = priceSize.getPrice();
+                double size = priceSize.getSize();
+                String clientOid = UUID.randomUUID().toString();
+                clientOids.add(clientOid);
 
                 toTradeBulkOrders.add(
                         new BulkOrder()
-                                .withClientOid(UUID.randomUUID().toString())
+                                .withClientOid(clientOid)
                                 .withSide(BulkOrder.Side.fromValue(tradeSide.value()))
-                                .withSymbol(getSymbol())
+                                .withSymbol(symbol)
                                 .withType(BulkOrder.Type.LIMIT)
                                 .withTimeInForce(BulkOrder.TimeInForce.GTT)
                                 .withCancelAfter(1L)
@@ -157,47 +144,21 @@ public class MatchBookOrder extends KucoinTradeAction<Double> {
                                 .withSize(size)
                                 .withPostOnly(postOnly));
             }
-            addLiveInfo(toTradeBulkOrders.toString());
 
+            // Attempt to place the orders
+            ordersSetup.set(true);
             List<KucoinClientV2Response<PostBulkOrdersResponse>> bulkOrdersResponses = new ArrayList<>(toTradeBulkOrders.size());
             for (int i = 0; i < toTradeBulkOrders.size(); i += 5) {
                 bulkOrdersResponses.add(getClient().postBulkOrders(new PostBulkOrdersRequest()
-                        .withSymbol(getSymbol())
+                        .withSymbol(symbol)
                         .withOrderList(toTradeBulkOrders.subList(i, Math.min(i + 5, toTradeBulkOrders.size())))));
             }
+            addLiveInfo(toTradeBulkOrders.toString());
             addLiveInfo(bulkOrdersResponses.toString());
 
-            // Get the order information from finished orders
-            boolean allFinished = false;
-            while (!allFinished) {
-                allFinished = true;
-                for (KucoinClientV2Response<PostBulkOrdersResponse> bulkOrdersResponse : bulkOrdersResponses) {
-                    if (bulkOrdersResponse.isSuccess()) {
-
-                        for (BulkOrder recentOrder : bulkOrdersResponse.getResponseBody().getData().getData()) {
-                            if (recentOrder.getFailMsg() != null && !recentOrder.getFailMsg().isEmpty()) {
-                                addLiveInfo(recentOrder.toString());
-                                continue;
-                            }
-
-                            if (!executedOrders.containsKey(recentOrder.getId())) {
-
-                                KucoinClientV2Response<GetOrderResponse> orderResponse = getClient().getOrder(recentOrder.getId());
-                                Order order = orderResponse.getResponseBody().getData();
-                                if (order.getIsActive()) {
-                                    allFinished = false;
-                                } else {
-                                    executedOrders.put(order.getId(), order);
-                                    sizeLeft = NumberUtils.toPrecision((int) ((sizeLeft - order.getDealSize()) / symbolInfo.getBaseIncrement()) * symbolInfo.getBaseIncrement(), baseIncrementPlaces);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
+            finishedOrderLatch.await();
             return sizeLeft;
-        } catch (RequestException e) {
+        } catch (RequestException | WebsocketException | InterruptedException e) {
             addLiveInfo(e.toString());
             return null;
         }
